@@ -1,0 +1,104 @@
+<script>
+import { useVuelidate } from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
+
+export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      inputs: {
+        email: null,
+        password: null,
+      },
+    };
+  },
+
+  validations() {
+    return {
+      inputs: {
+        email: { required, email },
+        password: {
+          required,
+        },
+      },
+    };
+  },
+
+  methods: {
+    async submitForm() {
+      const result = await this.v$.$validate();
+      if (result) {
+        console.log("yeah");
+      }
+      //const test = await this.$axios.get('user-accounts');
+      //if (test) {
+      //console.log("yeah");
+      // }
+    },
+  },
+};
+</script>
+<template>
+  <section class="container-xl text-center mb-5">
+    <h1 class="mt-4 mb-5">Connectez vous &#128512;</h1>
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-6 col-12 mb-5">
+        <form class="my-4 mb-5" @submit.prevent="submitForm">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"
+              >Adresse email:</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Adresse email"
+              v-model="inputs.email"
+              :class="{ 'is-invalid': v$.inputs.email.$error }"
+            />
+          </div>
+          <div class="input-group mb-2">
+            <span class="input-group-text" id="basic-addon1"
+              >Mot de Passe:</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="*********"
+              v-model="inputs.password"
+              :class="{ 'is-invalid': v$.inputs.password.$error }"
+            />
+          </div>
+          <div class="d-flex justify-content-between mb-5">
+            <div>
+              <RouterLink
+                :to="{ name: 'create-user-account' }"
+                class="link mx-2"
+                id="button"
+                >Inscrivez-vous</RouterLink
+              >
+            </div>
+            <div>
+              <RouterLink :to="{ name: 'forgot-password' }" class="link mx-2"
+                >Mot de passe oublié ?
+              </RouterLink>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center mt-5 mb-5">
+            <button type="submit" class="btn col-md-3 col-12 mb-5 mx-2">
+              Se connecter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</template>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+.link {
+  color: rgba(180, 95, 146, 0.674);
+}
+</style>
