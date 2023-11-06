@@ -13,7 +13,7 @@ public class SignInCredentials {
 	return mailAdress;
     }
 
-    public void setMailAdress(String emails) {
+    public void setMailAdress(String mailAdress) {
 	this.mailAdress = mailAdress;
     }
 

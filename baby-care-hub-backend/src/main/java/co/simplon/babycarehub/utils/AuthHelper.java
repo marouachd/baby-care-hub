@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import co.simplon.babycarehub.entities.UserEntity;
+
 public class AuthHelper {
     private final String issuer;
     private final long expiration;
@@ -30,7 +32,7 @@ public class AuthHelper {
     }
 
     public String createJWT(List<String> roles,
-	    String name) {
+	    UserEntity user) {
 	Instant now = Instant.now();
 	Instant expirationTime = now
 		.plusSeconds(expiration);
@@ -38,7 +40,9 @@ public class AuthHelper {
 		.toArray(new String[roles.size()]);
 	// = (String[]) roles.toArray()
 	return JWT.create().withIssuer(issuer)
-		.withSubject(name).withIssuedAt(now)
+		.withClaim("User Id", user.getId())
+		.withSubject(user.getMailAdress())
+		.withIssuedAt(now)
 		.withExpiresAt(expirationTime)
 		.withArrayClaim("roles", rolesAsArray)
 		.sign(algorithm);

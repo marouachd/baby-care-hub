@@ -73,8 +73,8 @@ public class ChildServiceImpl implements ChildService {
 		.findUserByPseudoName(pseudoName);
 
 	if (user != null) {
-
 	    child.setChildminderCode(user);
+
 	}
 
 	String fileName = null;

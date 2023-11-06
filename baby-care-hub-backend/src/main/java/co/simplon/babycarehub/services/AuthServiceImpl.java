@@ -1,5 +1,8 @@
 package co.simplon.babycarehub.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +34,13 @@ public class AuthServiceImpl implements AuthService {
 		.getByMailAdress(identifier);
 
 	if (user != null) {
+	    List<String> roles = new ArrayList<String>();
+	    roles.add(user.getRoleId().getName());
 	    boolean match = authHelper.matches(candidate,
 		    user.getPassword());
 	    if (match) {
-		String name = user.getMailAdress();
-		String token = authHelper.createJWT(null,
-			name);
+		String token = authHelper.createJWT(roles,
+			user);
 		TokenInfo tokenInfo = new TokenInfo();
 		tokenInfo.setToken(token);
 		return tokenInfo;
