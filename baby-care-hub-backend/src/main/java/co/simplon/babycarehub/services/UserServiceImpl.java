@@ -6,9 +6,11 @@ import co.simplon.babycarehub.dtos.UserDto;
 import co.simplon.babycarehub.entities.PersonEntity;
 import co.simplon.babycarehub.entities.RoleEntity;
 import co.simplon.babycarehub.entities.UserEntity;
+import co.simplon.babycarehub.repositories.AuthRepository;
 import co.simplon.babycarehub.repositories.PersonRepository;
 import co.simplon.babycarehub.repositories.RoleRepository;
 import co.simplon.babycarehub.repositories.UserRepository;
+import co.simplon.babycarehub.utils.AuthHelper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,12 +21,20 @@ public class UserServiceImpl implements UserService {
 
     private RoleRepository roles;
 
-    public UserServiceImpl(PersonRepository persons,
-	    UserRepository users, RoleRepository roles) {
+    private AuthRepository authRepository;
 
+    private AuthHelper authHelper;
+
+    public UserServiceImpl(PersonRepository persons,
+	    UserRepository users, RoleRepository roles,
+	    AuthRepository authRepository,
+	    AuthHelper authHelper) {
+
+	this.authHelper = authHelper;
 	this.persons = persons;
 	this.roles = roles;
 	this.users = users;
+	this.authRepository = authRepository;
     }
 
     @Override
@@ -33,7 +43,9 @@ public class UserServiceImpl implements UserService {
 	UserEntity user = new UserEntity();
 	user.setMailAdress(inputs.getMailAdress());
 	user.setPhoneNumber(inputs.getPhoneNumber());
-	user.setPassword(inputs.getPassword());
+	String hashPassword = authHelper
+		.encode(inputs.getPassword());
+	user.setPassword(hashPassword);
 
 	Long roleId = inputs.getRoleId();
 	RoleEntity role = roles.getReferenceById(roleId);
@@ -48,6 +60,7 @@ public class UserServiceImpl implements UserService {
 	PersonEntity savedPerson = persons.save(person);
 	user.setPersonId(savedPerson);
 	users.save(user);
+	authRepository.save(user);
     }
 
     public UserEntity findUserByPseudoNameAndRole(
