@@ -46,11 +46,11 @@ public class AuthServiceImpl implements AuthService {
 		return tokenInfo;
 	    } else {
 		throw new BadCredentialsException(
-			"Wrong credentials");
+			"Invalides credentials");
 	    }
 	} else {
 	    throw new BadCredentialsException(
-		    "Wrong credentials");
+		    "Invalides credentials");
 	}
     }
 }

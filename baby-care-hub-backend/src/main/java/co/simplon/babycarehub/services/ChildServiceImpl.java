@@ -6,13 +6,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
+import co.simplon.babycarehub.dtos.ChildUpdateDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
@@ -112,6 +117,73 @@ public class ChildServiceImpl implements ChildService {
 	    Files.copy(in, target,
 		    StandardCopyOption.REPLACE_EXISTING);
 	}
+    }
+
+    @Override
+    public List<ChildEntity> getAll() {
+
+	return childs.findAll();
+    }
+
+    @Override
+    @Transactional // read only=false!
+    public void delete(Long id) {
+	childs.deleteById(id);
+
+    }
+
+    @Override
+    public ChildDetail detail(Long id) {
+	return childs.findProjectDetailById(id);
+    }
+
+    @Override
+    public void update(Long id, ChildUpdateDto inputs) {
+	ChildEntity child = childs.findById(id).get();
+	child.setChildId(inputs.getChildId());
+	child.setBirthdayDate(inputs.getBirthdayDate());
+	Long genderId = inputs.getGenderId();
+	GenderEntity gender = genders
+		.getReferenceById(genderId);
+	child.setGenderId(gender);
+	Long guardId = inputs.getGuardId();
+	GuardModeEntity guard = guardMode
+		.getReferenceById(guardId);
+	child.setGuardId(guard);
+
+	String pseudoName = inputs.getChildminderCode();
+	UserEntity user = users
+		.findUserByPseudoName(pseudoName);
+
+	if (user != null) {
+	    child.setChildminderCode(user);
+
+	}
+
+	String fileName = null;
+	if (inputs.getPersonalPicture() != null) {
+	    MultipartFile file = inputs
+		    .getPersonalPicture();
+	    String baseName = UUID.randomUUID().toString();
+	    fileName = baseName
+		    + file.getOriginalFilename();
+	    try {
+		store(file, fileName);
+	    } catch (IOException e) {
+
+		e.printStackTrace();
+	    }
+	}
+	PersonEntity person = new PersonEntity();
+	person.setFirstName(inputs.getFirstName());
+	person.setLastName(inputs.getLastName());
+	person.setPseudoName(inputs.getPseudoName());
+	person.setIdentityPhotoName(fileName);
+	persons.save(person);
+	PersonEntity savedPerson = persons.save(person);
+	child.setPersonId(savedPerson);
+	childs.save(child);
+
     }
 
 }
