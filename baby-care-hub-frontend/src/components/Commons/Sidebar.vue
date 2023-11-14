@@ -151,20 +151,4 @@ span {
   color: rgb(166, 161, 161);
   font-family: "Pacifico", cursive;
 }
-p {
-  color: rgb(116, 148, 182);
-  font-family: "Pacifico", cursive;
-  font-size: 24px;
-  margin: 0;
-  margin-left: 250px;
-}
-main {
-  background: linear-gradient(rgb(250, 226, 240), rgb(238, 244, 251));
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
 </style>

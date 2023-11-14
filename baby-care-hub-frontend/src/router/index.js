@@ -7,7 +7,6 @@ import FicheEnfant from "../Components/Enfant/FicheEnfant.vue";
 import EditProfileEnfant from "../Components/Enfant/EditProfileEnfant.vue";
 import EditCoordonnéesParents from "../Components/Parents/EditCoordonnéesParents.vue";
 import CreateUserAccount from "../Components/Users/CreateUserAccount.vue";
-import CreateParentAccount from "../Components/Parents/CreateParentAccount.vue";
 import Signin from "../Components/Users/Signin.vue";
 import ForgotPassword from "../Components/Users/ForgotPassword.vue";
 import Horaire from "../Components/Journée/Horaire.vue";
@@ -23,6 +22,7 @@ import Repas from "../Components/Journée/Repas.vue";
 import MesEnfants from "../components/Parents/MesEnfants.vue";
 import Actualités from "../components/Parents/Actualités.vue";
 import IdNounou from "../components/Parents/IdNounou.vue";
+import General from "../components/Commons/General.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +31,11 @@ const router = createRouter({
       path: "/",
       name: "ma-journée",
       component: Sidebar,
+    },
+    {
+      path: "/ma-journee/general",
+      name: "general",
+      component: General,
     },
     {
       path: "/accueil",
@@ -66,11 +71,6 @@ const router = createRouter({
       path: "/create-user-account",
       name: "create-user-account",
       component: CreateUserAccount,
-    },
-    {
-      path: "/create-parent-account",
-      name: "create-parent-account",
-      component: CreateParentAccount,
     },
     {
       path: "/signin",

@@ -1,77 +1,62 @@
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      baseUrl: import.meta.env.VITE_IMG_BASE_URL,
+      childs: [],
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  methods: {
+    async getChilds() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/child`
+      );
+      this.childs = response.data;
+      console.log(this.childs);
+    },
+    calculateAge(birthdayDate) {
+      const birthDate = new Date(birthdayDate);
+      const currentDate = new Date();
+      const age = currentDate.getFullYear() - birthDate.getFullYear();
+      return age;
+    },
+  },
+  mounted() {
+    this.getChilds();
+  },
+};
+</script>
 <template>
   <div class="countainer mx-3 my-3">
     <h1 class="mt-4 mb-4 text-center">Mes bouts de choux</h1>
 
-    <RouterLink :to="{ name: 'create-profile-enfant' }" class="btn" id="button"
-      >Nouvel Arrivant</RouterLink
-    >
-
     <div class="row row-cols-2 row-cols-md-3 g-4 mt-4">
-      <div class="col-12 col-md-2">
+      <div class="col-12 col-md-2" v-for="child in childs">
         <div class="card h-100 bg-light">
-          <img src="../../assets/Noah.jpg" class="card-img-top" alt="..." />
+          <img
+            :src="'/personal-pictures/' + child.personId.identityPhotoName"
+            class="card-img-top"
+            alt="..."
+          />
           <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Noah David</h5>
-            <p class="card-text">Age : 3 ans</p>
+            <h5 class="card-title">
+              {{ child.personId.firstName }}&ensp;{{ child.personId.lastName }}
+            </h5>
+            <p class="card-text">
+              Age : {{ calculateAge(child.birthdayDate) }} ans
+            </p>
             <div class="d-flex justify-content-between">
-              <RouterLink :to="{ name: 'ma-journée' }" class="btn">
+              <RouterLink :to="{ name: 'general' }" class="btn">
                 <i class="fas fa-pen"></i>
               </RouterLink>
               <RouterLink :to="{ name: 'fiche-enfant' }" class="btn">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </RouterLink>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-2">
-        <div class="card h-100 bg-light">
-          <img src="../../assets/Jade.jpg" class="card-img-top" alt="..." />
-          <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Jade Brosse</h5>
-            <p class="card-text">Age : 5 ans</p>
-            <a href="#" class="btn">Ma journée</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="card h-100 bg-light">
-          <img src="../../assets/Judy.jpg" class="card-img-top" alt="..." />
-          <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Judy Karmann</h5>
-            <p class="card-text">Age : 9 mois</p>
-            <a href="#" class="btn">Ma journée</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="card h-100 bg-light">
-          <img src="../../assets/Sarah.jpg" class="card-img-top" alt="..." />
-          <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Sarah Marion</h5>
-            <p class="card-text">Age : 2 ans</p>
-            <a href="#" class="btn">Ma journée</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="card h-100 bg-light">
-          <img src="../../assets/Arthur.png" class="card-img-top" alt="..." />
-          <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Arthur Leman</h5>
-            <p class="card-text">Age : 5 ans</p>
-            <a href="#" class="btn">Ma journée</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="card h-100 bg-light">
-          <img src="../../assets/Aliyah.jpg" class="card-img-top" alt="..." />
-          <div class="card-body d-flex flex-column justify-content-end">
-            <h5 class="card-title">Aliyah Lutton</h5>
-            <p class="card-text">Age : 8 mois</p>
-            <a href="#" class="btn">Ma journée</a>
           </div>
         </div>
       </div>

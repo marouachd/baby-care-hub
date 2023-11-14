@@ -11,16 +11,6 @@ export default {
     this.$http = axios;
   },
   methods: {
-    ChangerPath() {
-      console.log("userType", this.userType);
-      if (this.userType === 2) {
-        this.$router.push("/id-nounou");
-      } else if (this.userType === 1) {
-        this.$router.push("/accueil");
-      } else {
-        alert("Veuillez choisir un rôle valide !");
-      }
-    },
     async initRoles() {
       const response = await this.$http.get(
         `${import.meta.env.VITE_API_BASE_URL}/role`
@@ -167,20 +157,16 @@ export default {
         <div class="col-md-6 input-group mb-3">
           <input type="file" class="form-control" />
         </div>
-        <div class="col-12 input-group mb-3">
+        <div class="col-12 input-group mb-5">
           <span class="input-group-text" id="basic-addon1">Adresse :</span>
           <input type="text" class="form-control" placeholder="Adresse" />
         </div>
       </div>
 
-      <div class="d-flex justify-content-center mt-3 mb-5 mx-2">
-        <button
-          type="submit"
-          class="btn col-md-3 col-12 mb-4"
-          @click="ChangerPath()"
+      <div class="d-flex justify-content-center mt-5 mb-5 mx-2">
+        <RouterLink :to="{ name: 'signin' }" class="btn mb-2 me-md-3 ms-1">
+          Confirmer</RouterLink
         >
-          Confirmer
-        </button>
       </div>
     </form>
   </section>

@@ -3,8 +3,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      imageUrl:
-        "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
+      imageUrl: "/personal-pictures/placeholder-avatar.jpg",
 
       gardeModes: [],
       genders: [],
@@ -14,7 +13,13 @@ export default {
         birthdayDate: "",
         genderId: 0,
         guardId: 0,
-        personalPicture: "",
+        personalPicture: new File(
+          [],
+          "../../../personal-pictures/placeholder-avatar.jpg",
+          {
+            type: "image/jpeg",
+          }
+        ),
       },
     };
   },
@@ -24,7 +29,11 @@ export default {
   methods: {
     async submit() {
       const formData = new FormData();
-      formData.append("personalPicture", this.inputs.personalPicture);
+      if (this.inputs.personalPicture) {
+        formData.append("personalPicture", this.inputs.personalPicture);
+      } else {
+        formData.append("personalPicture", this.imageUrl);
+      }
       formData.append("lastName", this.inputs.lastName);
       formData.append("firstName", this.inputs.firstName);
       formData.append("birthdayDate", this.inputs.birthdayDate);
