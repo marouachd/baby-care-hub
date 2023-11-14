@@ -13,12 +13,18 @@
           <div class="card-body d-flex flex-column justify-content-end">
             <h5 class="card-title">Noah David</h5>
             <p class="card-text">Age : 3 ans</p>
-            <RouterLink :to="{ name: 'ma-journée' }" class="btn"
-              >Ma journée</RouterLink
-            >
+            <div class="d-flex justify-content-between">
+              <RouterLink :to="{ name: 'ma-journée' }" class="btn">
+                <i class="fas fa-pen"></i>
+              </RouterLink>
+              <RouterLink :to="{ name: 'fiche-enfant' }" class="btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
+
       <div class="col-12 col-md-2">
         <div class="card h-100 bg-light">
           <img src="../../assets/Jade.jpg" class="card-img-top" alt="..." />

@@ -79,12 +79,11 @@
     <div class="text-center mt-3 mb-5">
       <div class="justify-content-center">
         <RouterLink
-          :to="{ name: 'edit-coordonnees-parents' }"
+          :to="{ name: 'fiche-enfant' }"
           class="btn btn-secondary mb-2 ms-md-3 me-3"
           id="button"
-          >Confirmer</RouterLink
+          >Retour</RouterLink
         >
-        <button class="btn btn-danger mb-2 ms-md-3">Supprimer</button>
       </div>
     </div>
   </div>

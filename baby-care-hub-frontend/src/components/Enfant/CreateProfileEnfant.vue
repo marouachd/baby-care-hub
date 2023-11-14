@@ -8,17 +8,44 @@ export default {
 
       gardeModes: [],
       genders: [],
+      inputs: {
+        childId: "",
+        firstName: "",
+        birthdayDate: "",
+        genderId: 0,
+        guardId: 0,
+        personalPicture: "",
+      },
     };
   },
   created() {
     this.$http = axios;
   },
   methods: {
+    async submit() {
+      const formData = new FormData();
+      formData.append("personalPicture", this.inputs.personalPicture);
+      formData.append("lastName", this.inputs.lastName);
+      formData.append("firstName", this.inputs.firstName);
+      formData.append("birthdayDate", this.inputs.birthdayDate);
+      formData.append("genderId", this.inputs.genderId);
+      formData.append("guardId", this.inputs.guardId);
+      const resp = await this.$http.post(
+        `${import.meta.env.VITE_API_BASE_URL}/child`,
+        formData
+      );
+      if (resp.status === 204) {
+        console.log("ok");
+      } else {
+        console.log("No");
+      }
+    },
     updateImage(event) {
       const file = event.target.files[0];
       if (file) {
         const imageUrl = URL.createObjectURL(file);
         this.imageUrl = imageUrl;
+        this.inputs.personalPicture = event.target.files[0];
       }
     },
     triggerFileInput() {
@@ -65,6 +92,8 @@ export default {
                 ref="fileInput"
                 style="display: none"
                 @change="updateImage"
+                id="personalPicture"
+                name="personalPicture"
               />
             </div>
           </div>
@@ -73,11 +102,25 @@ export default {
             <div class="mb-3">
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Nom :</span>
-                <input type="text" class="form-control" placeholder="Nom" />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nom"
+                  id="lastName"
+                  name="lastName"
+                  v-model="inputs.lastName"
+                />
               </div>
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon2">Prénom :</span>
-                <input type="text" class="form-control" placeholder="Prénom" />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Prénom"
+                  id="firstName"
+                  name="firstName"
+                  v-model="inputs.firstName"
+                />
               </div>
 
               <div class="input-group mb-3">
@@ -87,29 +130,23 @@ export default {
                 <input
                   type="date"
                   class="form-control datepicker"
-                  id="datepicker"
+                  id="birthdayDate"
+                  name="birthdayDate"
+                  v-model="inputs.birthdayDate"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-6 input-group mb-3 mt-3">
-          <span class="input-group-text" id="basic-addon4"
-            >Représentant légal :</span
-          >
-          <input type="text" class="form-control" placeholder="Nom&Prénom" />
-          <RouterLink
-            :to="{ name: 'create-parent-account' }"
-            class="btn mb-2 me-md-3 ms-2 mt-1"
-            id="button"
-          >
-            <i class="fa fa-save"></i
-          ></RouterLink>
-        </div>
         <div class="col-md-6 input-group mb-3">
           <span class="input-group-text" id="basic-addon5">Sexe:</span>
-          <select id="genderId" name="genderId" class="form-select">
+          <select
+            v-model.number="inputs.genderId"
+            id="genderId"
+            name="genderId"
+            class="form-select"
+          >
             <option selected disabled value="0">Choisir le sexe</option>
             <option v-for="gender in genders" :value="gender.id">
               {{ gender.name }}
@@ -118,7 +155,12 @@ export default {
         </div>
         <div class="col-md-6 input-group mb-3">
           <span class="input-group-text" id="basic-addon5">Mode de garde</span>
-          <select id="modegardeId" name="modegardeId" class="form-select">
+          <select
+            v-model.number="inputs.guardId"
+            id="guardId"
+            name="guardId"
+            class="form-select"
+          >
             <option selected disabled value="0">
               Choisir un mode de garde
             </option>

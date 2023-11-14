@@ -1,3 +1,34 @@
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      data: "",
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  methods: {
+    async getProfile() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/child/15/detail`
+      );
+      this.data = response.data;
+      console.log(this.data);
+    },
+    calculateAge(birthdayDate) {
+      const birthDate = new Date(birthdayDate);
+      const currentDate = new Date();
+      const age = currentDate.getFullYear() - birthDate.getFullYear();
+      return age;
+    },
+  },
+  mounted() {
+    this.getProfile();
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Qui suis je ?</h1>
@@ -8,7 +39,7 @@
           <div class="row mb-2">
             <div class="d-flex justify-content-center">
               <p class="title me-3">Je m'appelle :</p>
-              <span>Noah</span>
+              <span>{{ data.personId ? data.personId.firstName : "" }}</span>
             </div>
           </div>
 
@@ -18,7 +49,7 @@
             <div class="d-flex justify-content-center">
               <p class="title me-3">Mon nom de famille c'est :</p>
 
-              <span>David</span>
+              <span>{{ data.personId ? data.personId.lastName : "" }}</span>
             </div>
           </div>
 
@@ -28,7 +59,7 @@
             <div class="d-flex justify-content-center">
               <p class="title me-3">J'ai :</p>
 
-              <span>3 ans</span>
+              <span>{{ calculateAge(data.birthdayDate) }} ans</span>
             </div>
           </div>
 
@@ -64,7 +95,9 @@
             <div class="d-flex justify-content-center">
               <p class="title me-3 text-nowrap">Je resterai avec vous :</p>
 
-              <span class="text-nowrap">Les mercredis &#128512;</span>
+              <span class="text-nowrap"
+                >{{ data.guardId ? data.guardId.name : "" }} &#128512;</span
+              >
             </div>
           </div>
         </div>
@@ -74,12 +107,11 @@
     <div class="text-center mt-3 mb-5">
       <div class="justify-content-center">
         <RouterLink
-          :to="{ name: 'edit-profile-enfant' }"
+          :to="{ name: 'accueil' }"
           class="btn btn-secondary mb-2 ms-md-3 me-3"
           id="button"
-          >Editer</RouterLink
+          >Retour</RouterLink
         >
-        <button class="btn btn-danger mb-2 ms-md-3">Supprimer</button>
       </div>
     </div>
   </div>

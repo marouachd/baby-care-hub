@@ -3,6 +3,7 @@ package co.simplon.babycarehub.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import co.simplon.babycarehub.services.ChildService;
 
 @RestController
 @RequestMapping("/child")
+@CrossOrigin
 public class ChildController {
 
     private final ChildService service;

@@ -61,7 +61,8 @@
                           :to="{ name: 'edit-profile-enfant' }"
                           class="dropdown-item"
                         >
-                          Modifier</RouterLink
+                          <i class="fa fa-pencil fa-fw mr-2"></i>
+                          Edit</RouterLink
                         >
                       </li>
                       <li>
@@ -69,7 +70,8 @@
                           :to="{ name: 'fiche-enfant' }"
                           class="dropdown-item"
                         >
-                          Détails</RouterLink
+                          <i class="fa-regular fa-user"></i>
+                          &ensp;Détails</RouterLink
                         >
                       </li>
                       <li>
@@ -77,7 +79,8 @@
                           :to="{ name: 'actualitees' }"
                           class="dropdown-item"
                         >
-                          Actualités</RouterLink
+                          <i class="fa-regular fa-newspaper"></i
+                          >&ensp;Actualités</RouterLink
                         >
                       </li>
                     </ul>
