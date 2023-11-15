@@ -16,9 +16,6 @@ public class ChildEntity extends AbstractEntity {
     @Column(name = "birthday_date")
     private LocalDate birthdayDate;
 
-    @Column(name = "child_id")
-    private String childId;
-
     @ManyToOne
     @JoinColumn(name = "gender_id")
     private GenderEntity genderId;
@@ -48,14 +45,6 @@ public class ChildEntity extends AbstractEntity {
 
     public void setBirthdayDate(LocalDate birthdayDate) {
 	this.birthdayDate = birthdayDate;
-    }
-
-    public String getChildId() {
-	return childId;
-    }
-
-    public void setChildId(String childId) {
-	this.childId = childId;
     }
 
     public GenderEntity getGenderId() {
@@ -102,9 +91,8 @@ public class ChildEntity extends AbstractEntity {
     @Override
     public String toString() {
 	return "{birthdayDate=" + birthdayDate
-		+ ", childId=" + childId + ", genderId="
-		+ genderId + ", personId=" + personId
-		+ ", guardId=" + guardId
+		+ ", genderId=" + genderId + ", personId="
+		+ personId + ", guardId=" + guardId
 		+ ", childminderCode=" + childminderCode
 		+ ", parentId=" + parentId + "}";
     }

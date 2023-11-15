@@ -38,16 +38,7 @@ export default {
         this.inputs.personalPicture = data.personId.identityPhotoName;
       }
     },
-    async remove(id) {
-      const resp = await this.$http.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${id}`
-      );
-      if (resp.status === 204) {
-        console.log("ok");
-      } else {
-        console.log("no");
-      }
-    },
+
     async submit() {
       const formData = new FormData();
       formData.append("personalPicture", this.inputs.personalPicture);
@@ -202,9 +193,7 @@ export default {
           <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
             Confirmer
           </button>
-          <button class="btn btn-danger mb-2 ms-md-3" @click="remove(14)">
-            Quitter
-          </button>
+          <button class="btn btn-danger mb-2 ms-md-3">Quitter</button>
         </div>
       </div>
     </form>

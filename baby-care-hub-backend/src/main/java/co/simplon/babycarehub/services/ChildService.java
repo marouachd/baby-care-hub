@@ -13,10 +13,10 @@ public interface ChildService {
 
     List<ChildEntity> getAll();
 
-    void delete(Long id);
-
     ChildDetail detail(Long id);
 
     void update(Long id, ChildUpdateDto inputs);
+
+    void delete(Long id);
 
 }

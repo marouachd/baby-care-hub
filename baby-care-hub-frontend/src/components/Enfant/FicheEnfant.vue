@@ -1,6 +1,13 @@
 <script>
+import { useRoute, RouterLink } from "vue-router";
 import axios from "axios";
+
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
       data: "",
@@ -12,10 +19,21 @@ export default {
   methods: {
     async getProfile() {
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/15/detail`
+        `${import.meta.env.VITE_API_BASE_URL}/child/2/detail`
       );
       this.data = response.data;
       console.log(this.data);
+    },
+
+    async remove(id) {
+      const resp = await this.$http.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/child/${id}`
+      );
+      if (resp.status === 204) {
+        console.log("ok");
+      } else {
+        console.log("no");
+      }
     },
     calculateAge(birthdayDate) {
       const birthDate = new Date(birthdayDate);
@@ -24,7 +42,8 @@ export default {
       return age;
     },
   },
-  mounted() {
+  beforeMount() {
+    console.log("id", this.id);
     this.getProfile();
   },
 };
@@ -112,6 +131,9 @@ export default {
           id="button"
           >Retour</RouterLink
         >
+        <button class="btn btn-danger mb-2 ms-md-3" @click="remove(1)">
+          Supprimer
+        </button>
       </div>
     </div>
   </div>

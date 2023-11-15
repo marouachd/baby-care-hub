@@ -62,7 +62,6 @@ public class ChildServiceImpl implements ChildService {
     public void create(ChildDto inputs) {
 
 	ChildEntity child = new ChildEntity();
-	child.setChildId(inputs.getChildId());
 	child.setBirthdayDate(inputs.getBirthdayDate());
 	Long genderId = inputs.getGenderId();
 	GenderEntity gender = genders
@@ -128,8 +127,12 @@ public class ChildServiceImpl implements ChildService {
     @Override
     @Transactional // read only=false!
     public void delete(Long id) {
-	childs.deleteById(id);
-
+	System.out.println("Id: " + id);
+	ChildEntity child = childs.findChildById(id);
+	System.out.println("Person: " + child);
+	childs.delete(child);
+	PersonEntity person = child.getPersonId();
+	persons.delete(person);
     }
 
     @Override
@@ -139,8 +142,11 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public void update(Long id, ChildUpdateDto inputs) {
-	ChildEntity child = childs.findById(id).get();
-	child.setChildId(inputs.getChildId());
+	String pseudoName = inputs.getPseudoName();
+
+	ChildEntity child = childs
+		.findChildByPseudoName(pseudoName);
+
 	child.setBirthdayDate(inputs.getBirthdayDate());
 	Long genderId = inputs.getGenderId();
 	GenderEntity gender = genders
@@ -151,9 +157,10 @@ public class ChildServiceImpl implements ChildService {
 		.getReferenceById(guardId);
 	child.setGuardId(guard);
 
-	String pseudoName = inputs.getChildminderCode();
-	UserEntity user = users
-		.findUserByPseudoName(pseudoName);
+	String ChildminderPseudoName = inputs
+		.getChildminderCode();
+	UserEntity user = users.findUserByPseudoName(
+		ChildminderPseudoName);
 
 	if (user != null) {
 	    child.setChildminderCode(user);
@@ -174,7 +181,7 @@ public class ChildServiceImpl implements ChildService {
 		e.printStackTrace();
 	    }
 	}
-	PersonEntity person = new PersonEntity();
+	PersonEntity person = child.getPersonId();
 	person.setFirstName(inputs.getFirstName());
 	person.setLastName(inputs.getLastName());
 	person.setPseudoName(inputs.getPseudoName());

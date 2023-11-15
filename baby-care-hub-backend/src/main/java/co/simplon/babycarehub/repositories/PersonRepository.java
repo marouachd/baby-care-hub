@@ -9,4 +9,6 @@ public interface PersonRepository
 
     PersonEntity findByPseudoName(String pseudoName);
 
+    String findPseudoNameById(Long id);
+
 }

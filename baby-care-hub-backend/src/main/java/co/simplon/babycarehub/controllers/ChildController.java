@@ -55,9 +55,10 @@ public class ChildController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(
-	    @ModelAttribute @PathVariable("id") Long id,
-	    ChildUpdateDto inputs) {
+    public void update(@PathVariable("id") Long id,
+	    @ModelAttribute ChildUpdateDto inputs) {
+	System.out.println("Type de la variable id : "
+		+ id.getClass().getName());
 	service.update(id, inputs);
     }
 }

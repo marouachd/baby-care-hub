@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from "vue-router";
 import axios from "axios";
 export default {
   data() {
@@ -17,7 +18,9 @@ export default {
       );
       this.childs = response.data;
       console.log(this.childs);
+      console.log("id", this.childs[0].id);
     },
+
     calculateAge(birthdayDate) {
       const birthDate = new Date(birthdayDate);
       const currentDate = new Date();
@@ -25,7 +28,7 @@ export default {
       return age;
     },
   },
-  mounted() {
+  beforeMount() {
     this.getChilds();
   },
 };
@@ -44,7 +47,7 @@ export default {
           />
           <div class="card-body d-flex flex-column justify-content-end">
             <h5 class="card-title">
-              {{ child.personId.firstName }}&ensp;{{ child.personId.lastName }}
+              {{ child.id }}&ensp;{{ child.personId.lastName }}
             </h5>
             <p class="card-text">
               Age : {{ calculateAge(child.birthdayDate) }} ans
@@ -53,7 +56,11 @@ export default {
               <RouterLink :to="{ name: 'general' }" class="btn">
                 <i class="fas fa-pen"></i>
               </RouterLink>
-              <RouterLink :to="{ name: 'fiche-enfant' }" class="btn">
+
+              <RouterLink
+                :to="{ name: 'fiche-enfant', params: { id: child.id } }"
+                class="btn"
+              >
                 <i class="fa-solid fa-magnifying-glass"></i>
               </RouterLink>
             </div>

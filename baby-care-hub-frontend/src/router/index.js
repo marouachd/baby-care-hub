@@ -3,7 +3,6 @@ import Sidebar from "../Components/Commons/Sidebar.vue";
 import Accueil from "../Components/Enfant/Accueil.vue";
 import CreateProfileEnfant from "../Components/Enfant/CreateProfileEnfant.vue";
 import RepresentantLegal from "../Components/Enfant/RepresentantLegal.vue";
-import FicheEnfant from "../Components/Enfant/FicheEnfant.vue";
 import EditProfileEnfant from "../Components/Enfant/EditProfileEnfant.vue";
 import EditCoordonnéesParents from "../Components/Parents/EditCoordonnéesParents.vue";
 import CreateUserAccount from "../Components/Users/CreateUserAccount.vue";
@@ -55,7 +54,7 @@ const router = createRouter({
     {
       path: "/fiche-enfant",
       name: "fiche-enfant",
-      component: FicheEnfant,
+      component: () => import("../Components/Enfant/FicheEnfant.vue"),
     },
     {
       path: "/edit-profile-enfant",

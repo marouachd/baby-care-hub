@@ -19,7 +19,6 @@ public class AbstractEntity {
 	return id;
     }
 
-    @SuppressWarnings("unused")
     public void setId(Long id) {
 	this.id = id;
     }

@@ -10,8 +10,6 @@ import co.simplon.babycarehub.customValidation.PictureType;
 
 public class ChildDto {
 
-    private String childId;
-
     private String firstName;
 
     private String lastName;
@@ -33,14 +31,6 @@ public class ChildDto {
 
     public ChildDto() {
 
-    }
-
-    public String getChildId() {
-	return childId;
-    }
-
-    public void setChildId(String childId) {
-	this.childId = childId;
     }
 
     public String getFirstName() {
@@ -110,14 +100,14 @@ public class ChildDto {
 
     @Override
     public String toString() {
-	return "{childId=" + childId + ", firstName="
-		+ firstName + ", lastName=" + lastName
-		+ ", birthdayDate=" + birthdayDate
-		+ ", pseudoName=" + pseudoName
-		+ ", personalPicture=" + personalPicture
-		+ ", genderId=" + genderId + ", guardId="
-		+ guardId + ", childminderCode="
-		+ childminderCode + "}";
+	return "{firstName=" + firstName + ", lastName="
+		+ lastName + ", birthdayDate="
+		+ birthdayDate + ", pseudoName="
+		+ pseudoName + ", personalPicture="
+		+ personalPicture + ", genderId=" + genderId
+		+ ", guardId=" + guardId
+		+ ", childminderCode=" + childminderCode
+		+ "}";
     }
 
 }

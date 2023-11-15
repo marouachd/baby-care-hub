@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      imageUrl: "/personal-pictures/placeholder-avatar.jpg",
+      imageUrl: "../../personal-pictures/placeholder-avatar.jpg",
 
       gardeModes: [],
       genders: [],
