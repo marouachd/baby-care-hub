@@ -3,13 +3,17 @@ import axios from "axios";
 export default {
   data() {
     return {
-      imageUrl: "../../personal-pictures/placeholder-avatar.jpg",
+      token: "",
+      childminderCode: "",
+      imageUrl:
+        "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
 
       gardeModes: [],
       genders: [],
       inputs: {
-        childId: "",
+        lastName: "",
         firstName: "",
+        pseudoName: "",
         birthdayDate: "",
         genderId: 0,
         guardId: 0,
@@ -36,9 +40,12 @@ export default {
       }
       formData.append("lastName", this.inputs.lastName);
       formData.append("firstName", this.inputs.firstName);
+      formData.append("pseudoName", this.inputs.pseudoName);
       formData.append("birthdayDate", this.inputs.birthdayDate);
       formData.append("genderId", this.inputs.genderId);
       formData.append("guardId", this.inputs.guardId);
+      formData.append("token", this.token);
+      formData.append("childminderCode", this.childminderCode);
       const resp = await this.$http.post(
         `${import.meta.env.VITE_API_BASE_URL}/child`,
         formData
@@ -76,6 +83,12 @@ export default {
   mounted() {
     this.initGardeModes();
     this.initGenders();
+  },
+  beforeMount() {
+    this.token = localStorage.getItem("token");
+    this.childminderCode = localStorage.getItem("childminderCode");
+    console.log("token", this.token);
+    console.log("childminderCode", this.childminderCode);
   },
 };
 </script>
@@ -147,20 +160,32 @@ export default {
             </div>
           </div>
         </div>
-
-        <div class="col-md-6 input-group mb-3">
-          <span class="input-group-text" id="basic-addon5">Sexe:</span>
-          <select
-            v-model.number="inputs.genderId"
-            id="genderId"
-            name="genderId"
-            class="form-select"
-          >
-            <option selected disabled value="0">Choisir le sexe</option>
-            <option v-for="gender in genders" :value="gender.id">
-              {{ gender.name }}
-            </option>
-          </select>
+        <div class="col-md-6 input-group mb-3 mt-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Pseudo:</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Little girl"
+              id="pseudoName"
+              name="pseudoName"
+              v-model="inputs.pseudoName"
+            />
+          </div>
+          <div class="col-md-6 input-group">
+            <span class="input-group-text" id="basic-addon5">Sexe:</span>
+            <select
+              v-model.number="inputs.genderId"
+              id="genderId"
+              name="genderId"
+              class="form-select"
+            >
+              <option selected disabled value="0">Choisir le sexe</option>
+              <option v-for="gender in genders" :value="gender.id">
+                {{ gender.name }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="col-md-6 input-group mb-3">
           <span class="input-group-text" id="basic-addon5">Mode de garde</span>
@@ -191,6 +216,15 @@ export default {
   </section>
 </template>
 <style>
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
+#button {
+  background-color: rgba(180, 95, 146, 0.674);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
 img {
   cursor: pointer;
 }

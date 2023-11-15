@@ -1,5 +1,5 @@
 <script>
-import { useRoute, RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
@@ -10,6 +10,7 @@ export default {
   },
   data() {
     return {
+      id: this.route.params.id,
       data: "",
     };
   },
@@ -19,7 +20,7 @@ export default {
   methods: {
     async getProfile() {
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/2/detail`
+        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
       );
       this.data = response.data;
       console.log(this.data);
@@ -42,9 +43,11 @@ export default {
       return age;
     },
   },
+
   beforeMount() {
-    console.log("id", this.id);
     this.getProfile();
+    this.id = this.route.params.id;
+    console.log("id", this.route.params.id);
   },
 };
 </script>
@@ -131,7 +134,7 @@ export default {
           id="button"
           >Retour</RouterLink
         >
-        <button class="btn btn-danger mb-2 ms-md-3" @click="remove(1)">
+        <button class="btn btn-danger mb-2 ms-md-3" @click="remove(id)">
           Supprimer
         </button>
       </div>

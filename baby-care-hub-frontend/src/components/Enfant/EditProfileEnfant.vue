@@ -1,8 +1,15 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      id: this.route.params.id,
       imageUrl:
         "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
       gardeModes: [],
@@ -10,6 +17,7 @@ export default {
       inputs: {
         childId: "",
         firstName: "",
+        pseudoName: "",
         birthdayDate: "",
         genderId: 0,
         guardId: 0,
@@ -23,7 +31,7 @@ export default {
   methods: {
     async getProfile() {
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/15/detail`
+        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
       );
       const data = response.data;
       console.log("data", data);
@@ -32,6 +40,7 @@ export default {
       this.inputs.birthdayDate = data.birthdayDate;
       this.inputs.genderId = data.genderId.id;
       this.inputs.guardId = data.guardId.id;
+      this.inputs.pseudoName = data.personId.pseudoName;
       if (data.personId.identityPhotoName) {
         const imageUrl = `/personal-pictures/${data.personId.identityPhotoName}`;
         this.imageUrl = imageUrl;
@@ -47,8 +56,9 @@ export default {
       formData.append("birthdayDate", this.inputs.birthdayDate);
       formData.append("genderId", this.inputs.genderId);
       formData.append("guardId", this.inputs.guardId);
+      formData.append("pseudoName", this.inputs.pseudoName);
       const resp = await this.$http.put(
-        `${import.meta.env.VITE_API_BASE_URL}/child/15`,
+        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}`,
         formData
       );
       if (resp.status === 204) {
@@ -154,6 +164,19 @@ export default {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div class="col-md-6 input-group mb-3 mt-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon2">Pseudo:</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Little girl"
+              id="pseudoName"
+              name="pseudoName"
+              v-model="inputs.pseudoName"
+            />
           </div>
         </div>
 

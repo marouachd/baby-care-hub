@@ -79,7 +79,7 @@
     <div class="text-center mt-3 mb-5">
       <div class="justify-content-center">
         <RouterLink
-          :to="{ name: 'fiche-enfant' }"
+          :to="{ name: 'fiche-enfant', params: { id: 2 } }"
           class="btn btn-secondary mb-2 ms-md-3 me-3"
           id="button"
           >Retour</RouterLink

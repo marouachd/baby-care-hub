@@ -1,3 +1,20 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      id: this.route.params.id,
+    };
+  },
+};
+</script>
+
 <template>
   <div class="container mt-4 mb-4">
     <h1 class="mt-4 mb-4 text-center">
@@ -26,10 +43,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -54,10 +71,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -82,10 +99,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -113,10 +130,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -141,10 +158,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -167,10 +184,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -192,10 +209,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -217,10 +234,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2">
@@ -245,10 +262,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
       <div class="card mx-2">
         <div class="card-body">
@@ -274,10 +291,10 @@
       </div>
 
       <div class="comment-section mt-2">
-        <span class="comment" @click="toggleSmiley('etoile')">⭐</span>
-        <span class="comment" @click="toggleSmiley('coeur')">❤️</span>
-        <span class="comment" @click="toggleSmiley('bravo')">👏</span>
-        <span class="comment" @click="toggleSmiley('ohnon')">😞</span>
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
       </div>
     </div>
   </div>

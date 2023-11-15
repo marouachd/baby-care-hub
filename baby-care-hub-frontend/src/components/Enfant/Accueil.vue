@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       baseUrl: import.meta.env.VITE_IMG_BASE_URL,
+
       childs: [],
     };
   },
@@ -17,8 +18,6 @@ export default {
         `${import.meta.env.VITE_API_BASE_URL}/child`
       );
       this.childs = response.data;
-      console.log(this.childs);
-      console.log("id", this.childs[0].id);
     },
 
     calculateAge(birthdayDate) {
@@ -26,6 +25,14 @@ export default {
       const currentDate = new Date();
       const age = currentDate.getFullYear() - birthDate.getFullYear();
       return age;
+    },
+
+    getChildImage(child) {
+      if (child.personId.identityPhotoName) {
+        return "/personal-pictures/" + child.personId.identityPhotoName;
+      } else {
+        return "/personal-pictures/placeholder-avatar.jpg";
+      }
     },
   },
   beforeMount() {
@@ -40,20 +47,19 @@ export default {
     <div class="row row-cols-2 row-cols-md-3 g-4 mt-4">
       <div class="col-12 col-md-2" v-for="child in childs">
         <div class="card h-100 bg-light">
-          <img
-            :src="'/personal-pictures/' + child.personId.identityPhotoName"
-            class="card-img-top"
-            alt="..."
-          />
+          <img :src="getChildImage(child)" class="card-img-top" alt="..." />
           <div class="card-body d-flex flex-column justify-content-end">
             <h5 class="card-title">
-              {{ child.id }}&ensp;{{ child.personId.lastName }}
+              {{ child.personId.firstName }}&ensp;{{ child.personId.lastName }}
             </h5>
             <p class="card-text">
               Age : {{ calculateAge(child.birthdayDate) }} ans
             </p>
             <div class="d-flex justify-content-between">
-              <RouterLink :to="{ name: 'general' }" class="btn">
+              <RouterLink
+                :to="{ name: 'general', params: { id: child.id } }"
+                class="btn"
+              >
                 <i class="fas fa-pen"></i>
               </RouterLink>
 

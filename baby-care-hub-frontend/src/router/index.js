@@ -1,27 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Sidebar from "../Components/Commons/Sidebar.vue";
-import Accueil from "../Components/Enfant/Accueil.vue";
-import CreateProfileEnfant from "../Components/Enfant/CreateProfileEnfant.vue";
-import RepresentantLegal from "../Components/Enfant/RepresentantLegal.vue";
-import EditProfileEnfant from "../Components/Enfant/EditProfileEnfant.vue";
-import EditCoordonnéesParents from "../Components/Parents/EditCoordonnéesParents.vue";
-import CreateUserAccount from "../Components/Users/CreateUserAccount.vue";
-import Signin from "../Components/Users/Signin.vue";
-import ForgotPassword from "../Components/Users/ForgotPassword.vue";
-import Horaire from "../Components/Journée/Horaire.vue";
-import Activités from "../Components/Journée/Activités.vue";
-import Biberons from "../Components/Journée/Biberons.vue";
-import Change from "../Components/Journée/Change.vue";
-import Gouter from "../Components/Journée/Gouter.vue";
-import Médicaments from "../Components/Journée/Médicaments.vue";
-import Température from "../Components/Journée/Température.vue";
-import SortieLoisir from "../Components/Journée/SortieLoisir.vue";
-import Sieste from "../Components/Journée/Sieste.vue";
-import Repas from "../Components/Journée/Repas.vue";
-import MesEnfants from "../components/Parents/MesEnfants.vue";
-import Actualités from "../components/Parents/Actualités.vue";
-import IdNounou from "../components/Parents/IdNounou.vue";
-import General from "../components/Commons/General.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,122 +6,123 @@ const router = createRouter({
     {
       path: "/",
       name: "ma-journée",
-      component: Sidebar,
+      component: () => import("../Components/Commons/Sidebar.vue"),
     },
     {
-      path: "/ma-journee/general",
+      path: "/ma-journee/general/:id",
       name: "general",
-      component: General,
+      component: () => import("../components/Commons/General.vue"),
     },
     {
       path: "/accueil",
       name: "accueil",
-      component: Accueil,
+      component: () => import("../Components/Enfant/Accueil.vue"),
     },
     {
       path: "/create-profile-enfant",
       name: "create-profile-enfant",
-      component: CreateProfileEnfant,
+      component: () => import("../Components/Enfant/CreateProfileEnfant.vue"),
     },
     {
       path: "/représentant-légal",
       name: "représentant-légal",
-      component: RepresentantLegal,
+      component: () => import("../Components/Enfant/RepresentantLegal.vue"),
     },
+
     {
-      path: "/fiche-enfant",
+      path: "/fiche-enfant/:id",
       name: "fiche-enfant",
       component: () => import("../Components/Enfant/FicheEnfant.vue"),
     },
     {
-      path: "/edit-profile-enfant",
+      path: "/edit-profile-enfant/:id",
       name: "edit-profile-enfant",
-      component: EditProfileEnfant,
+      component: () => import("../Components/Enfant/EditProfileEnfant.vue"),
     },
     {
-      path: "/edit-coordonnees-parents",
-      name: "edit-coordonnees-parents",
-      component: EditCoordonnéesParents,
+      path: "/edit-user-account",
+      name: "edit-user-account",
+      component: () => import("../components/Users/UpdateUserAccount.vue"),
     },
     {
       path: "/create-user-account",
       name: "create-user-account",
-      component: CreateUserAccount,
+      component: () => import("../Components/Users/CreateUserAccount.vue"),
     },
     {
       path: "/signin",
       name: "signin",
-      component: Signin,
+      component: () => import("../Components/Users/Signin.vue"),
     },
     {
       path: "/forgot-password",
       name: "forgot-password",
-      component: ForgotPassword,
+      component: () => import("../Components/Users/ForgotPassword.vue"),
     },
     {
       path: "/ma-journee/horaire",
       name: "horaire",
-      component: Horaire,
+      component: () => import("../Components/Journée/Horaire.vue"),
     },
     {
-      path: "/ma-journee/activités",
+      path: "/ma-journee/activites",
       name: "activités",
-      component: Activités,
+      component: () => import("../Components/Journée/Activités.vue"),
     },
     {
       path: "/ma-journee/biberons",
       name: "biberons",
-      component: Biberons,
+      component: () => import("../Components/Journée/Biberons.vue"),
     },
     {
       path: "/ma-journee/change",
       name: "change",
-      component: Change,
+      component: () => import("../Components/Journée/Change.vue"),
     },
     {
       path: "/ma-journee/gouter",
       name: "gouter",
-      component: Gouter,
+      component: () => import("../Components/Journée/Gouter.vue"),
     },
     {
       path: "/ma-journee/sieste",
       name: "sieste",
-      component: Sieste,
+      component: () => import("../Components/Journée/Sieste.vue"),
     },
     {
       path: "/ma-journee/repas",
       name: "repas",
-      component: Repas,
+      component: () => import("../Components/Journée/Repas.vue"),
     },
     {
-      path: "/ma-journee/température",
+      path: "/ma-journee/temperature",
       name: "température",
-      component: Température,
+      component: () => import("../Components/Journée/Température.vue"),
     },
     {
       path: "/ma-journee/sortie-loisir",
       name: "sortie-loisir",
-      component: SortieLoisir,
+      component: () => import("../Components/Journée/SortieLoisir.vue"),
     },
     {
-      path: "/ma-journee/médicaments",
+      path: "/ma-journee/medicaments",
       name: "médicaments",
-      component: Médicaments,
+      component: () => import("../Components/Journée/Médicaments.vue"),
     },
     {
       path: "/mes-enfants",
       name: "mes-enfants",
-      component: MesEnfants,
+      component: () => import("../components/Parents/MesEnfants.vue"),
     },
     {
-      path: "/actualitees",
+      path: "/actualitees/:id",
       name: "actualitees",
-      component: Actualités,
+      component: () => import("../components/Parents/Actualités.vue"),
     },
     {
       path: "/id-nounou",
       name: "id-nounou",
-      component: IdNounou,
+      component: () => import("../components/Parents/IdNounou.vue"),
     },
   ],
 });

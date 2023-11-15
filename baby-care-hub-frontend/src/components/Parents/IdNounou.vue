@@ -1,3 +1,20 @@
+<script>
+export default {
+  data() {
+    return {
+      inputs: {
+        childminderCode: "",
+      },
+    };
+  },
+  methods: {
+    Submit() {
+      this.$router.push("/mes-enfants");
+      localStorage.setItem("childminderCode", this.inputs.childminderCode);
+    },
+  },
+};
+</script>
 <template>
   <section class="container-xl text-center mb-5">
     <h1 class="mt-5 mb-5">Liaison avec la nounou de votre enfant</h1>
@@ -8,7 +25,14 @@
             <span class="input-group-text" id="basic-addon1"
               >Identifiant nounou:</span
             >
-            <input type="text" class="form-control" placeholder="MAS241278" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="MAS241278"
+              id="childminderCode"
+              name="childminderCode"
+              v-model="inputs.childminderCode"
+            />
           </div>
           <div class="d-flex justify-content-center mt-5 mb-5">
             <button
@@ -25,12 +49,10 @@
     </div>
   </section>
 </template>
-<script>
-export default {
-  methods: {
-    Submit() {
-      this.$router.push("/mes-enfants");
-    },
-  },
-};
-</script>
+
+<style>
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
+</style>

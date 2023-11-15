@@ -1,3 +1,23 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      id: this.route.params.id,
+    };
+  },
+  beforeMount() {
+    this.id = this.route.params.id;
+  },
+};
+</script>
+
 <template>
   <div id="app" class="container mt-1 mb-1">
     <div

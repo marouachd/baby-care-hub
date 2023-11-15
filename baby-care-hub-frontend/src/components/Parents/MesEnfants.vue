@@ -1,3 +1,39 @@
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      showMenu: false,
+      childs: [],
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  methods: {
+    async getChilds() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/child`
+      );
+      this.childs = response.data;
+      console.log("child", this.childs);
+    },
+    AjouterEnfant() {
+      this.$router.push("/create-profile-enfant");
+    },
+    getChildImage(child) {
+      if (child.personId.identityPhotoName) {
+        return "/personal-pictures/" + child.personId.identityPhotoName;
+      } else {
+        return "/personal-pictures/placeholder-avatar.jpg";
+      }
+    },
+  },
+  beforeMount() {
+    this.getChilds();
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Mes enfants</h1>
@@ -25,68 +61,88 @@
       </div>
     </div>
 
-    <div class="row d-flex justify-content-center mb-3 mt-5 mx-5">
+    <div
+      class="row d-flex justify-content-center mb-3 mt-5 mx-5"
+      v-for="child in childs"
+    >
       <div class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center">
-        <div class="d-flex justify-content-center">
-          <div class="row">
-            <div class="col d-flex justify-content-center mx-5">
-              <img
-                src="../../assets/activité.jpg"
-                class="img-fluid rounded-start me-3"
-                alt="..."
-                width="50"
-                height="50"
-              />
+        <div class="d-flex justify-content-center align-items-center">
+          <!-- Image column -->
+          <div class="col d-flex justify-content-center mx-5">
+            <img
+              :src="getChildImage(child)"
+              class="img-fluid rounded-circle w-100"
+              alt="..."
+            />
+          </div>
 
-              <h5 class="title mt-3 ms-2 text-nowrap">Eyad Chroud</h5>
+          <!-- Name column -->
+          <div
+            class="col d-flex flex-column mx-5 text-center align-items-center"
+          >
+            <h5 class="title mt-3">
+              <span>{{ child.personId.firstName }}</span
+              >&ensp;
+              <span>{{ child.personId.lastName }}</span>
+            </h5>
+          </div>
 
-              <div
-                id="navbar"
-                class="col d-flex justify-content-center collapse navbar-collapse"
-              >
-                <ul class="navbar-nav">
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle-no-arrow"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      style="color: rgb(129, 126, 126); font-size: 24px"
-                    >
-                      ...
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <RouterLink
-                          :to="{ name: 'edit-profile-enfant' }"
-                          class="dropdown-item"
-                        >
-                          <i class="fa fa-pencil fa-fw mr-2"></i>
-                          Edit</RouterLink
-                        >
-                      </li>
-                      <li>
-                        <RouterLink
-                          :to="{ name: 'fiche-enfant' }"
-                          class="dropdown-item"
-                        >
-                          <i class="fa-regular fa-user"></i>
-                          &ensp;Détails</RouterLink
-                        >
-                      </li>
-                      <li>
-                        <RouterLink
-                          :to="{ name: 'actualitees' }"
-                          class="dropdown-item"
-                        >
-                          <i class="fa-regular fa-newspaper"></i
-                          >&ensp;Actualités</RouterLink
-                        >
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+          <div class="col d-flex justify-content-center mx-5">
+            <div
+              id="navbar"
+              class="col d-flex justify-content-center collapse navbar-collapse"
+            >
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle-no-arrow"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    style="color: rgb(129, 126, 126); font-size: 24px"
+                  >
+                    ...
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <RouterLink
+                        :to="{
+                          name: 'edit-profile-enfant',
+                          params: { id: child.id },
+                        }"
+                        class="dropdown-item"
+                      >
+                        <i class="fa fa-pencil fa-fw mr-2"></i>
+                        Edit</RouterLink
+                      >
+                    </li>
+                    <li>
+                      <RouterLink
+                        :to="{
+                          name: 'fiche-enfant',
+                          params: { id: child.id },
+                        }"
+                        class="dropdown-item"
+                      >
+                        <i class="fa-regular fa-user"></i>
+                        &ensp;Détails</RouterLink
+                      >
+                    </li>
+                    <li>
+                      <RouterLink
+                        :to="{
+                          name: 'actualitees',
+                          params: { id: child.id },
+                        }"
+                        class="dropdown-item"
+                      >
+                        <i class="fa-regular fa-newspaper"></i
+                        >&ensp;Actualités</RouterLink
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -94,20 +150,7 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      showMenu: false,
-    };
-  },
-  methods: {
-    AjouterEnfant() {
-      this.$router.push("/create-profile-enfant");
-    },
-  },
-};
-</script>
+
 <style>
 @media (max-width: 768px) {
   .border.rounded {

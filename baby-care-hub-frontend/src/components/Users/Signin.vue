@@ -2,6 +2,8 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 
+import axios from "axios";
+
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -9,7 +11,7 @@ export default {
   data() {
     return {
       inputs: {
-        email: null,
+        mailAdress: null,
         password: null,
       },
     };
@@ -18,24 +20,28 @@ export default {
   validations() {
     return {
       inputs: {
-        email: { required, email },
+        mailAdress: { required, email },
         password: {
           required,
         },
       },
     };
   },
+  created() {
+    this.$http = axios;
+  },
 
   methods: {
     async submitForm() {
       const result = await this.v$.$validate();
       if (result) {
-        console.log("yeah");
+        const resp = await this.$http.post(
+          `${import.meta.env.VITE_API_BASE_URL}/sign-in`,
+          this.inputs
+        );
+        console.log("token", resp.data.token);
+        localStorage.setItem("token", resp.data.token);
       }
-      //const test = await this.$axios.get('user-accounts');
-      //if (test) {
-      //console.log("yeah");
-      // }
     },
   },
 };
@@ -54,8 +60,8 @@ export default {
               type="text"
               class="form-control"
               placeholder="Adresse email"
-              v-model="inputs.email"
-              :class="{ 'is-invalid': v$.inputs.email.$error }"
+              v-model="inputs.mailAdress"
+              :class="{ 'is-invalid': v$.inputs.mailAdress.$error }"
             />
           </div>
           <div class="input-group mb-2">
@@ -98,6 +104,10 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 .link {
   color: rgba(180, 95, 146, 0.674);
 }

@@ -26,25 +26,27 @@ export default {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <Navbar></Navbar>
-    </div>
-  </header>
+  <div class="global">
+    <header>
+      <div class="wrapper">
+        <Navbar></Navbar>
+      </div>
+    </header>
 
-  <div v-if="showSidebar">
-    <div class="app">
-      <Sidebar></Sidebar>
-      <RouterView />
+    <div v-if="showSidebar">
+      <div class="app">
+        <Sidebar></Sidebar>
+        <RouterView />
+      </div>
     </div>
-  </div>
-  <div v-else>
-    <div>
-      <RouterView />
+    <div v-else>
+      <div>
+        <RouterView />
+      </div>
     </div>
-  </div>
 
-  <Footer></Footer>
+    <Footer></Footer>
+  </div>
 </template>
 
 <style>
@@ -57,5 +59,8 @@ export default {
   @media (max-width: 1024px) {
     padding-left: 6rem;
   }
+}
+.global {
+  height: 100%;
 }
 </style>

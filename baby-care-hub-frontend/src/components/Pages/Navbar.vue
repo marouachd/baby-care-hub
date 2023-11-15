@@ -76,7 +76,7 @@ export default {
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'edit-coordonnees-parents' }"
+                    :to="{ name: 'edit-user-account' }"
                     class="dropdown-item"
                   >
                     <h6 class="text-decoration-underline">Profile</h6>
@@ -92,7 +92,7 @@ export default {
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'actualitees' }"
+                    :to="{ name: 'actualitees', params: { id: 2 } }"
                     class="dropdown-item"
                   >
                     <h6 class="text-decoration-underline">Actualités</h6>
@@ -122,7 +122,7 @@ export default {
         </div>
       </div>
 
-      <RouterLink :to="{ name: 'fiche-enfant' }">
+      <RouterLink :to="{ name: 'fiche-enfant', params: { id: 2 } }">
         <div class="image-container rounded-circle">
           <img src="../../assets/Noah.jpg" class="bebe-image" />
         </div>

@@ -30,6 +30,25 @@ export default {
     this.$http = axios;
   },
   methods: {
+    async getUserProfile() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/user/13/detail`
+      );
+      const data = response.data;
+      console.log("data", data);
+      this.inputs.lastName = data.personId.lastName;
+      this.inputs.firstName = data.personId.firstName;
+      this.inputs.password = data.password;
+      this.inputs.roleId = data.roleId.id;
+      this.inputs.phoneNumber = data.phoneNumber;
+      this.inputs.mailAdress = data.mailAdress;
+      this.inputs.pseudoName = data.personId.pseudoName;
+      if (data.personId.identityPhotoName) {
+        const imageUrl = `/personal-pictures/${data.personId.identityPhotoName}`;
+        this.imageUrl = imageUrl;
+        this.inputs.personalPicture = data.personId.identityPhotoName;
+      }
+    },
     async submit() {
       const formData = new FormData();
       if (this.inputs.personalPicture) {
@@ -44,10 +63,8 @@ export default {
       formData.append("roleId", this.inputs.roleId);
       formData.append("pseudoName", this.inputs.pseudoName);
       formData.append("mailAdress", this.inputs.mailAdress);
-
-      console.log("pseudoName:", this.inputs.pseudoName);
-      const resp = await this.$http.post(
-        `${import.meta.env.VITE_API_BASE_URL}/user`,
+      const resp = await this.$http.put(
+        `${import.meta.env.VITE_API_BASE_URL}/user/13`,
         formData
       );
       console.log("Status de la réponse:", resp.status);
@@ -78,15 +95,17 @@ export default {
       this.$refs.fileInput.click();
     },
   },
+
   mounted() {
     this.initRoles();
+    this.getUserProfile();
   },
 };
 </script>
 
 <template>
   <section class="container-xl text-center mb-4">
-    <h1 class="mt-4 mb-5">Créer un compte utilisateur</h1>
+    <h1 class="mt-4 mb-5">Editer un compte utilisateur</h1>
 
     <form class="my-4" @submit.prevent="submit">
       <div class="container mt-5">
@@ -290,6 +309,10 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 h5 {
   font-family: "Pacifico", cursive;
   color: rgb(166, 161, 161);
