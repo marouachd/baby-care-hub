@@ -91,7 +91,10 @@
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 .title {
   color: rgb(160, 197, 237);
   font-family: "Pacifico", cursive;

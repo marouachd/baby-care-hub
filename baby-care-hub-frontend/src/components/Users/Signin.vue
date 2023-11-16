@@ -1,16 +1,19 @@
 <script>
+import { useRoute, useRouter } from "vue-router"; // Utilisez useRouter au lieu de RouterLink pour la navigation
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
-
 import axios from "axios";
+import router from "../../router";
 
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    return { v$: useVuelidate(), route: useRoute() };
   },
   data() {
     return {
       inputs: {
+        roleId: "",
+        userId: "",
         mailAdress: null,
         password: null,
       },
@@ -21,9 +24,7 @@ export default {
     return {
       inputs: {
         mailAdress: { required, email },
-        password: {
-          required,
-        },
+        password: { required },
       },
     };
   },
@@ -35,12 +36,33 @@ export default {
     async submitForm() {
       const result = await this.v$.$validate();
       if (result) {
-        const resp = await this.$http.post(
-          `${import.meta.env.VITE_API_BASE_URL}/sign-in`,
-          this.inputs
-        );
-        console.log("token", resp.data.token);
-        localStorage.setItem("token", resp.data.token);
+        try {
+          const resp = await this.$http.post(
+            `${import.meta.env.VITE_API_BASE_URL}/sign-in`,
+            this.inputs
+          );
+          this.userId = resp.data.userId;
+          this.roleId = resp.data.roleId;
+          console.log("data", resp.data.userId);
+          console.log("token", resp.data.token);
+          localStorage.setItem("token", resp.data.token);
+
+          if (resp.status === 200) {
+            if (this.roleId == 2) {
+              router.push({
+                name: "mes-enfants",
+                params: { id: this.userId },
+              });
+            } else {
+              router.push({ name: "acceuil", params: { id: this.userId } });
+            }
+          }
+        } catch (error) {
+          console.error(
+            "Une erreur s'est produite lors de la soumission du formulaire:",
+            error
+          );
+        }
       }
     },
   },
@@ -86,7 +108,9 @@ export default {
               >
             </div>
             <div>
-              <RouterLink :to="{ name: 'forgot-password' }" class="link mx-2"
+              <RouterLink
+                :to="{ name: 'forgot-password', params: { id: this.userId } }"
+                class="link mx-2"
                 >Mot de passe oublié ?
               </RouterLink>
             </div>

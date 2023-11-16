@@ -22,6 +22,9 @@ export default {
     toggleSignedUser() {
       this.signedUser = !this.signedUser;
     },
+    cleanLocalStorage() {
+      localStorage.clear();
+    },
   },
   watch: {
     $route(to) {
@@ -33,7 +36,10 @@ export default {
 <template>
   <nav class="navbar navbar-expand-md bg-light">
     <div class="container-fluid">
-      <RouterLink :to="{ name: 'accueil' }" class="routerLink">
+      <RouterLink
+        :to="{ name: 'accueil', params: { id: 2 } }"
+        class="routerLink"
+      >
         <h1 class="col-4 col-md-2">
           <div
             :class="['d-flex flex-column', { 'flex-md-row': !isSmallScreen }]"
@@ -70,7 +76,10 @@ export default {
             >
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
-                  <RouterLink :to="{ name: 'accueil' }" class="dropdown-item">
+                  <RouterLink
+                    :to="{ name: 'accueil', params: { id: 2 } }"
+                    class="dropdown-item"
+                  >
                     <h6 class="text-decoration-underline">Accueil</h6>
                   </RouterLink>
                 </li>
@@ -84,7 +93,7 @@ export default {
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'mes-enfants' }"
+                    :to="{ name: 'mes-enfants', params: { id: 2 } }"
                     class="dropdown-item"
                   >
                     <h6 class="text-decoration-underline">Mes enfants</h6>
@@ -112,7 +121,11 @@ export default {
                   @click="toggleSignedUser"
                   v-if="signedUser"
                 >
-                  <RouterLink :to="{ name: 'signin' }" class="dropdown-item">
+                  <RouterLink
+                    :to="{ name: 'signin' }"
+                    class="dropdown-item"
+                    @click="cleanLocalStorage"
+                  >
                     <h6 class="text-decoration-underline">Sign Out</h6>
                   </RouterLink>
                 </li>

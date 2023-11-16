@@ -1,8 +1,15 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      id: this.route.params.id,
       showMenu: false,
       childs: [],
     };
@@ -11,9 +18,19 @@ export default {
     this.$http = axios;
   },
   methods: {
+    async getUser() {
+      const resp = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`,
+        console.log("user", resp)
+      );
+    },
     async getChilds() {
+      const headers = {
+        Authorization: `Bearer ${this.token}`,
+      };
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child`
+        `${import.meta.env.VITE_API_BASE_URL}/child/parent/${this.id}`,
+        { headers }
       );
       this.childs = response.data;
       console.log("child", this.childs);
@@ -152,6 +169,10 @@ export default {
 </template>
 
 <style>
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 @media (max-width: 768px) {
   .border.rounded {
     width: 100%;

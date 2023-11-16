@@ -14,7 +14,7 @@ const router = createRouter({
       component: () => import("../components/Commons/General.vue"),
     },
     {
-      path: "/accueil",
+      path: "/accueil/:id",
       name: "accueil",
       component: () => import("../Components/Enfant/Accueil.vue"),
     },
@@ -110,7 +110,7 @@ const router = createRouter({
       component: () => import("../Components/Journée/Médicaments.vue"),
     },
     {
-      path: "/mes-enfants",
+      path: "/mes-enfants/:id",
       name: "mes-enfants",
       component: () => import("../components/Parents/MesEnfants.vue"),
     },
@@ -120,7 +120,7 @@ const router = createRouter({
       component: () => import("../components/Parents/Actualités.vue"),
     },
     {
-      path: "/id-nounou",
+      path: "/id-nounou/:id",
       name: "id-nounou",
       component: () => import("../components/Parents/IdNounou.vue"),
     },

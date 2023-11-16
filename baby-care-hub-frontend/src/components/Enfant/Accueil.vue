@@ -83,7 +83,7 @@ h1 {
   font-family: "Pacifico", cursive;
   color: rgb(160, 197, 237);
 }
-#button {
+style pour bouton {
   background-color: rgba(180, 95, 146, 0.674);
   font-family: "Pacifico", cursive;
   color: white;

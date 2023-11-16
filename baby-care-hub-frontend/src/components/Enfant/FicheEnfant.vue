@@ -129,7 +129,7 @@ export default {
     <div class="text-center mt-3 mb-5">
       <div class="justify-content-center">
         <RouterLink
-          :to="{ name: 'accueil' }"
+          :to="{ name: 'accueil', params: { id: 2 } }"
           class="btn btn-secondary mb-2 ms-md-3 me-3"
           id="button"
           >Retour</RouterLink
@@ -149,6 +149,10 @@ export default {
   color: rgb(160, 197, 237);
   font-family: "Pacifico", cursive;
   font-size: 18px;
+}
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
 }
 
 .card {
