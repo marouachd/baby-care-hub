@@ -294,4 +294,8 @@ h5 {
   font-family: "Pacifico", cursive;
   color: rgb(166, 161, 161);
 }
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 </style>

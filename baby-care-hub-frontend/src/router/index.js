@@ -14,8 +14,8 @@ const router = createRouter({
       component: () => import("../components/Commons/General.vue"),
     },
     {
-      path: "/accueil/:id",
-      name: "accueil",
+      path: "/acceuil/:id",
+      name: "acceuil",
       component: () => import("../Components/Enfant/Accueil.vue"),
     },
     {

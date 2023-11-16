@@ -36,7 +36,7 @@ export default {
 <template>
   <nav class="navbar navbar-expand-md bg-light">
     <div class="container-fluid">
-      <RouterLink
+      <!--<RouterLink
         :to="{ name: 'accueil', params: { id: 2 } }"
         class="routerLink"
       >
@@ -49,7 +49,7 @@ export default {
             <span class="hub">Hub</span>
           </div>
         </h1>
-      </RouterLink>
+      </RouterLink>-->
 
       <div class="col-5 col-md-2">
         <div class="row" v-if="showDate">
@@ -76,12 +76,12 @@ export default {
             >
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
-                  <RouterLink
+                  ><!--<RouterLink
                     :to="{ name: 'accueil', params: { id: 2 } }"
                     class="dropdown-item"
                   >
                     <h6 class="text-decoration-underline">Accueil</h6>
-                  </RouterLink>
+                  </RouterLink>-->
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink

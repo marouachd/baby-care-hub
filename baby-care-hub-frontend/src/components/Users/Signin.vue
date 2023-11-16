@@ -1,5 +1,5 @@
 <script>
-import { useRoute, useRouter } from "vue-router"; // Utilisez useRouter au lieu de RouterLink pour la navigation
+import { useRoute, RouterLink } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import axios from "axios";
@@ -54,7 +54,10 @@ export default {
                 params: { id: this.userId },
               });
             } else {
-              router.push({ name: "acceuil", params: { id: this.userId } });
+              router.push({
+                name: "acceuil",
+                params: { id: this.userId.toString() },
+              });
             }
           }
         } catch (error) {

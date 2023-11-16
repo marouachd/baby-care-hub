@@ -128,12 +128,12 @@ export default {
 
     <div class="text-center mt-3 mb-5">
       <div class="justify-content-center">
-        <RouterLink
+        <!--<RouterLink
           :to="{ name: 'accueil', params: { id: 2 } }"
           class="btn btn-secondary mb-2 ms-md-3 me-3"
           id="button"
           >Retour</RouterLink
-        >
+        >-->
         <button class="btn btn-danger mb-2 ms-md-3" @click="remove(id)">
           Supprimer
         </button>

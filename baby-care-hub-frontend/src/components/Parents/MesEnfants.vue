@@ -25,12 +25,8 @@ export default {
       );
     },
     async getChilds() {
-      const headers = {
-        Authorization: `Bearer ${this.token}`,
-      };
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/parent/${this.id}`,
-        { headers }
+        `${import.meta.env.VITE_API_BASE_URL}/child/parent/${this.id}`
       );
       this.childs = response.data;
       console.log("child", this.childs);
@@ -183,6 +179,10 @@ h1 {
   cursor: pointer;
 }
 
+h5 {
+  font-family: "Pacifico", cursive;
+  color: rgb(129, 126, 126);
+}
 button {
   background-color: white;
   color: rgb(129, 126, 126);
