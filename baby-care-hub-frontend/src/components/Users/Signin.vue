@@ -45,7 +45,10 @@ export default {
           this.roleId = resp.data.roleId;
           console.log("data", resp.data.userId);
           console.log("token", resp.data.token);
+          console.log("roleId", resp.data.roleId);
           localStorage.setItem("token", resp.data.token);
+          localStorage.setItem("userId", resp.data.userId);
+          localStorage.setItem("roleId", resp.data.roleId);
 
           if (resp.status === 200) {
             if (this.roleId == 2) {

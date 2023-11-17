@@ -1,11 +1,19 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      roleId: "",
+      id: this.route.params.id,
       toDayDate: null,
       showDate: false,
       showDatePicker: false,
-      signedUser: false,
+      isLoggedIn: false,
     };
   },
   mounted() {
@@ -29,7 +37,14 @@ export default {
   watch: {
     $route(to) {
       this.showDate = to.path.startsWith("/ma-journee");
+      this.isLoggedIn = Boolean(
+        localStorage.getItem("userId") && localStorage.getItem("roleId")
+      );
     },
+  },
+  beforeMount() {
+    this.id = localStorage.getItem("userId");
+    this.roleId = localStorage.getItem("roleId");
   },
 };
 </script>
@@ -69,50 +84,37 @@ export default {
             >
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
-                  <!--<RouterLink
-                    :to="{ name: 'acceuil', params: { id: 2 } }"
+                  <RouterLink
+                    :to="{ name: 'acceuil', params: { id: this.id } }"
                     class="dropdown-item"
+                    v-if="isLoggedIn && this.roleId == 1"
                   >
                     <h6 class="text-decoration-underline">Acceuil</h6>
-                  </RouterLink>-->
+                  </RouterLink>
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink
                     :to="{ name: 'edit-user-account' }"
                     class="dropdown-item"
+                    v-if="isLoggedIn"
                   >
                     <h6 class="text-decoration-underline">Profile</h6>
                   </RouterLink>
                 </li>
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'mes-enfants', params: { id: 2 } }"
+                    :to="{ name: 'mes-enfants', params: { id: this.id } }"
                     class="dropdown-item"
+                    v-if="isLoggedIn && roleId == 2"
                   >
                     <h6 class="text-decoration-underline">Mes enfants</h6>
                   </RouterLink>
                 </li>
-                <li class="nav-item mx-2">
-                  <RouterLink
-                    :to="{ name: 'actualitees', params: { id: 2 } }"
-                    class="dropdown-item"
-                  >
-                    <h6 class="text-decoration-underline">Actualités</h6>
-                  </RouterLink>
-                </li>
+
                 <li
                   class="nav-item mx-2"
                   @click="toggleSignedUser"
-                  v-if="!signedUser"
-                >
-                  <RouterLink :to="{ name: 'signin' }" class="dropdown-item">
-                    <h6 class="text-decoration-underline">Sign In</h6>
-                  </RouterLink>
-                </li>
-                <li
-                  class="nav-item mx-2"
-                  @click="toggleSignedUser"
-                  v-if="signedUser"
+                  v-if="isLoggedIn"
                 >
                   <RouterLink
                     :to="{ name: 'signin' }"

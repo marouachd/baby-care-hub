@@ -1,8 +1,15 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      id: this.route.params.id,
       imageUrl:
         "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
 
@@ -32,7 +39,7 @@ export default {
   methods: {
     async getUserProfile() {
       const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/user/13/detail`
+        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`
       );
       const data = response.data;
       console.log("data", data);
@@ -99,6 +106,10 @@ export default {
   mounted() {
     this.initRoles();
     this.getUserProfile();
+  },
+  beforeMount() {
+    this.id = localStorage.getItem("userId");
+    this.roleId = localStorage.getItem("roleId");
   },
 };
 </script>
