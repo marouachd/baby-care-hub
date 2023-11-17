@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
@@ -62,6 +65,9 @@ public class ChildServiceImpl implements ChildService {
     public void create(ChildDto inputs) {
 
 	ChildEntity child = new ChildEntity();
+	String token = inputs.getToken();
+	System.out.println("Token from context: " + token);
+	System.out.println("token" + token);
 	child.setBirthdayDate(inputs.getBirthdayDate());
 	Long genderId = inputs.getGenderId();
 	GenderEntity gender = genders
@@ -71,6 +77,12 @@ public class ChildServiceImpl implements ChildService {
 	GuardModeEntity guard = guardMode
 		.getReferenceById(guardId);
 	child.setGuardId(guard);
+
+	Long userId = extractUserIdFromToken(token);
+	System.out.println("User Id from Token: " + userId);
+
+	UserEntity parent = users.findUserById(userId);
+	child.setParentId(parent);
 
 	String pseudoName = inputs.getChildminderCode();
 	UserEntity user = users
@@ -116,12 +128,6 @@ public class ChildServiceImpl implements ChildService {
 	    Files.copy(in, target,
 		    StandardCopyOption.REPLACE_EXISTING);
 	}
-    }
-
-    @Override
-    public List<ChildEntity> getAll() {
-
-	return childs.findAll();
     }
 
     @Override
@@ -191,6 +197,30 @@ public class ChildServiceImpl implements ChildService {
 	child.setPersonId(savedPerson);
 	childs.save(child);
 
+    }
+
+    private Long extractUserIdFromToken(String token) {
+	DecodedJWT jwt = JWT.decode(token);
+	return jwt.getClaim("User Id").asLong();
+    }
+
+    @Override
+    public List<ChildEntity> getAll() {
+	return childs.findAll();
+    }
+
+    @Override
+    public List<ChildEntity> getAllByParentId(
+	    Long parentId) {
+
+	return childs.findAllByParentId(parentId);
+    }
+
+    @Override
+    public List<ChildEntity> getAllByChildminderCode(
+	    UserEntity childminderCode) {
+	return childs
+		.findAllByChildminderCode(childminderCode);
     }
 
 }

@@ -1,7 +1,14 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      id: this.route.params.id,
       inputs: {
         childminderCode: "",
       },
@@ -9,7 +16,10 @@ export default {
   },
   methods: {
     Submit() {
-      this.$router.push("/mes-enfants");
+      this.$router.push({
+        name: "mes-enfants",
+        params: { id: this.id },
+      });
       localStorage.setItem("childminderCode", this.inputs.childminderCode);
     },
   },
@@ -38,7 +48,7 @@ export default {
             <button
               @click="Submit"
               type="submit"
-              class="btn col-md-3 col-12 mx-2 mt-5 mb-4"
+              class="btn col-md-3 col-12 mx-2 mt-5 mb-4 bouton"
             >
               Confirmer
             </button>
@@ -54,5 +64,10 @@ export default {
 h1 {
   font-family: "Pacifico", cursive;
   color: rgba(180, 95, 146, 0.674);
+}
+.bouton {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

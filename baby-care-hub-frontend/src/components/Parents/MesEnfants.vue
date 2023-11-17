@@ -32,7 +32,14 @@ export default {
       console.log("child", this.childs);
     },
     AjouterEnfant() {
-      this.$router.push("/create-profile-enfant");
+      if (this.childs.length !== 0) {
+        this.$router.push({
+          name: "id-nounou",
+          params: { id: this.id },
+        });
+      } else {
+        this.$router.push("/create-profile-enfant");
+      }
     },
     getChildImage(child) {
       if (child.personId.identityPhotoName) {

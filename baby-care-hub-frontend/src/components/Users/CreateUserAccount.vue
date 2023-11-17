@@ -22,7 +22,7 @@ export default {
             type: "image/jpeg",
           }
         ),
-        roleId: "",
+        roleId: 2,
       },
     };
   },

@@ -41,8 +41,12 @@ public class AuthServiceImpl implements AuthService {
 	    if (match) {
 		String token = authHelper.createJWT(roles,
 			user);
+		Long userId = user.getId();
+		Long roleId = user.getRoleId().getId();
 		TokenInfo tokenInfo = new TokenInfo();
 		tokenInfo.setToken(token);
+		tokenInfo.setUserId(userId);
+		tokenInfo.setRoleId(roleId);
 		return tokenInfo;
 	    } else {
 		throw new BadCredentialsException(

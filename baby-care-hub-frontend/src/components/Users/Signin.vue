@@ -119,7 +119,7 @@ export default {
             </div>
           </div>
           <div class="d-flex justify-content-center mt-5 mb-5">
-            <button type="submit" class="btn col-md-3 col-12 mb-5 mx-2">
+            <button type="submit" class="btn col-md-3 col-12 mb-5 mx-2 bouton">
               Se connecter
             </button>
           </div>
@@ -137,5 +137,10 @@ h1 {
 }
 .link {
   color: rgba(180, 95, 146, 0.674);
+}
+.bouton {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

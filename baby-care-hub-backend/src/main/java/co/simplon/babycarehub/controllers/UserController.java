@@ -1,11 +1,12 @@
 package co.simplon.babycarehub.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import co.simplon.babycarehub.services.UserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
     private final UserService service;
@@ -28,7 +30,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void create(@RequestBody UserDto inputs) {
+    public void create(@ModelAttribute UserDto inputs) {
 	service.create(inputs);
     }
 
@@ -41,7 +43,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
 
     public void update(@PathVariable("id") Long id,
-	    @RequestBody UserUpdateDto inputs) {
+	    @ModelAttribute UserUpdateDto inputs) {
 	service.update(id, inputs);
 
     }

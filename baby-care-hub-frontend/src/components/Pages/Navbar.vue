@@ -36,20 +36,13 @@ export default {
 <template>
   <nav class="navbar navbar-expand-md bg-light">
     <div class="container-fluid">
-      <!--<RouterLink
-        :to="{ name: 'accueil', params: { id: 2 } }"
-        class="routerLink"
-      >
-        <h1 class="col-4 col-md-2">
-          <div
-            :class="['d-flex flex-column', { 'flex-md-row': !isSmallScreen }]"
-          >
-            <span class="baby">Baby</span>
-            <span class="care">Care</span>
-            <span class="hub">Hub</span>
-          </div>
-        </h1>
-      </RouterLink>-->
+      <h1 class="col-4 col-md-2">
+        <div :class="['d-flex flex-column', { 'flex-md-row': !isSmallScreen }]">
+          <span class="baby">Baby</span>
+          <span class="care">Care</span>
+          <span class="hub">Hub</span>
+        </div>
+      </h1>
 
       <div class="col-5 col-md-2">
         <div class="row" v-if="showDate">
@@ -76,11 +69,11 @@ export default {
             >
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
-                  ><!--<RouterLink
-                    :to="{ name: 'accueil', params: { id: 2 } }"
+                  <!--<RouterLink
+                    :to="{ name: 'acceuil', params: { id: 2 } }"
                     class="dropdown-item"
                   >
-                    <h6 class="text-decoration-underline">Accueil</h6>
+                    <h6 class="text-decoration-underline">Acceuil</h6>
                   </RouterLink>-->
                 </li>
                 <li class="nav-item mx-2">

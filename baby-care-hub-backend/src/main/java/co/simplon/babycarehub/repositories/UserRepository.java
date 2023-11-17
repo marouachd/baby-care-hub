@@ -1,5 +1,7 @@
 package co.simplon.babycarehub.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +18,10 @@ public interface UserRepository
     UserEntity findUserByPseudoName(
 	    @Param("pseudoName") String pseudoName);
 
+    Optional<UserEntity> findById(Long parentId);
+
     UserDetail findProjectDetailById(Long id);
+
+    UserEntity findUserById(Long userId);
 
 }

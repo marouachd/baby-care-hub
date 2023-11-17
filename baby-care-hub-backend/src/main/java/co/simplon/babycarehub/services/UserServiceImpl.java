@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private PersonRepository persons;
 
-    private UserRepository users;
+    private static UserRepository users;
 
     private RoleRepository roles;
 
@@ -105,8 +105,6 @@ public class UserServiceImpl implements UserService {
 	    person.setFirstName(inputs.getFirstName());
 	    person.setLastName(inputs.getLastName());
 	    person.setPseudoName(inputs.getPseudoName());
-
-	    persons.save(person);
 	    PersonEntity savedPerson = persons.save(person);
 	    user.setPersonId(savedPerson);
 	    users.save(user);

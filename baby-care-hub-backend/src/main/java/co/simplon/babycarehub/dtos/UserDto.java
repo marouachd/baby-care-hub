@@ -73,8 +73,8 @@ public class UserDto {
 	return pseudoName;
     }
 
-    public void setPersonId(String personId) {
-	this.pseudoName = personId;
+    public void setPseudoName(String pseudoName) {
+	this.pseudoName = pseudoName;
     }
 
     public MultipartFile getPersonalPicture() {
