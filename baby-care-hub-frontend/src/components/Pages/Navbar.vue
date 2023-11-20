@@ -9,12 +9,16 @@ export default {
   data() {
     return {
       roleId: "",
-      id: this.route.params.id,
+      id: "",
       toDayDate: null,
       showDate: false,
       showDatePicker: false,
       isLoggedIn: false,
     };
+  },
+  created() {
+    this.id = localStorage.getItem("userId");
+    this.roleId = localStorage.getItem("roleId");
   },
   mounted() {
     this.afficheDate();
@@ -42,10 +46,6 @@ export default {
       );
     },
   },
-  beforeMount() {
-    this.id = localStorage.getItem("userId");
-    this.roleId = localStorage.getItem("roleId");
-  },
 };
 </script>
 <template>
@@ -61,12 +61,12 @@ export default {
 
       <div class="col-5 col-md-2">
         <div class="row" v-if="showDate">
-          <h5
+          <h4
             @click="toggleDatePicker"
             class="clickable text-nowrap text-center"
           >
             {{ showDatePicker ? "" : toDayDate }}
-          </h5>
+          </h4>
           <input
             type="date"
             class="form-control"
@@ -89,25 +89,27 @@ export default {
                     class="dropdown-item"
                     v-if="isLoggedIn && this.roleId == 1"
                   >
-                    <h6 class="text-decoration-underline">Acceuil</h6>
+                    <h5 class="text-decoration-underline">Acceuil</h5>
                   </RouterLink>
                 </li>
+
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'edit-user-account' }"
+                    :to="{ name: 'coordonees', params: { id: this.id } }"
                     class="dropdown-item"
                     v-if="isLoggedIn"
                   >
-                    <h6 class="text-decoration-underline">Profile</h6>
+                    <h5 class="text-decoration-underline">Profile</h5>
                   </RouterLink>
                 </li>
+
                 <li class="nav-item mx-2">
                   <RouterLink
                     :to="{ name: 'mes-enfants', params: { id: this.id } }"
                     class="dropdown-item"
                     v-if="isLoggedIn && roleId == 2"
                   >
-                    <h6 class="text-decoration-underline">Mes enfants</h6>
+                    <h5 class="text-decoration-underline">Mes enfants</h5>
                   </RouterLink>
                 </li>
 
@@ -121,7 +123,7 @@ export default {
                     class="dropdown-item"
                     @click="cleanLocalStorage"
                   >
-                    <h6 class="text-decoration-underline">Sign Out</h6>
+                    <h5 class="text-decoration-underline">Sign Out</h5>
                   </RouterLink>
                 </li>
               </ul>
@@ -130,7 +132,7 @@ export default {
         </div>
       </div>
 
-      <RouterLink :to="{ name: 'fiche-enfant', params: { id: 2 } }">
+      <RouterLink :to="{ name: 'fiche-enfant', params: { id: this.id } }">
         <div class="image-container rounded-circle">
           <img src="../../assets/Noah.jpg" class="bebe-image" />
         </div>
@@ -185,10 +187,10 @@ p {
 .clickable {
   cursor: pointer;
 }
-h5 {
+h4 {
   font-family: "Satisfy", cursive;
 }
-h6 {
+h5 {
   font-family: "Satisfy", cursive;
   color: rgb(160, 197, 237);
 }

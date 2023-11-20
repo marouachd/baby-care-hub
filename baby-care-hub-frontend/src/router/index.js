@@ -19,17 +19,6 @@ const router = createRouter({
       component: () => import("../Components/Enfant/Accueil.vue"),
     },
     {
-      path: "/create-profile-enfant",
-      name: "create-profile-enfant",
-      component: () => import("../Components/Enfant/CreateProfileEnfant.vue"),
-    },
-    {
-      path: "/représentant-légal",
-      name: "représentant-légal",
-      component: () => import("../Components/Enfant/RepresentantLegal.vue"),
-    },
-
-    {
       path: "/fiche-enfant/:id",
       name: "fiche-enfant",
       component: () => import("../Components/Enfant/FicheEnfant.vue"),
@@ -40,10 +29,41 @@ const router = createRouter({
       component: () => import("../Components/Enfant/EditProfileEnfant.vue"),
     },
     {
-      path: "/edit-user-account",
+      path: "/edit-user-account/:id",
       name: "edit-user-account",
       component: () => import("../components/Users/UpdateUserAccount.vue"),
     },
+    {
+      path: "/mes-enfants/:id",
+      name: "mes-enfants",
+      component: () => import("../components/Parents/MesEnfants.vue"),
+    },
+    {
+      path: "/actualitees/:id",
+      name: "actualitees",
+      component: () => import("../components/Parents/Actualités.vue"),
+    },
+    {
+      path: "/id-nounou/:id",
+      name: "id-nounou",
+      component: () => import("../components/Parents/IdNounou.vue"),
+    },
+    {
+      path: "/coordonees/:id",
+      name: "coordonees",
+      component: () => import("../Components/Users/Coordonees.vue"),
+    },
+    {
+      path: "/create-profile-enfant",
+      name: "create-profile-enfant",
+      component: () => import("../Components/Enfant/CreateProfileEnfant.vue"),
+    },
+    {
+      path: "/représentant-légal/:id",
+      name: "représentant-légal",
+      component: () => import("../Components/Enfant/RepresentantLegal.vue"),
+    },
+
     {
       path: "/create-user-account",
       name: "create-user-account",
@@ -108,21 +128,6 @@ const router = createRouter({
       path: "/ma-journee/medicaments",
       name: "médicaments",
       component: () => import("../Components/Journée/Médicaments.vue"),
-    },
-    {
-      path: "/mes-enfants/:id",
-      name: "mes-enfants",
-      component: () => import("../components/Parents/MesEnfants.vue"),
-    },
-    {
-      path: "/actualitees/:id",
-      name: "actualitees",
-      component: () => import("../components/Parents/Actualités.vue"),
-    },
-    {
-      path: "/id-nounou/:id",
-      name: "id-nounou",
-      component: () => import("../components/Parents/IdNounou.vue"),
     },
   ],
 });

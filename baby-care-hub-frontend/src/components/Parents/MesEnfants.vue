@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      childminderCode: null,
       id: this.route.params.id,
       showMenu: false,
       childs: [],
@@ -32,13 +33,25 @@ export default {
       console.log("child", this.childs);
     },
     AjouterEnfant() {
+      console.log("Méthode AjouterEnfant appelée");
       if (this.childs.length !== 0) {
+        console.log("childmindercode", this.childminderCode);
+        if (this.childminderCode === null) {
+          this.$router.push({
+            name: "id-nounou",
+            params: { id: this.id },
+          });
+        } else {
+          this.$router.push("/create-profile-enfant");
+        }
+      } else {
         this.$router.push({
           name: "id-nounou",
           params: { id: this.id },
         });
-      } else {
-        this.$router.push("/create-profile-enfant");
+        if (this.childminderCode !== null) {
+          this.$router.push("/create-profile-enfant");
+        }
       }
     },
     getChildImage(child) {
@@ -51,6 +64,7 @@ export default {
   },
   beforeMount() {
     this.getChilds();
+    this.childminderCode = localStorage.getItem("childminderCode");
   },
 };
 </script>

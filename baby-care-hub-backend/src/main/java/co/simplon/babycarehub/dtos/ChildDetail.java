@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
 import co.simplon.babycarehub.entities.PersonEntity;
+import co.simplon.babycarehub.entities.UserEntity;
 
 public interface ChildDetail {
 
@@ -16,6 +17,8 @@ public interface ChildDetail {
 
     GenderEntity getGenderId();
 
-    // String getChildminderCode();
+    // UserEntity getChildminderCode();
+
+    UserEntity getParentId();
 
 }

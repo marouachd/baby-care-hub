@@ -9,11 +9,11 @@ export default {
   },
   data() {
     return {
-      id: this.route.params.id,
+      //id: this.route.params.id,
     };
   },
   beforeMount() {
-    this.id = this.route.params.id;
+    //this.id = this.route.params.id;
   },
 };
 </script>

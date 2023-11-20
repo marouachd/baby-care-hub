@@ -16,8 +16,10 @@ export default {
         lastName: "",
         pseudoName: "",
         personalPicture: new File(
-          [],
-          "../../../personal-pictures/placeholder-avatar.jpg",
+          [
+            /* personal-pictures */
+          ],
+          "placeholder-avatar.jpg",
           {
             type: "image/jpeg",
           }
@@ -53,12 +55,16 @@ export default {
       console.log("Status de la réponse:", resp.status);
 
       if (resp.status === 201) {
-        console.log("Utilisateur créé avec succès !");
-      } else {
-        console.log(
-          "La requête a été traitée avec succès, mais aucun utilisateur n'a été créé."
+        this.$toast.success(
+          "toast-global",
+          "Votre compte a été créer avec succées."
         );
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
+      this.$router.push({
+        name: "signin",
+      });
     },
     async initRoles() {
       const response = await this.$http.get(

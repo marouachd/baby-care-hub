@@ -3,6 +3,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      id: "",
       token: "",
       childminderCode: "",
       imageUrl:
@@ -18,8 +19,10 @@ export default {
         genderId: 0,
         guardId: 0,
         personalPicture: new File(
-          [],
-          "../../../personal-pictures/placeholder-avatar.jpg",
+          [
+            /* personal-pictures */
+          ],
+          "placeholder-avatar.jpg",
           {
             type: "image/jpeg",
           }
@@ -29,6 +32,7 @@ export default {
   },
   created() {
     this.$http = axios;
+    this.id = localStorage.getItem("userId");
   },
   methods: {
     async submit() {
@@ -51,10 +55,17 @@ export default {
         formData
       );
       if (resp.status === 204) {
-        console.log("ok");
+        this.$toast.success(
+          "toast-global",
+          "Le profile de votre enfant a été crée."
+        );
       } else {
-        console.log("No");
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
+      this.$router.push({
+        name: "mes-enfants",
+        params: { id: this.id },
+      });
     },
     updateImage(event) {
       const file = event.target.files[0];
@@ -79,7 +90,15 @@ export default {
       );
       this.genders = response.data;
     },
+    back() {
+      console.log("back");
+      this.$router.push({
+        name: "mes-enfants",
+        params: { id: this.id },
+      });
+    },
   },
+
   mounted() {
     this.initGardeModes();
     this.initGenders();
@@ -209,7 +228,9 @@ export default {
           <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
             Confirmer
           </button>
-          <button class="btn btn-danger mb-2 ms-md-3">Quitter</button>
+          <button class="btn btn-danger mb-2 ms-md-3" @click="back">
+            Quitter
+          </button>
         </div>
       </div>
     </form>

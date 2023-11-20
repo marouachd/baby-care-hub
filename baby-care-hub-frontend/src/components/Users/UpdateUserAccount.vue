@@ -23,8 +23,10 @@ export default {
         lastName: "",
         pseudoName: "",
         personalPicture: new File(
-          [],
-          "../../../personal-pictures/placeholder-avatar.jpg",
+          [
+            /* personal-pictures */
+          ],
+          "placeholder-avatar.jpg",
           {
             type: "image/jpeg",
           }
@@ -76,12 +78,18 @@ export default {
       );
       console.log("Status de la réponse:", resp.status);
 
-      if (resp.status === 201) {
-        console.log("Utilisateur créé avec succès !");
-      } else {
-        console.log(
-          "La requête a été traitée avec succès, mais aucun utilisateur n'a été créé."
+      if (resp.status === 204) {
+        this.$toast.success(
+          "toast-global",
+          "Votre compte a été modifier avec succées."
         );
+
+        this.$router.push({
+          name: "coordonees",
+          params: { id: this.id },
+        });
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
     },
     async initRoles() {

@@ -10,15 +10,20 @@ export default {
   },
   data() {
     return {
+      userRole: "",
       id: this.route.params.id,
       data: "",
+      userId: "",
     };
   },
   created() {
     this.$http = axios;
+    this.userRole = localStorage.getItem("roleId");
+    console.log("role", this.userRole);
+    this.userId = localStorage.getItem("userId");
   },
   methods: {
-    async getProfile() {
+    async getChildProfile() {
       const response = await this.$http.get(
         `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
       );
@@ -31,9 +36,16 @@ export default {
         `${import.meta.env.VITE_API_BASE_URL}/child/${id}`
       );
       if (resp.status === 204) {
-        console.log("ok");
+        this.$toast.success(
+          "toast-global",
+          "Le profile a été supprimé avec succées."
+        );
+        this.$router.push({
+          name: "acceuil",
+          params: { id: this.userId },
+        });
       } else {
-        console.log("no");
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
     },
     calculateAge(birthdayDate) {
@@ -45,7 +57,7 @@ export default {
   },
 
   beforeMount() {
-    this.getProfile();
+    this.getChildProfile();
     this.id = this.route.params.id;
     console.log("id", this.route.params.id);
   },
@@ -91,9 +103,9 @@ export default {
             <div class="d-flex justify-content-center">
               <p class="title mt-1 me-2 text-nowrap">Mes parents sont:</p>
               <span class="text-nowrap"
-                >Marie et Guillaume
+                >{{ data.parentId.personId.firstName }} et ...
                 <RouterLink
-                  :to="{ name: 'représentant-légal' }"
+                  :to="{ name: 'représentant-légal', params: { id: this.id } }"
                   class="btn mb-2 me-md-3 ms-1"
                   id="button"
                 >
@@ -134,7 +146,11 @@ export default {
           id="button"
           >Retour</RouterLink
         >-->
-        <button class="btn btn-danger mb-2 ms-md-3" @click="remove(id)">
+        <button
+          class="btn btn-danger mb-2 ms-md-3"
+          @click="remove(id)"
+          v-if="this.userRole == 1"
+        >
           Supprimer
         </button>
       </div>

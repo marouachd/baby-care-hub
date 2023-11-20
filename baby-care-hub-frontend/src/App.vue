@@ -2,6 +2,7 @@
 import Navbar from "../src/components/Pages/Navbar.vue";
 import Footer from "../src/Components/Pages/Footer.vue";
 import Sidebar from "../src/Components/Commons/Sidebar.vue";
+import Toast from "./Components/Commons/Toast.vue";
 
 export default {
   name: "App",
@@ -10,6 +11,7 @@ export default {
     Navbar,
     Footer,
     Sidebar,
+    Toast,
   },
   data() {
     return {
@@ -36,16 +38,18 @@ export default {
     <div v-if="showSidebar">
       <div class="app">
         <Sidebar></Sidebar>
+
         <RouterView />
       </div>
     </div>
     <div v-else>
-      <div>
+      <div class="main-content pb-5">
         <RouterView />
       </div>
+      <div><Toast id="toast-global" /></div>
     </div>
 
-    <Footer></Footer>
+    <Footer class="fixed-bottom"></Footer>
   </div>
 </template>
 

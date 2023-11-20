@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      userId: "",
       id: this.route.params.id,
       imageUrl:
         "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
@@ -21,12 +22,21 @@ export default {
         birthdayDate: "",
         genderId: 0,
         guardId: 0,
-        personalPicture: "",
+        personalPicture: new File(
+          [
+            /* personal-pictures */
+          ],
+          "placeholder-avatar.jpg",
+          {
+            type: "image/jpeg",
+          }
+        ),
       },
     };
   },
   created() {
     this.$http = axios;
+    this.userId = localStorage.getItem("userId");
   },
   methods: {
     async getProfile() {
@@ -62,10 +72,18 @@ export default {
         formData
       );
       if (resp.status === 204) {
-        console.log("ok");
+        this.$toast.success(
+          "toast-global",
+          "Le profile de votre enfant a été modifié."
+        );
       } else {
-        console.log("No");
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
+
+      this.$router.push({
+        name: "mes-enfants",
+        params: { id: this.userId },
+      });
     },
     updateImage(event) {
       const file = event.target.files[0];
@@ -89,6 +107,12 @@ export default {
         `${import.meta.env.VITE_API_BASE_URL}/gender`
       );
       this.genders = response.data;
+    },
+    back() {
+      this.$router.push({
+        name: "mes-enfants",
+        params: { id: this.userId },
+      });
     },
   },
   mounted() {
@@ -216,13 +240,19 @@ export default {
           <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
             Confirmer
           </button>
-          <button class="btn btn-danger mb-2 ms-md-3">Quitter</button>
+          <button class="btn btn-danger mb-2 ms-md-3" @click="back">
+            Quitter
+          </button>
         </div>
       </div>
     </form>
   </section>
 </template>
 <style>
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 img {
   cursor: pointer;
 }

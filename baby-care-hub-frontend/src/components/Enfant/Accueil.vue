@@ -23,6 +23,7 @@ export default {
         `${import.meta.env.VITE_API_BASE_URL}/child/childminder/${this.id}`
       );
       this.childs = response.data;
+      console.log("child", this.childs);
     },
 
     calculateAge(birthdayDate) {
@@ -42,6 +43,7 @@ export default {
   },
   beforeMount() {
     this.getChilds();
+    this.id = localStorage.getItem("userId");
   },
 };
 </script>
