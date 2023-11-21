@@ -307,7 +307,7 @@ export default {
       </div>
 
       <div class="d-flex justify-content-center mt-5 mb-5 mx-2">
-        <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
+        <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
           Confirmer
         </button>
       </div>
@@ -324,5 +324,11 @@ h1 {
 h5 {
   font-family: "Pacifico", cursive;
   color: rgb(166, 161, 161);
+}
+
+.btn-confirmer {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

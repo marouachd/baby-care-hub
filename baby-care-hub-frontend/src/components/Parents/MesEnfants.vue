@@ -101,7 +101,6 @@ export default {
     >
       <div class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center">
         <div class="d-flex justify-content-center align-items-center">
-          <!-- Image column -->
           <div class="col d-flex justify-content-center mx-5">
             <img
               :src="getChildImage(child)"
@@ -110,7 +109,6 @@ export default {
             />
           </div>
 
-          <!-- Name column -->
           <div
             class="col d-flex flex-column mx-5 text-center align-items-center"
           >

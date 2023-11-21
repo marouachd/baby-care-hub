@@ -101,14 +101,15 @@ export default {
           <div class="row mb-2">
             <div class="d-flex justify-content-center">
               <p class="title mt-1 me-2 text-nowrap">Mes parents sont:</p>
-              <span class="text-nowrap"
-                >{{ data.parentId.personId.firstName }} et ...
+              <span class="text-nowrap mt-2"
+                >{{ data.personId ? data.parentId.personId.firstName : "" }} et
+                ...
                 <RouterLink
                   :to="{ name: 'représentant-légal', params: { id: this.id } }"
                   class="btn mb-2 me-md-3 ms-1"
                   id="button"
                 >
-                  <i class="fa fa-eye"></i
+                  <i class="fa fa-eye" v-if="this.userRole == 1"></i
                 ></RouterLink>
               </span>
             </div>

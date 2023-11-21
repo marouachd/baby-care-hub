@@ -32,6 +32,11 @@ export default {
     this.$http = axios;
   },
   methods: {
+    back() {
+      this.$router.push({
+        name: "signin",
+      });
+    },
     async submit() {
       const formData = new FormData();
       if (this.inputs.personalPicture) {
@@ -286,9 +291,14 @@ export default {
       </div>
 
       <div class="d-flex justify-content-center mt-5 mb-5 mx-2">
-        <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
-          Confirmer
-        </button>
+        <div class="justify-content-center">
+          <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
+            Confirmer
+          </button>
+          <button class="btn btn-quitter mb-2 ms-md-3 px-4" @click="back">
+            Quitter
+          </button>
+        </div>
       </div>
     </form>
   </section>
@@ -303,5 +313,15 @@ h5 {
 h1 {
   font-family: "Pacifico", cursive;
   color: rgba(180, 95, 146, 0.674);
+}
+.btn-quitter {
+  background-color: rgba(180, 95, 146, 0.674);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
+.btn-confirmer {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

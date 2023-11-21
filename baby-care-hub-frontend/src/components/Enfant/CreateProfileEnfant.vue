@@ -225,10 +225,10 @@ export default {
       </div>
       <div class="text-center mt-5 mb-5">
         <div class="justify-content-center">
-          <button class="btn btn-secondary mb-2 ms-md-3 me-3" type="submit">
+          <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
             Confirmer
           </button>
-          <button class="btn btn-danger mb-2 ms-md-3" @click="back">
+          <button class="btn btn-quitter mb-2 ms-md-3 px-4" @click="back">
             Quitter
           </button>
         </div>
@@ -253,5 +253,15 @@ img {
   width: 150px;
   height: 150px;
   object-fit: cover;
+}
+.btn-quitter {
+  background-color: rgba(180, 95, 146, 0.674);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
+.btn-confirmer {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>
