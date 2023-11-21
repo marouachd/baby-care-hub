@@ -1,6 +1,16 @@
 package co.simplon.babycarehub.services;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.simplon.babycarehub.dtos.UserDetail;
 import co.simplon.babycarehub.dtos.UserDto;
@@ -16,6 +26,9 @@ import co.simplon.babycarehub.utils.AuthHelper;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${baby-care-hub.uploads.location}")
+    private String uploadDir;
 
     private PersonRepository persons;
 
@@ -54,6 +67,21 @@ public class UserServiceImpl implements UserService {
 	user.setRoleId(role);
 
 	PersonEntity person = new PersonEntity();
+	if (inputs.getPersonalPicture() != null) {
+	    MultipartFile file = inputs
+		    .getPersonalPicture();
+	    String baseName = UUID.randomUUID().toString();
+	    String fileName = baseName
+		    + file.getOriginalFilename();
+	    try {
+		store(file, fileName);
+	    } catch (IOException e) {
+
+		e.printStackTrace();
+	    }
+	    person.setIdentityPhotoName(fileName);
+	}
+
 	person.setFirstName(inputs.getFirstName());
 	person.setLastName(inputs.getLastName());
 	person.setPseudoName(inputs.getPseudoName());
@@ -81,19 +109,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(Long id, UserUpdateDto inputs) {
 	String pseudoName = inputs.getPseudoName();
-	System.out.println(
-		"PseudoName à rechercher : " + pseudoName);
 
 	UserEntity user = users
 		.findUserByPseudoName(pseudoName);
+	System.out
+		.println("L'utilisateur avec le pseudoName "
+
+			+ pseudoName + user);
 
 	if (user != null) {
 
 	    user.setMailAdress(inputs.getMailAdress());
 	    user.setPhoneNumber(inputs.getPhoneNumber());
-	    String hashPassword = authHelper
-		    .encode(inputs.getPassword());
-	    user.setPassword(hashPassword);
 
 	    Long roleId = inputs.getRoleId();
 	    RoleEntity role = roles
@@ -102,6 +129,31 @@ public class UserServiceImpl implements UserService {
 
 	    PersonEntity person = persons.findByPseudoName(
 		    inputs.getPseudoName());
+
+	    if (inputs.getPersonalPicture() != null) {
+		String identityPhotoName = person
+			.getIdentityPhotoName();
+		if (identityPhotoName != null) {
+		    Path existPicture = Paths.get(uploadDir,
+			    identityPhotoName);
+		    existPicture.toFile().delete();
+		}
+
+		MultipartFile file = inputs
+			.getPersonalPicture();
+		String baseName = UUID.randomUUID()
+			.toString();
+		String fileName = baseName
+			+ inputs.getPersonalPicture()
+				.getOriginalFilename();
+		try {
+		    store(file, fileName);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		person.setIdentityPhotoName(fileName);
+	    }
+
 	    person.setFirstName(inputs.getFirstName());
 	    person.setLastName(inputs.getLastName());
 	    person.setPseudoName(inputs.getPseudoName());
@@ -114,6 +166,17 @@ public class UserServiceImpl implements UserService {
 		    "L'utilisateur avec le pseudoName "
 			    + pseudoName
 			    + " n'existe pas.");
+	}
+    }
+
+    private void store(MultipartFile file, String fileName)
+	    throws IOException {
+	Path uploadPath = Paths.get(uploadDir);
+	Path target = uploadPath.resolve(fileName);
+
+	try (InputStream in = file.getInputStream()) {
+	    Files.copy(in, target,
+		    StandardCopyOption.REPLACE_EXISTING);
 	}
     }
 

@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       id: this.route.params.id,
-      data: "",
+      data: {},
     };
   },
   created() {
@@ -44,15 +44,8 @@ export default {
           <div class="col-md-4">
             <img
               v-if="this.data.personId && this.data.personId.identityPhotoName"
-              :src="this.data.personId.identityPhotoName"
-              class="img-fluid rounded-start"
-              alt="Photo d'identité"
-            />
-            <img
-              v-else
-              src="../../../personal-pictures/placeholder-avatar.jpg"
-              class="img-fluid rounded-start w-90 text-center"
-              alt="Photo d'identité par défaut"
+              :src="'/personal-pictures/' + data.personId.identityPhotoName"
+              class="w-50"
             />
           </div>
           <div class="col-md-8">

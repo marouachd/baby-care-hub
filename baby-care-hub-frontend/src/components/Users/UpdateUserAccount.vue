@@ -55,15 +55,16 @@ export default {
       if (data.personId.identityPhotoName) {
         const imageUrl = `/personal-pictures/${data.personId.identityPhotoName}`;
         this.imageUrl = imageUrl;
-        this.inputs.personalPicture = data.personId.identityPhotoName;
+        this.inputs.personalPicture = new File(
+          [],
+          data.personId.identityPhotoName
+        );
       }
     },
     async submit() {
       const formData = new FormData();
-      if (this.inputs.personalPicture) {
+      if (this.inputs.personalPicture && this.inputs.personalPicture.size > 0) {
         formData.append("personalPicture", this.inputs.personalPicture);
-      } else {
-        formData.append("personalPicture", this.imageUrl);
       }
       formData.append("lastName", this.inputs.lastName);
       formData.append("firstName", this.inputs.firstName);
@@ -72,8 +73,8 @@ export default {
       formData.append("roleId", this.inputs.roleId);
       formData.append("pseudoName", this.inputs.pseudoName);
       formData.append("mailAdress", this.inputs.mailAdress);
-      const resp = await this.$http.put(
-        `${import.meta.env.VITE_API_BASE_URL}/user/13`,
+      const resp = await this.$http.patch(
+        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}`,
         formData
       );
       console.log("Status de la réponse:", resp.status);
@@ -103,7 +104,7 @@ export default {
       if (file) {
         const imageUrl = URL.createObjectURL(file);
         this.imageUrl = imageUrl;
-        this.inputs.personalPicture = event.target.files[0];
+        this.inputs.personalPicture = file;
       }
     },
     triggerFileInput() {
@@ -184,7 +185,7 @@ export default {
                   </div>
                 </div>
               </div>
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 mt-2">
                 <span class="input-group-text" id="basic-addon1"
                   >Numéro de télephone :</span
                 >
@@ -210,18 +211,11 @@ export default {
                   v-model="inputs.mailAdress"
                 />
               </div>
-              <div class="input-group mb-4">
+              <div class="col-12 input-group mb-5">
                 <span class="input-group-text" id="basic-addon1"
-                  >Mot de passe:</span
+                  >Adresse :</span
                 >
-                <input
-                  type="password"
-                  class="form-control"
-                  placeholder="******"
-                  id="password"
-                  name="password"
-                  v-model="inputs.password"
-                />
+                <input type="text" class="form-control" placeholder="Adresse" />
               </div>
             </div>
           </div>
@@ -309,11 +303,6 @@ export default {
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-12 input-group mb-5">
-          <span class="input-group-text" id="basic-addon1">Adresse :</span>
-          <input type="text" class="form-control" placeholder="Adresse" />
         </div>
       </div>
 

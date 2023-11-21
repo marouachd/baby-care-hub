@@ -93,12 +93,12 @@ public class ChildServiceImpl implements ChildService {
 
 	}
 
-	String fileName = null;
+	PersonEntity person = new PersonEntity();
 	if (inputs.getPersonalPicture() != null) {
 	    MultipartFile file = inputs
 		    .getPersonalPicture();
 	    String baseName = UUID.randomUUID().toString();
-	    fileName = baseName
+	    String fileName = baseName
 		    + file.getOriginalFilename();
 	    try {
 		store(file, fileName);
@@ -106,12 +106,13 @@ public class ChildServiceImpl implements ChildService {
 
 		e.printStackTrace();
 	    }
+	    person.setIdentityPhotoName(fileName);
 	}
-	PersonEntity person = new PersonEntity();
+
 	person.setFirstName(inputs.getFirstName());
 	person.setLastName(inputs.getLastName());
 	person.setPseudoName(inputs.getPseudoName());
-	person.setIdentityPhotoName(fileName);
+
 	persons.save(person);
 	PersonEntity savedPerson = persons.save(person);
 	child.setPersonId(savedPerson);
@@ -148,10 +149,8 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public void update(Long id, ChildUpdateDto inputs) {
-	String pseudoName = inputs.getPseudoName();
 
-	ChildEntity child = childs
-		.findChildByPseudoName(pseudoName);
+	ChildEntity child = childs.findChildById(id);
 
 	child.setBirthdayDate(inputs.getBirthdayDate());
 	Long genderId = inputs.getGenderId();
@@ -173,25 +172,30 @@ public class ChildServiceImpl implements ChildService {
 
 	}
 
-	String fileName = null;
+	PersonEntity person = child.getPersonId();
+
 	if (inputs.getPersonalPicture() != null) {
+	    Path existPicture = Paths.get(uploadDir,
+		    person.getIdentityPhotoName());
 	    MultipartFile file = inputs
 		    .getPersonalPicture();
 	    String baseName = UUID.randomUUID().toString();
-	    fileName = baseName
-		    + file.getOriginalFilename();
+	    String fileName = baseName
+		    + inputs.getPersonalPicture()
+			    .getOriginalFilename();
 	    try {
 		store(file, fileName);
 	    } catch (IOException e) {
 
 		e.printStackTrace();
 	    }
+	    person.setIdentityPhotoName(fileName);
+	    existPicture.toFile().delete();
 	}
-	PersonEntity person = child.getPersonId();
+
 	person.setFirstName(inputs.getFirstName());
 	person.setLastName(inputs.getLastName());
 	person.setPseudoName(inputs.getPseudoName());
-	person.setIdentityPhotoName(fileName);
 	persons.save(person);
 	PersonEntity savedPerson = persons.save(person);
 	child.setPersonId(savedPerson);

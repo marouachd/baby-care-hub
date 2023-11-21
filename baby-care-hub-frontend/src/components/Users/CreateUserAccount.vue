@@ -54,7 +54,7 @@ export default {
       );
       console.log("Status de la réponse:", resp.status);
 
-      if (resp.status === 201) {
+      if (resp.status === 200) {
         this.$toast.success(
           "toast-global",
           "Votre compte a été créer avec succées."

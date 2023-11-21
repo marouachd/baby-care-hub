@@ -18,11 +18,7 @@ const router = createRouter({
       name: "acceuil",
       component: () => import("../Components/Enfant/Accueil.vue"),
     },
-    {
-      path: "/fiche-enfant",
-      name: "fiche-enfant",
-      component: () => import("../Components/Enfant/FicheEnfant.vue"),
-    },
+
     {
       path: "/edit-profile-enfant/:id",
       name: "edit-profile-enfant",
@@ -37,6 +33,11 @@ const router = createRouter({
       path: "/mes-enfants/:id",
       name: "mes-enfants",
       component: () => import("../components/Parents/MesEnfants.vue"),
+    },
+    {
+      path: "/fiche-enfant/:id",
+      name: "fiche-enfant",
+      component: () => import("../Components/Enfant/FicheEnfant.vue"),
     },
     {
       path: "/actualitees/:id",

@@ -51,23 +51,29 @@ export default {
       this.inputs.genderId = data.genderId.id;
       this.inputs.guardId = data.guardId.id;
       this.inputs.pseudoName = data.personId.pseudoName;
+
       if (data.personId.identityPhotoName) {
         const imageUrl = `/personal-pictures/${data.personId.identityPhotoName}`;
         this.imageUrl = imageUrl;
-        this.inputs.personalPicture = data.personId.identityPhotoName;
+        this.inputs.personalPicture = new File(
+          [],
+          data.personId.identityPhotoName
+        );
       }
     },
 
     async submit() {
       const formData = new FormData();
-      formData.append("personalPicture", this.inputs.personalPicture);
+      if (this.inputs.personalPicture && this.inputs.personalPicture.size > 0) {
+        formData.append("personalPicture", this.inputs.personalPicture);
+      }
       formData.append("lastName", this.inputs.lastName);
       formData.append("firstName", this.inputs.firstName);
       formData.append("birthdayDate", this.inputs.birthdayDate);
       formData.append("genderId", this.inputs.genderId);
       formData.append("guardId", this.inputs.guardId);
       formData.append("pseudoName", this.inputs.pseudoName);
-      const resp = await this.$http.put(
+      const resp = await this.$http.patch(
         `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}`,
         formData
       );
@@ -93,6 +99,7 @@ export default {
         this.inputs.personalPicture = file;
       }
     },
+
     triggerFileInput() {
       this.$refs.fileInput.click();
     },

@@ -132,11 +132,9 @@ export default {
         </div>
       </div>
 
-      <RouterLink :to="{ name: 'fiche-enfant', params: { id: this.id } }">
-        <div class="image-container rounded-circle">
-          <img src="../../assets/Noah.jpg" class="bebe-image" />
-        </div>
-      </RouterLink>
+      <div class="image-container rounded-circle">
+        <img src="../../assets/Noah.jpg" class="bebe-image" />
+      </div>
     </div>
   </nav>
 </template>

@@ -56,10 +56,9 @@ export default {
     },
   },
 
-  beforeMount() {
+  mounted() {
     this.getChildProfile();
-    this.id = this.route.params.id;
-    console.log("id", this.route.params.id);
+    //this.id = this.route.params.id;
   },
 };
 </script>
