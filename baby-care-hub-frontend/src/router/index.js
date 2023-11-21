@@ -19,7 +19,7 @@ const router = createRouter({
       component: () => import("../Components/Enfant/Accueil.vue"),
     },
     {
-      path: "/fiche-enfant/:id",
+      path: "/fiche-enfant",
       name: "fiche-enfant",
       component: () => import("../Components/Enfant/FicheEnfant.vue"),
     },
