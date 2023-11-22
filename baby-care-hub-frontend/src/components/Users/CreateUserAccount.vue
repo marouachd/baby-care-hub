@@ -1,8 +1,23 @@
 <script>
 import axios from "axios";
+import { useVuelidate } from "@vuelidate/core";
+import {
+  required,
+  email,
+  maxLength,
+  minLength,
+  minValue,
+  helpers,
+  numeric,
+} from "@vuelidate/validators";
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
+      file: "",
+      nofile: false,
       imageUrl:
         "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg",
 
@@ -28,6 +43,41 @@ export default {
       },
     };
   },
+  validations() {
+    return {
+      inputs: {
+        mailAdress: { required, email },
+        phoneNumber: {
+          required,
+          numeric,
+          minLength: minLength(10),
+          maxLength: maxLength(10),
+        },
+        password: {
+          required,
+          minLength: minLength(8),
+          maxLength: maxLength(16),
+        },
+        firstName: {
+          required: helpers.withMessage(
+            "Veuillez renseigner ce champ.",
+            required
+          ),
+          maxLength: maxLength(100),
+        },
+        lastName: { required, maxLength: maxLength(100) },
+        pseudoName: {
+          required,
+          minLength: minLength(4),
+          maxLength: maxLength(30),
+        },
+        personalPicture: {
+          required,
+        },
+        roleId: { required },
+      },
+    };
+  },
   created() {
     this.$http = axios;
   },
@@ -38,38 +88,45 @@ export default {
       });
     },
     async submit() {
-      const formData = new FormData();
-      if (this.inputs.personalPicture) {
-        formData.append("personalPicture", this.inputs.personalPicture);
-      } else {
-        formData.append("personalPicture", this.imageUrl);
-      }
-      formData.append("lastName", this.inputs.lastName);
-      formData.append("firstName", this.inputs.firstName);
-      formData.append("password", this.inputs.password);
-      formData.append("phoneNumber", this.inputs.phoneNumber);
-      formData.append("roleId", this.inputs.roleId);
-      formData.append("pseudoName", this.inputs.pseudoName);
-      formData.append("mailAdress", this.inputs.mailAdress);
+      const result = await this.v$.$validate();
+      if (result) {
+        const formData = new FormData();
+        if (this.inputs.personalPicture) {
+          formData.append("personalPicture", this.inputs.personalPicture);
+        } else {
+          formData.append("personalPicture", this.imageUrl);
+        }
+        formData.append("lastName", this.inputs.lastName);
+        formData.append("firstName", this.inputs.firstName);
+        formData.append("password", this.inputs.password);
+        formData.append("phoneNumber", this.inputs.phoneNumber);
+        formData.append("roleId", this.inputs.roleId);
+        formData.append("pseudoName", this.inputs.pseudoName);
+        formData.append("mailAdress", this.inputs.mailAdress);
 
-      console.log("pseudoName:", this.inputs.pseudoName);
-      const resp = await this.$http.post(
-        `${import.meta.env.VITE_API_BASE_URL}/user`,
-        formData
-      );
-      console.log("Status de la réponse:", resp.status);
-
-      if (resp.status === 200) {
-        this.$toast.success(
-          "toast-global",
-          "Votre compte a été créer avec succées."
+        console.log("pseudoName:", this.inputs.pseudoName);
+        const resp = await this.$http.post(
+          `${import.meta.env.VITE_API_BASE_URL}/user`,
+          formData
         );
-      } else {
-        this.$toast.error("toast-global", "Un problème est survenu.");
+        console.log("Status de la réponse:", resp.status);
+
+        if (resp.status === 200) {
+          this.$toast.success(
+            "toast-global",
+            "Votre compte a été créer avec succées."
+          );
+        } else {
+          this.$toast.error("toast-global", "Un problème est survenu.");
+        }
+        this.$router.push({
+          name: "signin",
+        });
       }
-      this.$router.push({
-        name: "signin",
-      });
+      if (!this.file) {
+        this.$refs.profileImage.classList.add("noFile");
+        this.nofile = true;
+      }
     },
     async initRoles() {
       const response = await this.$http.get(
@@ -78,11 +135,13 @@ export default {
       this.roles = response.data;
     },
     updateImage(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const imageUrl = URL.createObjectURL(file);
+      this.file = event.target.files[0];
+      if (this.file) {
+        const imageUrl = URL.createObjectURL(this.file);
         this.imageUrl = imageUrl;
         this.inputs.personalPicture = event.target.files[0];
+        this.nofile = false;
+        this.$refs.profileImage.classList.remove("noFile");
       }
     },
     triggerFileInput() {
@@ -110,7 +169,7 @@ export default {
                     <img
                       ref="profileImage"
                       :src="imageUrl"
-                      class="img-fluid h-50 w-50 mb-4"
+                      class="img-fluid h-50 w-50"
                       alt="example placeholder"
                       @click="triggerFileInput"
                     />
@@ -123,6 +182,12 @@ export default {
                       id="personalPicture"
                       name="personalPicture"
                     />
+                    <div class="form-text text-danger" v-if="this.nofile">
+                      Image de taille moins de 500Ko est requis!
+                    </div>
+                    <div id="image-helptext" class="fw-light" v-else>
+                      Votre photo de profile
+                    </div>
                   </div>
                 </div>
 
@@ -139,8 +204,10 @@ export default {
                         id="lastName"
                         name="lastName"
                         v-model="inputs.lastName"
+                        :class="{ 'is-invalid': v$.inputs.lastName.$error }"
                       />
                     </div>
+
                     <div class="input-group mb-5">
                       <span class="input-group-text" id="basic-addon2"
                         >Prénom :</span
@@ -152,24 +219,30 @@ export default {
                         id="firstName"
                         name="firstName"
                         v-model="inputs.firstName"
+                        :class="{ 'is-invalid': v$.inputs.firstName.$error }"
                       />
                     </div>
                   </div>
                 </div>
               </div>
+
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
                   >Numéro de télephone :</span
                 >
                 <input
-                  type="text"
+                  type="tel"
                   class="form-control"
                   placeholder="téléphone"
                   id="phoneNumber"
                   name="phoneNumber"
                   v-model="inputs.phoneNumber"
+                  :class="{ 'is-invalid': v$.inputs.phoneNumber.$error }"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
                 />
               </div>
+
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
                   >Adresse email:</span
@@ -181,9 +254,11 @@ export default {
                   id="mailAdress"
                   name="mailAdress"
                   v-model="inputs.mailAdress"
+                  :class="{ 'is-invalid': v$.inputs.mailAdress.$error }"
                 />
               </div>
-              <div class="input-group mb-4">
+
+              <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"
                   >Mot de passe:</span
                 >
@@ -194,7 +269,11 @@ export default {
                   id="password"
                   name="password"
                   v-model="inputs.password"
+                  :class="{ 'is-invalid': v$.inputs.password.$error }"
                 />
+              </div>
+              <div id="image-helptext" class="fw-light ms-4">
+                Longeur minimum de mot de passe est 8 caracéres!
               </div>
             </div>
           </div>
@@ -208,6 +287,7 @@ export default {
                 class="form-select"
                 aria-label="Default select example"
                 v-model.number="inputs.roleId"
+                :class="{ 'is-invalid': v$.inputs.roleId.$error }"
                 id="roleId"
                 name="roleId"
               >
@@ -220,22 +300,27 @@ export default {
             <div v-if="inputs.roleId === 1">
               <div class="input-group mb-3">
                 <h5 class="mb-3">Entrez votre identifiant :</h5>
-                <div class="input-group mb-3">
+
+                <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">ID :</span>
                   <input
                     type="text"
                     class="form-control"
                     placeholder="MAS241278"
                     v-model="inputs.pseudoName"
+                    :class="{ 'is-invalid': v$.inputs.pseudoName.$error }"
                     id="pseudoName"
                     name="pseudoName"
                   />
+                </div>
+                <div id="image-helptext" class="fw-light">
+                  Veuillez renseigner votre identifiant!
                 </div>
               </div>
             </div>
             <div v-if="inputs.roleId === 2">
               <div class="input-group mb-3">
-                <div class="input-group mb-3">
+                <div class="input-group">
                   <span class="input-group-text" id="basic-addon1"
                     >Pseudo:</span
                   >
@@ -244,9 +329,13 @@ export default {
                     class="form-control"
                     placeholder="Best mom"
                     v-model="inputs.pseudoName"
+                    :class="{ 'is-invalid': v$.inputs.pseudoName.$error }"
                     id="pseudoName"
                     name="pseudoName"
                   />
+                </div>
+                <div id="image-helptext" class="fw-light mb-2 ms-5">
+                  Longeur minimum de pseudo est 8 caracéres!
                 </div>
                 <h5 class="mb-3">Coordonnées deuxième parent :</h5>
                 <div class="input-group mb-3">
@@ -264,9 +353,11 @@ export default {
                     >Numéro de télephone :</span
                   >
                   <input
-                    type="text"
+                    type="tel"
                     class="form-control"
                     placeholder="téléphone"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
                   />
                 </div>
                 <div class="input-group">
@@ -284,9 +375,12 @@ export default {
           </div>
         </div>
 
-        <div class="col-12 input-group mb-5">
+        <div class="col-12 input-group mb-2">
           <span class="input-group-text" id="basic-addon1">Adresse :</span>
           <input type="text" class="form-control" placeholder="Adresse" />
+        </div>
+        <div class="form-text text-danger" v-if="v$.inputs.$error">
+          Ces champs sont requis !
         </div>
       </div>
 
@@ -323,5 +417,11 @@ h1 {
   background-color: rgb(160, 197, 237);
   font-family: "Pacifico", cursive;
   color: white;
+}
+#image-helptext {
+  color: rgba(180, 95, 146, 0.674);
+}
+.noFile {
+  border: solid 3px red;
 }
 </style>

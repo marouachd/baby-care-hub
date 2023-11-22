@@ -28,6 +28,7 @@ public class AuthHelper {
     }
 
     public Boolean matches(String candidate, String hash) {
+
 	return encoder.matches(candidate, hash);
     }
 

@@ -71,7 +71,7 @@ export default {
 </script>
 <template>
   <section class="container-xl text-center mb-5">
-    <h1 class="mt-4 mb-5">Connectez vous &#128512;</h1>
+    <h1 class="mt-4 mt-5">Connectez vous &#128512;</h1>
     <div class="row justify-content-center mb-5">
       <div class="col-md-6 col-12 mb-5">
         <form class="my-4 mb-5" @submit.prevent="submitForm" novalidate>

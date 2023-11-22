@@ -16,11 +16,9 @@ export default {
       isLoggedIn: false,
     };
   },
-  created() {
-    this.id = localStorage.getItem("userId");
-    this.roleId = localStorage.getItem("roleId");
-  },
   mounted() {
+    this.id = this.route.params.id;
+    this.roleId = localStorage.getItem("roleId");
     this.afficheDate();
   },
   methods: {

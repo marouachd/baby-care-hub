@@ -29,8 +29,6 @@ export default {
   },
   mounted() {
     this.getUserProfile();
-  },
-  beforeMount() {
     this.id = this.route.params.id;
   },
 };
