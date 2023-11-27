@@ -35,27 +35,25 @@ export default {
         try {
           console.log("inputs", this.inputs);
           const resp = await this.$axios.post(`/sign-in`, this.inputs);
-          console.log("resp", resp);
-          this.userId = resp.body.userId;
-          this.roleId = resp.body.roleId;
-          console.log("userId", this.userId);
-          console.log("token", resp.body.token);
-          console.log("roleId", this.roleId);
-          localStorage.setItem("token", resp.body.token);
-          localStorage.setItem("userId", this.userId);
-          localStorage.setItem("roleId", this.roleId);
 
           if (resp.status === 200) {
+            this.userId = resp.body.userId;
+            this.roleId = resp.body.roleId;
+            localStorage.setItem("token", resp.body.token);
+            localStorage.setItem("userId", this.userId);
+            localStorage.setItem("roleId", this.roleId);
             if (this.roleId == 2) {
               router.push({
                 name: "mes-enfants",
                 params: { id: this.userId },
               });
+              console.log("mes enfants", this.userId);
             } else {
               router.push({
                 name: "acceuil",
                 params: { id: this.userId.toString() },
               });
+              console.log("acceuil", this.userId.toString());
             }
           }
         } catch (error) {
@@ -157,5 +155,8 @@ button {
 #password:focus {
   border-color: rgba(202, 160, 185, 0.674);
   box-shadow: 0 0 0 0.2rem rgba(202, 160, 185, 0.674);
+}
+.favicon {
+  height: 80px;
 }
 </style>

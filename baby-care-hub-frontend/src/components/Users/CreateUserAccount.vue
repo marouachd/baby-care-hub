@@ -89,7 +89,7 @@ export default {
     },
     async submit() {
       const result = await this.v$.$validate();
-      if (result) {
+      if (this.file && result) {
         const formData = new FormData();
         if (this.inputs.personalPicture) {
           formData.append("personalPicture", this.inputs.personalPicture);

@@ -1,9 +1,16 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
-      id: "",
+      userId: "",
+      id: this.route.params.id,
       token: "",
       childminderCode: "",
       imageUrl:
@@ -32,7 +39,7 @@ export default {
   },
   created() {
     this.$http = axios;
-    this.id = localStorage.getItem("userId");
+    this.userId = localStorage.getItem("userId");
   },
   methods: {
     async submit() {
@@ -64,7 +71,7 @@ export default {
       }
       this.$router.push({
         name: "mes-enfants",
-        params: { id: this.id },
+        params: { id: this.userId },
       });
     },
     updateImage(event) {
@@ -94,7 +101,7 @@ export default {
       console.log("back");
       this.$router.push({
         name: "mes-enfants",
-        params: { id: this.id },
+        params: { id: this.userId },
       });
     },
   },

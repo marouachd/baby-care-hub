@@ -15,6 +15,7 @@ export default {
   },
   created() {
     this.$http = axios;
+    this.id = this.route.params.id;
   },
   methods: {
     async getUserProfile() {
@@ -23,13 +24,18 @@ export default {
       );
       console.log("rep", response);
       this.data = response.data;
+      console.log("data", this.data);
       const identifier = response.data.id;
       console.log("id", identifier, this.data.id);
+      console.log("Identity Photo Name:", this.data.personId.identityPhotoName);
+    },
+    handleImageError(error) {
+      console.error("Image failed to load:", error);
     },
   },
   mounted() {
     this.getUserProfile();
-    this.id = this.route.params.id;
+    this.id = localStorage.getItem("userId");
   },
 };
 </script>
@@ -39,11 +45,12 @@ export default {
     <div class="d-flex justify-content-center">
       <div class="card mb-3 mt-5 w-">
         <div class="row g-0">
-          <div class="col-md-4">
+          <div class="col-md-4 mt-4">
             <img
               v-if="this.data.personId && this.data.personId.identityPhotoName"
               :src="'/personal-pictures/' + data.personId.identityPhotoName"
               class="w-50"
+              @error="handleImageError"
             />
           </div>
           <div class="col-md-8">

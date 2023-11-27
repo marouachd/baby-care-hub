@@ -62,6 +62,7 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
+    @Transactional
     public void create(ChildDto inputs) {
 
 	ChildEntity child = new ChildEntity();

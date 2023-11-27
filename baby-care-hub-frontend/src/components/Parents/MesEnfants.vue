@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       childminderCode: null,
-      id: this.route.params.id,
+      id: "",
       showMenu: false,
       childs: [],
     };
@@ -42,7 +42,9 @@ export default {
             params: { id: this.id },
           });
         } else {
-          this.$router.push("/create-profile-enfant");
+          this.$router.push({
+            name: "create-profile-enfant",
+          });
         }
       } else {
         this.$router.push({
@@ -50,7 +52,9 @@ export default {
           params: { id: this.id },
         });
         if (this.childminderCode !== null) {
-          this.$router.push("/create-profile-enfant");
+          this.$router.push({
+            name: "create-profile-enfant",
+          });
         }
       }
     },
@@ -63,6 +67,8 @@ export default {
     },
   },
   beforeMount() {
+    this.id = localStorage.getItem("userId");
+    console.log("id", this.id);
     this.getChilds();
     this.childminderCode = localStorage.getItem("childminderCode");
   },

@@ -9,13 +9,14 @@ export default {
   data() {
     return {
       roleId: "",
-      id: "",
+      id: this.route.params.id,
       toDayDate: null,
       showDate: false,
       showDatePicker: false,
       isLoggedIn: false,
     };
   },
+
   mounted() {
     this.id = this.route.params.id;
     this.roleId = localStorage.getItem("roleId");
@@ -34,6 +35,7 @@ export default {
     },
     cleanLocalStorage() {
       localStorage.clear();
+      this.isLoggedIn = false;
     },
   },
   watch: {
@@ -43,6 +45,7 @@ export default {
         localStorage.getItem("userId") && localStorage.getItem("roleId")
       );
     },
+    deep: true,
   },
 };
 </script>
@@ -87,7 +90,9 @@ export default {
                     class="dropdown-item"
                     v-if="isLoggedIn && this.roleId == 1"
                   >
-                    <h5 class="text-decoration-underline">Acceuil</h5>
+                    <h5 class="text-decoration-underline">
+                      <i class="fa fa-home" aria-hidden="true">Acceuil</i>
+                    </h5>
                   </RouterLink>
                 </li>
 
@@ -97,7 +102,9 @@ export default {
                     class="dropdown-item"
                     v-if="isLoggedIn"
                   >
-                    <h5 class="text-decoration-underline">Profile</h5>
+                    <h5 class="text-decoration-underline">
+                      <i class="fa fa-user ms-3" aria-hidden="true">Profile</i>
+                    </h5>
                   </RouterLink>
                 </li>
 
@@ -107,21 +114,22 @@ export default {
                     class="dropdown-item"
                     v-if="isLoggedIn && roleId == 2"
                   >
-                    <h5 class="text-decoration-underline">Mes enfants</h5>
+                    <h5 class="text-decoration-underline">
+                      <i class="fa fa-child" aria-hidden="true">Mes enfants</i>
+                    </h5>
                   </RouterLink>
                 </li>
 
-                <li
-                  class="nav-item mx-2"
-                  @click="toggleSignedUser"
-                  v-if="isLoggedIn"
-                >
+                <li class="nav-item mx-2">
                   <RouterLink
                     :to="{ name: 'signin' }"
                     class="dropdown-item"
                     @click="cleanLocalStorage"
+                    v-if="isLoggedIn"
                   >
-                    <h5 class="text-decoration-underline">Sign Out</h5>
+                    <h5 class="text-decoration-underline">
+                      <i class="fas fa-sign-out-alt">Sign Out</i>
+                    </h5>
                   </RouterLink>
                 </li>
               </ul>
@@ -131,7 +139,7 @@ export default {
       </div>
 
       <div class="image-container rounded-circle">
-        <img src="../../assets/Noah.jpg" class="bebe-image" />
+        <img src="../../../public/favicon.jpg" class="bebe-image" />
       </div>
     </div>
   </nav>
