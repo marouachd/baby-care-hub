@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      userId: "",
       childminderCode: null,
       id: "",
       showMenu: false,
@@ -17,6 +18,7 @@ export default {
   },
   created() {
     this.$http = axios;
+    this.userId = localStorage.getItem("userId");
   },
   methods: {
     async getUser() {
@@ -44,16 +46,18 @@ export default {
         } else {
           this.$router.push({
             name: "create-profile-enfant",
+            params: { id: this.userId },
           });
         }
       } else {
         this.$router.push({
           name: "id-nounou",
-          params: { id: this.id },
+          params: { id: this.userId },
         });
         if (this.childminderCode !== null) {
           this.$router.push({
             name: "create-profile-enfant",
+            params: { id: this.id },
           });
         }
       }

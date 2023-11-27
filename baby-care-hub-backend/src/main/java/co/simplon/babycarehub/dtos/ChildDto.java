@@ -2,6 +2,11 @@ package co.simplon.babycarehub.dtos;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,13 +17,21 @@ public class ChildDto {
 
     private String token;
 
+    @NotBlank
+    @Size(max = 50)
     private String firstName;
 
+    @NotBlank
+    @Size(max = 50)
     private String lastName;
 
+    @NotNull
+    @Past
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthdayDate;
 
+    @NotBlank
+    @Size(max = 8)
     private String pseudoName;
 
     @PictureType

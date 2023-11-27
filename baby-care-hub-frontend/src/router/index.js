@@ -55,7 +55,7 @@ const router = createRouter({
       component: () => import("../Components/Users/Coordonees.vue"),
     },
     {
-      path: "/create-profile-enfant",
+      path: "/create-profile-enfant/:id",
       name: "create-profile-enfant",
       component: () => import("../Components/Enfant/CreateProfileEnfant.vue"),
     },

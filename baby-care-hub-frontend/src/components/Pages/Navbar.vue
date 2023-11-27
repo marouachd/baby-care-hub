@@ -19,7 +19,7 @@ export default {
 
   mounted() {
     this.id = this.route.params.id;
-    this.roleId = localStorage.getItem("roleId");
+
     this.afficheDate();
   },
   methods: {
@@ -46,6 +46,13 @@ export default {
       );
     },
     deep: true,
+
+    // roleId(newRoleId) {
+    //   localStorage.roleId = newRoleId;
+    // },
+  },
+  beforeUpdate() {
+    this.roleId = localStorage.getItem("roleId");
   },
 };
 </script>
