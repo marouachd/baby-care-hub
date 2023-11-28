@@ -14,12 +14,13 @@ export default {
       showDate: false,
       showDatePicker: false,
       isLoggedIn: false,
+      userId: "",
     };
   },
 
   mounted() {
     this.id = this.route.params.id;
-
+    this.userId = localStorage.getItem("userId");
     this.afficheDate();
   },
   methods: {
@@ -46,10 +47,6 @@ export default {
       );
     },
     deep: true,
-
-    // roleId(newRoleId) {
-    //   localStorage.roleId = newRoleId;
-    // },
   },
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
@@ -93,7 +90,7 @@ export default {
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'acceuil', params: { id: this.id } }"
+                    :to="{ name: 'acceuil', params: { id: this.userId } }"
                     class="dropdown-item"
                     v-if="isLoggedIn && this.roleId == 1"
                   >

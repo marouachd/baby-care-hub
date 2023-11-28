@@ -10,7 +10,6 @@ export default {
   },
   data() {
     return {
-      userRole: "",
       id: this.route.params.id,
       data: "",
       userId: "",
@@ -18,8 +17,10 @@ export default {
   },
   created() {
     this.$http = axios;
-    this.userRole = localStorage.getItem("roleId");
     console.log("role", this.userRole);
+  },
+  beforeUpdate() {
+    this.roleId = localStorage.getItem("roleId");
     this.userId = localStorage.getItem("userId");
   },
   methods: {
@@ -101,7 +102,7 @@ export default {
           <div class="row mb-2">
             <div class="d-flex justify-content-center">
               <p class="title mt-1 me-2 text-nowrap">Mes parents sont:</p>
-              <span class="text-nowrap mt-2"
+              <span class="text-nowrap"
                 >{{ data.personId ? data.parentId.personId.firstName : "" }} et
                 ...
                 <RouterLink
@@ -109,7 +110,7 @@ export default {
                   class="btn mb-2 me-md-3 ms-1"
                   id="button"
                 >
-                  <i class="fa fa-eye" v-if="this.userRole == 1"></i
+                  <i class="fa fa-eye" v-if="this.roleId == 1"></i
                 ></RouterLink>
               </span>
             </div>
@@ -149,7 +150,7 @@ export default {
         <button
           class="btn btn-danger mb-2 ms-md-3"
           @click="remove(id)"
-          v-if="this.userRole == 1"
+          v-if="this.roleId == 1"
         >
           Supprimer
         </button>
