@@ -20,7 +20,6 @@ import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
 import co.simplon.babycarehub.entities.ChildEntity;
-import co.simplon.babycarehub.entities.UserEntity;
 import co.simplon.babycarehub.services.ChildService;
 
 @RestController
@@ -54,11 +53,9 @@ public class ChildController {
 
     @GetMapping("/childminder/{id}")
     public List<ChildEntity> getAllByChildminderCode(
-	    @PathVariable("id") UserEntity childminderCode) {
-	System.out.println(
-		"nounouid: " + childminderCode.getId());
-	return service
-		.getAllByChildminderCode(childminderCode);
+	    @PathVariable("id") Long id) {
+
+	return service.getAllByChildminderCode(id);
     }
 
     @DeleteMapping("/{id}")

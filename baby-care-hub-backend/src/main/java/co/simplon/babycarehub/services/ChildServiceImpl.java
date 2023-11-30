@@ -86,11 +86,13 @@ public class ChildServiceImpl implements ChildService {
 	child.setParentId(parent);
 
 	String pseudoName = inputs.getChildminderCode();
-	UserEntity user = users
-		.findUserByPseudoName(pseudoName);
 
-	if (user != null) {
-	    child.setChildminderCode(user);
+	UserEntity chilminderUser = users
+		.findUserByPseudoName(pseudoName);
+	Long childminderId = chilminderUser.getId();
+
+	if (chilminderUser != null) {
+	    child.setChildminderCode(chilminderUser);
 
 	}
 
@@ -223,9 +225,9 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public List<ChildEntity> getAllByChildminderCode(
-	    UserEntity childminderCode) {
+	    Long childminderId) {
 	return childs
-		.findAllByChildminderCode(childminderCode);
+		.findAllByChildminderCode(childminderId);
     }
 
 }

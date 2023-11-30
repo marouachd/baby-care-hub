@@ -121,7 +121,7 @@ export default {
           <div class="row mb-2">
             <div class="d-flex justify-content-center">
               <p class="title me-3">J'habite à :</p>
-              <span>Viroflay</span>
+              <span>...</span>
             </div>
           </div>
           <hr class="my-2" />

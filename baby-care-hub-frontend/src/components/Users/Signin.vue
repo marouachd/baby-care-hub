@@ -35,7 +35,7 @@ export default {
         try {
           console.log("inputs", this.inputs);
           const resp = await this.$axios.post(`/sign-in`, this.inputs);
-
+          console.log("resp", resp);
           if (resp.status === 200) {
             this.userId = resp.body.userId;
             this.roleId = resp.body.roleId;
@@ -51,7 +51,7 @@ export default {
             } else {
               router.push({
                 name: "acceuil",
-                params: { id: this.userId.toString() },
+                params: { id: this.userId },
               });
               console.log("acceuil", this.userId.toString());
             }

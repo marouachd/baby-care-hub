@@ -97,4 +97,8 @@ label {
   color: black;
   font-size: 14px;
 }
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 </style>

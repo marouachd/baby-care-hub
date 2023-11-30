@@ -77,7 +77,10 @@
 </template>
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 h3 {
   font-family: "Pacifico", cursive;
   white-space: nowrap;

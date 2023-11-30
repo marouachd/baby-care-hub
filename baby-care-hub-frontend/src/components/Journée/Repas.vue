@@ -40,4 +40,8 @@ export default {
 h3 {
   font-family: "Pacifico", cursive;
 }
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 </style>

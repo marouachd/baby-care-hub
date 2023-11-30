@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.entities.ChildEntity;
-import co.simplon.babycarehub.entities.UserEntity;
 
 public interface ChildRepository
 	extends JpaRepository<ChildEntity, Long> {
@@ -25,7 +24,8 @@ public interface ChildRepository
     List<ChildEntity> findAllByParentId(
 	    @Param("parentId") Long parentId);
 
-    @Query(value = "SELECT * FROM childs c WHERE c.childminder_code = CAST(:childminderCode AS varchar)", nativeQuery = true)
+    @Query("SELECT c FROM ChildEntity c JOIN c.childminderCode u WHERE u.id = :childminderCode")
     List<ChildEntity> findAllByChildminderCode(
-	    @Param("childminderCode") UserEntity childminderCode);
+	    @Param("childminderCode") Long childminderId);
+
 }

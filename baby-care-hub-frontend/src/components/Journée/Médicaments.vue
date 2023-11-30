@@ -215,4 +215,8 @@ th {
   font-family: "Pacifico", cursive;
   color: black;
 }
+h1 {
+  font-family: "Pacifico", cursive;
+  color: rgba(180, 95, 146, 0.674);
+}
 </style>

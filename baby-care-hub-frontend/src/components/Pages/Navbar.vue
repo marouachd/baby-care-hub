@@ -20,7 +20,7 @@ export default {
 
   mounted() {
     this.id = this.route.params.id;
-    this.userId = localStorage.getItem("userId");
+
     this.afficheDate();
   },
   methods: {
@@ -50,6 +50,7 @@ export default {
   },
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
+    this.userId = localStorage.getItem("userId");
   },
 };
 </script>
@@ -102,7 +103,7 @@ export default {
 
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'coordonees', params: { id: this.id } }"
+                    :to="{ name: 'coordonees', params: { id: this.userId } }"
                     class="dropdown-item"
                     v-if="isLoggedIn"
                   >

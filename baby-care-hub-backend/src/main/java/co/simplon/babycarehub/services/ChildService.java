@@ -6,7 +6,6 @@ import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
 import co.simplon.babycarehub.entities.ChildEntity;
-import co.simplon.babycarehub.entities.UserEntity;
 
 public interface ChildService {
 
@@ -22,8 +21,6 @@ public interface ChildService {
 
     List<ChildEntity> getAllByParentId(Long parentId);
 
-
-    List<ChildEntity> getAllByChildminderCode(
-	    UserEntity childminderCode);
+    List<ChildEntity> getAllByChildminderCode(Long id);
 
 }
