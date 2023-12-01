@@ -21,4 +21,6 @@ public interface ChildDetail {
 
     UserEntity getParentId();
 
+    boolean getActive();
+
 }

@@ -16,4 +16,6 @@ public interface ChildView {
 
     MultipartFile getPersonalPicture();
 
+    boolean isActive();
+
 }

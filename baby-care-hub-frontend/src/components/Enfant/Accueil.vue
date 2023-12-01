@@ -53,7 +53,10 @@ export default {
 
     <div class="row row-cols-2 row-cols-md-3 g-4 mt-4">
       <div class="col-12 col-md-2" v-for="child in childs">
-        <div class="card h-100 bg-light">
+        <div
+          class="card h-100 bg-light"
+          :class="{ disabledCard: !child.active }"
+        >
           <img :src="getChildImage(child)" class="card-img-top" alt="..." />
           <div class="card-body d-flex flex-column justify-content-end">
             <h5 class="card-title">
@@ -66,6 +69,7 @@ export default {
               <RouterLink
                 :to="{ name: 'general', params: { id: child.id } }"
                 class="btn"
+                :class="('btn', { disabled: !child.active })"
               >
                 <i class="fas fa-pen"></i>
               </RouterLink>
@@ -73,6 +77,7 @@ export default {
               <RouterLink
                 :to="{ name: 'fiche-enfant', params: { id: child.id } }"
                 class="btn"
+                :class="('btn', { disabled: !child.active })"
               >
                 <i class="fa-solid fa-magnifying-glass"></i>
               </RouterLink>
@@ -106,5 +111,9 @@ h5 {
 }
 p {
   font-family: "Satisfy", cursive;
+}
+.disabledCard {
+  pointer-events: none;
+  opacity: 0.3;
 }
 </style>

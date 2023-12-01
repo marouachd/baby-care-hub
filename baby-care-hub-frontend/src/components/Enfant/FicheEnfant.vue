@@ -32,15 +32,12 @@ export default {
       console.log(this.data);
     },
 
-    async remove(id) {
-      const resp = await this.$http.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${id}`
+    async desactive(id) {
+      const resp = await this.$http.post(
+        `${import.meta.env.VITE_API_BASE_URL}/child/desactive/${id}`
       );
-      if (resp.status === 204) {
-        this.$toast.success(
-          "toast-global",
-          "Le profile a été supprimé avec succées."
-        );
+      if (resp.status === 200) {
+        this.$toast.success("toast-global", "Le profile a été désactivé.");
         this.$router.push({
           name: "acceuil",
           params: { id: this.userId },
@@ -149,10 +146,10 @@ export default {
         >-->
         <button
           class="btn btn-danger mb-2 ms-md-3"
-          @click="remove(id)"
+          @click="desactive(id)"
           v-if="this.roleId == 1"
         >
-          Supprimer
+          Desactiver
         </button>
       </div>
     </div>

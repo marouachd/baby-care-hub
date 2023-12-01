@@ -1,5 +1,6 @@
 <script>
 import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
 export default {
   setup() {
     return {
@@ -8,20 +9,55 @@ export default {
   },
   data() {
     return {
+      userId: "",
       id: this.route.params.id,
       inputs: {
         childminderCode: "",
+        active: false,
       },
     };
   },
+  created() {
+    this.$http = axios;
+  },
   methods: {
-    Submit() {
-      this.$router.push({
-        name: "mes-enfants",
-        params: { id: this.id },
-      });
-      localStorage.setItem("childminderCode", this.inputs.childminderCode);
+    async getChildProfile() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
+      );
+      this.data = response.data;
+      console.log("child-id-nounou", this.data);
     },
+    async Submit() {
+      if (this.data) {
+        const resp = await this.$http.patch(
+          `${import.meta.env.VITE_API_BASE_URL}/child/active/${this.id}`,
+          this.inputs
+        );
+        console.log(resp, "patch-id-nounou");
+
+        if (resp.status === 204) {
+          this.$toast.success(
+            "toast-global",
+            "La nounou de votre enfant est modifié avec succées"
+          );
+          this.$router.push({
+            name: "mes-enfants",
+            params: { id: this.userId },
+          });
+        } else {
+          this.$toast.error("toast-global", "Un problème est survenu.");
+        }
+      } else {
+        localStorage.setItem("childminderCode", this.inputs.childminderCode);
+      }
+    },
+  },
+  mounted() {
+    this.getChildProfile();
+  },
+  beforeUpdate() {
+    this.userId = localStorage.getItem("userId");
   },
 };
 </script>

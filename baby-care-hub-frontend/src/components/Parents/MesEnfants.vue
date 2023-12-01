@@ -109,7 +109,10 @@ export default {
       class="row d-flex justify-content-center mb-3 mt-5 mx-5"
       v-for="child in childs"
     >
-      <div class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center">
+      <div
+        class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center"
+        :class="{ childDetail: !child.active, childRow: child.active }"
+      >
         <div class="d-flex justify-content-center align-items-center">
           <div class="col d-flex justify-content-center mx-5">
             <img
@@ -182,12 +185,41 @@ export default {
                         >&ensp;Actualités</RouterLink
                       >
                     </li>
+                    <li>
+                      <RouterLink
+                        :to="{
+                          name: 'id-nounou',
+                          params: { id: child.id },
+                        }"
+                        class="dropdown-item"
+                      >
+                        <i class="fa fa-exchange" aria-hidden="true"></i
+                        >&ensp;Changer la nounou</RouterLink
+                      >
+                    </li>
                   </ul>
                 </li>
               </ul>
             </div>
           </div>
         </div>
+      </div>
+      <div
+        class="form-text text-danger row d-flex justify-content-center"
+        v-if="!child.active"
+      >
+        <span class="col-9">
+          Votre enfant n'est plus gardé par
+          {{ child.childminderCode.personId.firstName }}&nbsp;{{
+            child.childminderCode.personId.lastName
+          }}
+          &nbsp;son compte est donc désactiver pour le réactiver
+          <RouterLink
+            class=""
+            :to="{ name: 'id-nounou', params: { id: child.id } }"
+            >cliquer ici!</RouterLink
+          >
+        </span>
       </div>
     </div>
   </div>
@@ -216,5 +248,14 @@ button {
   background-color: white;
   color: rgb(129, 126, 126);
   border: none;
+}
+.childDetail {
+  border: 2px solid red;
+  border-radius: 10px;
+  opacity: 0.3;
+}
+.childRow {
+  border: 0.5px solid rgb(183, 176, 176);
+  border-radius: 10px;
 }
 </style>

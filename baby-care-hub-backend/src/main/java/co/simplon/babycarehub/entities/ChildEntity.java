@@ -36,6 +36,9 @@ public class ChildEntity extends AbstractEntity {
     @JoinColumn(name = "parent_id")
     private UserEntity parentId;
 
+    @Column(name = "is_active")
+    boolean active;
+
     public ChildEntity() {
     }
 
@@ -88,13 +91,22 @@ public class ChildEntity extends AbstractEntity {
 	this.parentId = parentId;
     }
 
+    public boolean isActive() {
+	return active;
+    }
+
+    public void setActive(boolean active) {
+	this.active = active;
+    }
+
     @Override
     public String toString() {
 	return "{birthdayDate=" + birthdayDate
 		+ ", genderId=" + genderId + ", personId="
 		+ personId + ", guardId=" + guardId
 		+ ", childminderCode=" + childminderCode
-		+ ", parentId=" + parentId + "}";
+		+ ", parentId=" + parentId + ", active="
+		+ active + "}";
     }
 
 }

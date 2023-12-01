@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import co.simplon.babycarehub.dtos.ActiveChildDto;
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
+import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
@@ -63,7 +65,8 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     @Transactional
-    public void create(ChildDto inputs) {
+    public void create(ChildDto inputs,
+	    DesactiveChildDto isActive) {
 
 	ChildEntity child = new ChildEntity();
 	String token = inputs.getToken();
@@ -79,6 +82,8 @@ public class ChildServiceImpl implements ChildService {
 		.getReferenceById(guardId);
 	child.setGuardId(guard);
 
+	child.setActive(true);
+
 	Long userId = extractUserIdFromToken(token);
 	System.out.println("User Id from Token: " + userId);
 
@@ -89,7 +94,6 @@ public class ChildServiceImpl implements ChildService {
 
 	UserEntity chilminderUser = users
 		.findUserByPseudoName(pseudoName);
-	Long childminderId = chilminderUser.getId();
 
 	if (chilminderUser != null) {
 	    child.setChildminderCode(chilminderUser);
@@ -228,6 +232,40 @@ public class ChildServiceImpl implements ChildService {
 	    Long childminderId) {
 	return childs
 		.findAllByChildminderCode(childminderId);
+    }
+
+    @Override
+    public void desactive(Long id,
+	    DesactiveChildDto inputs) {
+
+	ChildEntity child = childs.findChildById(id);
+
+	if (child != null) {
+	    child.setActive(false);
+	    childs.save(child);
+	}
+
+    }
+
+    @Override
+    public void activeChild(Long id,
+	    ActiveChildDto inputs) {
+	ChildEntity child = childs.findChildById(id);
+	child.setActive(true);
+	String childminderPseudoName = inputs
+		.getChildminderCode();
+	System.out.println("childminderPseudoName: "
+		+ childminderPseudoName);
+	UserEntity childminderUser = users
+		.findUserByPseudoName(
+			childminderPseudoName);
+	System.out.println(
+		"childminderUser: " + childminderUser);
+	if (childminderUser != null) {
+	    child.setChildminderCode(childminderUser);
+	}
+	childs.save(child);
+
     }
 
 }

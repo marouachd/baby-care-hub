@@ -272,7 +272,7 @@ export default {
                   :class="{ 'is-invalid': v$.inputs.password.$error }"
                 />
               </div>
-              <div id="image-helptext" class="fw-light ms-4">
+              <div id="image-helptext" class="fw-light float-start mb-3">
                 Longeur minimum de mot de passe est 8 caracéres!
               </div>
             </div>
@@ -334,41 +334,43 @@ export default {
                     name="pseudoName"
                   />
                 </div>
-                <div id="image-helptext" class="fw-light mb-2 ms-5">
+                <div id="image-helptext" class="fw-light float-end">
                   Longeur minimum de pseudo est 8 caracéres!
                 </div>
-                <h5 class="mb-3">Coordonnées deuxième parent :</h5>
-                <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
-                    >Prénom :</span
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Prénom"
-                  />
-                </div>
-                <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
-                    >Numéro de télephone :</span
-                  >
-                  <input
-                    type="tel"
-                    class="form-control"
-                    placeholder="téléphone"
-                    pattern="[0-9]*"
-                    inputmode="numeric"
-                  />
-                </div>
                 <div class="input-group">
-                  <span class="input-group-text" id="basic-addon1"
-                    >Adresse email:</span
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Adresse email"
-                  />
+                  <h5 class="mb-3 mt-3">Coordonnées deuxième parent :</h5>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      >Prénom :</span
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Prénom"
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      >Numéro de télephone :</span
+                    >
+                    <input
+                      type="tel"
+                      class="form-control"
+                      placeholder="téléphone"
+                      pattern="[0-9]*"
+                      inputmode="numeric"
+                    />
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"
+                      >Adresse email:</span
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Adresse email"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
