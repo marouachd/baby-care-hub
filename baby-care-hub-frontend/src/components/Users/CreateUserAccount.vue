@@ -156,7 +156,7 @@ export default {
 
 <template>
   <section class="container-xl text-center mb-4">
-    <h1 class="mt-4 mb-5">Créer un compte utilisateur</h1>
+    <h1 class="mt-4 mb-5">{{ $t("userAccount.title") }}</h1>
 
     <form class="my-4" @submit.prevent="submit">
       <div class="container mt-5">
@@ -195,7 +195,7 @@ export default {
                   <div class="mb-5">
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1"
-                        >Nom :</span
+                        >{{ $t("userAccount.nom") }} :</span
                       >
                       <input
                         type="text"
@@ -210,7 +210,7 @@ export default {
 
                     <div class="input-group mb-5">
                       <span class="input-group-text" id="basic-addon2"
-                        >Prénom :</span
+                        >{{ $t("userAccount.prenom") }} :</span
                       >
                       <input
                         type="text"
@@ -228,7 +228,7 @@ export default {
 
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
-                  >Numéro de télephone :</span
+                  >{{ $t("userAccount.tel") }} :</span
                 >
                 <input
                   type="tel"
@@ -245,7 +245,7 @@ export default {
 
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
-                  >Adresse email:</span
+                  >{{ $t("userAccount.email") }}:</span
                 >
                 <input
                   type="email"
@@ -260,7 +260,7 @@ export default {
 
               <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"
-                  >Mot de passe:</span
+                  >{{ $t("userAccount.password") }}:</span
                 >
                 <input
                   type="password"
@@ -281,7 +281,7 @@ export default {
           <div class="col-md-6 col-12">
             <div class="col-md-6 input-group mb-3">
               <span class="input-group-text" id="basic-addon1"
-                >Rejoindre cette application en tant que :</span
+                >{{ $t("userAccount.role") }} :</span
               >
               <select
                 class="form-select"
@@ -299,7 +299,7 @@ export default {
             </div>
             <div v-if="inputs.roleId === 1">
               <div class="input-group mb-3">
-                <h5 class="mb-3">Entrez votre identifiant :</h5>
+                <h5 class="mb-3">{{ $t("userAccount.id") }} :</h5>
 
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">ID :</span>
@@ -338,10 +338,12 @@ export default {
                   Longeur minimum de pseudo est 8 caracéres!
                 </div>
                 <div class="input-group">
-                  <h5 class="mb-3 mt-3">Coordonnées deuxième parent :</h5>
+                  <h5 class="mb-3 mt-3">
+                    {{ $t("userAccount.secondParent") }} :
+                  </h5>
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"
-                      >Prénom :</span
+                      >{{ $t("userAccount.prenom") }} :</span
                     >
                     <input
                       type="text"
@@ -351,7 +353,7 @@ export default {
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"
-                      >Numéro de télephone :</span
+                      >{{ $t("userAccount.tel") }} :</span
                     >
                     <input
                       type="tel"
@@ -363,7 +365,7 @@ export default {
                   </div>
                   <div class="input-group">
                     <span class="input-group-text" id="basic-addon1"
-                      >Adresse email:</span
+                      >{{ $t("userAccount.email") }}:</span
                     >
                     <input
                       type="text"
@@ -378,7 +380,9 @@ export default {
         </div>
 
         <div class="col-12 input-group mb-2">
-          <span class="input-group-text" id="basic-addon1">Adresse :</span>
+          <span class="input-group-text" id="basic-addon1"
+            >{{ $t("userAccount.adress") }} :</span
+          >
           <input type="text" class="form-control" placeholder="Adresse" />
         </div>
         <div class="form-text text-danger" v-if="v$.inputs.$error">
@@ -389,10 +393,10 @@ export default {
       <div class="d-flex justify-content-center mt-5 mb-5 mx-2">
         <div class="justify-content-center">
           <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
-            Confirmer
+            {{ $t("userAccount.buttons.confirm") }}
           </button>
           <button class="btn btn-quitter mb-2 ms-md-3 px-4" @click="back">
-            Quitter
+            {{ $t("userAccount.buttons.back") }}
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Navbar from "../src/components/Pages/Navbar.vue";
 import Footer from "../src/Components/Pages/Footer.vue";
 import Sidebar from "../src/Components/Commons/Sidebar.vue";
 import Toast from "./Components/Commons/Toast.vue";
+import i18n from "./plugins/i18n";
 
 export default {
   name: "App",
@@ -12,6 +13,7 @@ export default {
     Footer,
     Sidebar,
     Toast,
+    i18n,
   },
   data() {
     return {

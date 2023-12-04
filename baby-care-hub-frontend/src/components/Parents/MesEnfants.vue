@@ -80,7 +80,7 @@ export default {
 </script>
 <template>
   <div id="app" class="container mt-5 mb-5">
-    <h1 class="mb-3 text-center">Mes enfants</h1>
+    <h1 class="mb-3 text-center">{{ $t("myChildren.title") }}</h1>
 
     <div class="row d-flex justify-content-center mb-3 mt-5 mx-2">
       <div
@@ -96,7 +96,9 @@ export default {
             height="50"
           />
 
-          <h5 class="title mt-3 ms-2 me-5 text-nowrap">Ajouter un enfant</h5>
+          <h5 class="title mt-3 ms-2 me-5 text-nowrap">
+            {{ $t("myChildren.buttons") }}
+          </h5>
 
           <button class="mb-2 ms-md-3 mt-2">
             <i class="fa fa-plus"></i>
@@ -193,7 +195,11 @@ export default {
                         }"
                         class="dropdown-item"
                       >
-                        <i class="fa fa-exchange" aria-hidden="true"></i
+                        <i
+                          class="fa fa-exchange"
+                          aria-hidden="true"
+                          style="color: red"
+                        ></i
                         >&ensp;Changer la nounou</RouterLink
                       >
                     </li>

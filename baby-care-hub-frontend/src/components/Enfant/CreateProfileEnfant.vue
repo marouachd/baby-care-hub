@@ -120,7 +120,7 @@ export default {
 </script>
 <template>
   <section class="container-xl text-center mb-4">
-    <h1 class="mt-4 mb-5">Créer un profil enfant</h1>
+    <h1 class="mt-4 mb-5">{{ $t("childAccount.title") }}</h1>
 
     <form class="my-4" @submit.prevent="submit">
       <div class="container">
@@ -149,7 +149,9 @@ export default {
           <div class="col-md-4">
             <div class="mb-3">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Nom :</span>
+                <span class="input-group-text" id="basic-addon1"
+                  >{{ $t("childAccount.nom") }} :</span
+                >
                 <input
                   type="text"
                   class="form-control"
@@ -160,7 +162,9 @@ export default {
                 />
               </div>
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon2">Prénom :</span>
+                <span class="input-group-text" id="basic-addon2"
+                  >{{ $t("childAccount.prenom") }} :</span
+                >
                 <input
                   type="text"
                   class="form-control"
@@ -173,7 +177,7 @@ export default {
 
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon3"
-                  >Date de naissance :</span
+                  >{{ $t("childAccount.dateNaissance") }} :</span
                 >
                 <input
                   type="date"
@@ -199,14 +203,18 @@ export default {
             />
           </div>
           <div class="col-md-6 input-group">
-            <span class="input-group-text" id="basic-addon5">Sexe:</span>
+            <span class="input-group-text" id="basic-addon5"
+              >{{ $t("childAccount.sexe") }}:</span
+            >
             <select
               v-model.number="inputs.genderId"
               id="genderId"
               name="genderId"
               class="form-select"
             >
-              <option selected disabled value="0">Choisir le sexe</option>
+              <option selected disabled value="0">
+                {{ $t("childAccount.choixSexe") }}
+              </option>
               <option v-for="gender in genders" :value="gender.id">
                 {{ gender.name }}
               </option>
@@ -214,7 +222,9 @@ export default {
           </div>
         </div>
         <div class="col-md-6 input-group mb-3">
-          <span class="input-group-text" id="basic-addon5">Mode de garde</span>
+          <span class="input-group-text" id="basic-addon5">{{
+            $t("childAccount.garde")
+          }}</span>
           <select
             v-model.number="inputs.guardId"
             id="guardId"
@@ -222,7 +232,7 @@ export default {
             class="form-select"
           >
             <option selected disabled value="0">
-              Choisir un mode de garde
+              {{ $t("childAccount.choixGarde") }}
             </option>
             <option v-for="gardeMode in gardeModes" :value="gardeMode.id">
               {{ gardeMode.name }}
@@ -233,10 +243,10 @@ export default {
       <div class="text-center mt-5 mb-5">
         <div class="justify-content-center">
           <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
-            Confirmer
+            {{ $t("childAccount.buttons.confirm") }}
           </button>
           <button class="btn btn-quitter mb-2 ms-md-3 px-4" @click="back">
-            Quitter
+            {{ $t("childAccount.buttons.back") }}
           </button>
         </div>
       </div>

@@ -69,20 +69,20 @@ export default {
 </script>
 <template>
   <section class="container-xl text-center mb-5">
-    <h1 class="mt-4 mt-5">Connectez vous &#128512;</h1>
+    <h1 class="mt-4 mt-5">{{ $t("signin.title") }} &#128512;</h1>
     <div class="row justify-content-center mb-5">
       <div class="col-md-6 col-12 mb-5">
         <form class="my-4 mb-5" @submit.prevent="submitForm" novalidate>
           <div :class="{ 'mb-3': v$.inputs.mailAdress.$error }">
             <div class="input-group">
               <span class="input-group-text" id="basic-addon1"
-                >Adresse email:</span
+                >{{ $t("signin.email") }}:</span
               >
               <input
                 id="email"
                 type="text"
                 class="form-control"
-                placeholder="Adresse email"
+                placeholder="john.dupont@email.com"
                 v-model="inputs.mailAdress"
                 :class="{ 'is-invalid': v$.inputs.mailAdress.$error }"
               />
@@ -95,7 +95,7 @@ export default {
           <div class="mt-3">
             <div class="input-group">
               <span class="input-group-text" id="basic-addon1"
-                >Mot de Passe:</span
+                >{{ $t("signin.password") }}:</span
               >
               <input
                 id="password"
@@ -116,18 +116,18 @@ export default {
                 :to="{ name: 'create-user-account' }"
                 class="link mx-2"
                 id="button"
-                >Inscrivez-vous</RouterLink
+                >{{ $t("signin.link1") }}</RouterLink
               >
             </div>
             <div>
               <RouterLink :to="{ name: 'forgot-password' }" class="link mx-2"
-                >Mot de passe oublié ?
+                >{{ $t("signin.link2") }} ?
               </RouterLink>
             </div>
           </div>
           <div class="d-flex justify-content-center mt-5 mb-5">
             <button type="submit" class="btn col-md-3 col-12 mb-5 mx-2">
-              Se connecter
+              {{ $t("signin.buttons.login") }}
             </button>
           </div>
         </form>

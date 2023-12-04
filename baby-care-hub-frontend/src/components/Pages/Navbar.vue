@@ -96,7 +96,9 @@ export default {
                     v-if="isLoggedIn && this.roleId == 1"
                   >
                     <h5 class="text-decoration-underline">
-                      <i class="fa fa-home" aria-hidden="true">Acceuil</i>
+                      <i class="fa fa-home" aria-hidden="true">{{
+                        $t("navbar.accueil")
+                      }}</i>
                     </h5>
                   </RouterLink>
                 </li>
@@ -108,7 +110,9 @@ export default {
                     v-if="isLoggedIn"
                   >
                     <h5 class="text-decoration-underline">
-                      <i class="fa fa-user ms-3" aria-hidden="true">Profile</i>
+                      <i class="fa fa-user ms-3" aria-hidden="true">{{
+                        $t("navbar.profile")
+                      }}</i>
                     </h5>
                   </RouterLink>
                 </li>
@@ -120,7 +124,9 @@ export default {
                     v-if="isLoggedIn && roleId == 2"
                   >
                     <h5 class="text-decoration-underline">
-                      <i class="fa fa-child" aria-hidden="true">Mes enfants</i>
+                      <i class="fa fa-child" aria-hidden="true">{{
+                        $t("navbar.mesEnfants")
+                      }}</i>
                     </h5>
                   </RouterLink>
                 </li>
@@ -133,7 +139,9 @@ export default {
                     v-if="isLoggedIn"
                   >
                     <h5 class="text-decoration-underline">
-                      <i class="fas fa-sign-out-alt">Sign Out</i>
+                      <i class="fas fa-sign-out-alt">{{
+                        $t("navbar.signout")
+                      }}</i>
                     </h5>
                   </RouterLink>
                 </li>
@@ -141,6 +149,17 @@ export default {
             </div>
           </div>
         </div>
+      </div>
+      <div class="locale-changer">
+        <select v-model="$i18n.locale" class="rounded">
+          <option
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
+            :value="locale"
+          >
+            {{ locale }}
+          </option>
+        </select>
       </div>
 
       <div class="image-container rounded-circle">

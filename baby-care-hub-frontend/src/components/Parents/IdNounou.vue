@@ -63,13 +63,13 @@ export default {
 </script>
 <template>
   <section class="container-xl text-center mb-5">
-    <h1 class="mt-5 mb-5">Liaison avec la nounou de votre enfant</h1>
+    <h1 class="mt-5 mb-5">{{ $t("idNounou.title") }}</h1>
     <div class="row justify-content-center mb-5">
       <div class="col-md-6 col-12 mb-5">
         <form class="my-4 mb-5" @submit.prevent="Submit()">
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"
-              >Identifiant nounou:</span
+              >{{ $t("idNounou.id") }} :</span
             >
             <input
               type="text"
@@ -86,7 +86,7 @@ export default {
               type="submit"
               class="btn col-md-3 col-12 mx-2 mt-5 mb-4 bouton"
             >
-              Confirmer
+              {{ $t("idNounou.buttons") }}
             </button>
           </div>
           <div class="input-group mb-5"></div>

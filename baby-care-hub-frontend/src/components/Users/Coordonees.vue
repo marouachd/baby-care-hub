@@ -41,7 +41,7 @@ export default {
 </script>
 <template>
   <section class="container-xl text-center mt-5">
-    <h1 class="mt-3 mb-5">Vos Coordonnées</h1>
+    <h1 class="mt-3 mb-5">{{ $t("contact.title") }}</h1>
     <div class="d-flex justify-content-center">
       <div class="card mb-3 mt-5 w-">
         <div class="row g-0">
@@ -58,7 +58,7 @@ export default {
               <div class="container text-start">
                 <div class="row mb-3">
                   <div class="col">
-                    <h4 class="card-title">Nom et prénom :</h4>
+                    <h4 class="card-title">{{ $t("contact.nomPrenom") }} :</h4>
                   </div>
                   <div class="col mt-2" v-if="this.data.personId">
                     <h6>
@@ -83,7 +83,7 @@ export default {
 
                 <div class="row mb-3">
                   <div class="col">
-                    <h4 class="card-title">Adresse email :</h4>
+                    <h4 class="card-title">{{ $t("contact.email") }} :</h4>
                   </div>
                   <div class="col mt-2" v-if="this.data.mailAdress">
                     <h6>
@@ -94,7 +94,7 @@ export default {
 
                 <div class="row mb-3">
                   <div class="col">
-                    <h4 class="card-title">Numéro de téléphone:</h4>
+                    <h4 class="card-title">{{ $t("contact.tel") }}:</h4>
                   </div>
                   <div class="col mt-2" v-if="this.data.phoneNumber">
                     <h6>
@@ -105,7 +105,7 @@ export default {
 
                 <div class="row mb-3">
                   <div class="col">
-                    <h4 class="card-title">Vous êtes :</h4>
+                    <h4 class="card-title">{{ $t("contact.role") }} :</h4>
                   </div>
                   <div class="col mt-2" v-if="this.data.roleId">
                     <h6>
