@@ -17,7 +17,7 @@ public interface ChildDetail {
 
     GenderEntity getGenderId();
 
-    // UserEntity getChildminderCode();
+    UserEntity getChildminderCode();
 
     UserEntity getParentId();
 

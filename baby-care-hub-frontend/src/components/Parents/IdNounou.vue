@@ -29,7 +29,16 @@ export default {
       console.log("child-id-nounou", this.data);
     },
     async Submit() {
-      if (!this.data.active) {
+      console.log(
+        "datachildminderCode",
+        this.data.childminderCode.personId.pseudoName
+      );
+      console.log("inputsChildminderCode", this.inputs.childminderCode);
+      if (
+        !this.data.active ||
+        this.data.childminderCode.personId.pseudoName !=
+          this.inputs.childminderCode
+      ) {
         const resp = await this.$http.patch(
           `${import.meta.env.VITE_API_BASE_URL}/child/active/${this.id}`,
           this.inputs

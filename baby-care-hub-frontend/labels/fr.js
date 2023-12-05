@@ -59,8 +59,8 @@ const messages = {
     dateNaissance: "Date de naissance ",
     sexe: "Sexe",
     choixSexe: "Choisir le sexe",
-    Guard: "Mode de garde",
-    choixGuard: "Choisir le mode de garde",
+    garde: "Mode de garde",
+    choixGarde: "Choisir le mode de garde",
     buttons: {
       confirm: "Confirmer",
       back: "Quitter",
