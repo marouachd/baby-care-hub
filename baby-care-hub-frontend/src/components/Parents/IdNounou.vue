@@ -29,7 +29,7 @@ export default {
       console.log("child-id-nounou", this.data);
     },
     async Submit() {
-      if (this.data) {
+      if (!this.data.active) {
         const resp = await this.$http.patch(
           `${import.meta.env.VITE_API_BASE_URL}/child/active/${this.id}`,
           this.inputs
@@ -50,6 +50,10 @@ export default {
         }
       } else {
         localStorage.setItem("childminderCode", this.inputs.childminderCode);
+        this.$router.push({
+          name: "create-profile-enfant",
+          params: { id: this.userId },
+        });
       }
     },
   },
