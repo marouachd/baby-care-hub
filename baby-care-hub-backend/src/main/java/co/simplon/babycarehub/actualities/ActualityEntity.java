@@ -38,8 +38,16 @@ public class ActualityEntity extends AbstractEntity {
     private MealEntity meal;
 
     @ManyToOne
+    @JoinColumn(name = "snack_id")
+    private MealEntity snack;
+
+    @ManyToOne
     @JoinColumn(name = "nap_id")
     private NapEntity nap;
+
+    @ManyToOne
+    @JoinColumn(name = "presence_id")
+    private NapEntity presence;
 
     @ManyToOne
     @JoinColumn(name = "leisure_id")
@@ -90,12 +98,28 @@ public class ActualityEntity extends AbstractEntity {
 	this.meal = meal;
     }
 
+    public MealEntity getSnack() {
+	return snack;
+    }
+
+    public void setSnack(MealEntity snack) {
+	this.snack = snack;
+    }
+
     public NapEntity getNap() {
 	return nap;
     }
 
     public void setNap(NapEntity nap) {
 	this.nap = nap;
+    }
+
+    public NapEntity getPresence() {
+	return presence;
+    }
+
+    public void setPresence(NapEntity presence) {
+	this.presence = presence;
     }
 
     public ChildLeisureEntity getLeisure() {
@@ -111,7 +135,8 @@ public class ActualityEntity extends AbstractEntity {
 	return "{childId=" + childId + ", date=" + date
 		+ ", childActivity=" + childActivity
 		+ ", babybottel=" + babybottel + ", meal="
-		+ meal + ", nap=" + nap + ", leisure="
+		+ meal + ", snack=" + snack + ", nap=" + nap
+		+ ", presence=" + presence + ", leisure="
 		+ leisure + "}";
     }
 

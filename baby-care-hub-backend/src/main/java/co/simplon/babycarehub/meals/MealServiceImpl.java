@@ -43,12 +43,14 @@ public class MealServiceImpl implements MealService {
 	    actuality = new ActualityEntity();
 	    actuality.setChildId(inputs.getChildId());
 	    actuality.setDate(inputs.getDate());
-	    actuality.setMeal(entity);
-	    actualities.save(actuality);
-	} else {
-	    actuality.setMeal(entity);
-	    actualities.save(actuality);
+
 	}
+	if ("dejeuner".equals(inputs.getType())) {
+	    actuality.setMeal(entity);
+	} else {
+	    actuality.setSnack(entity);
+	}
+	actualities.save(actuality);
 
     }
 }

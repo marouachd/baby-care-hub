@@ -37,8 +37,8 @@ public class NapServiceImpl implements NapService {
 	ActualityEntity actuality = actualities
 		.findByChildIdAndDate(childId, date);
 
-	NapEntity entity = naps
-		.findByChildIdAndDate(childId, date);
+	NapEntity entity = naps.findByChildIdAndDateAndType(
+		childId, date, type);
 
 	if (entity == null) {
 
@@ -63,7 +63,12 @@ public class NapServiceImpl implements NapService {
 	    actuality.setChildId(inputs.getChildId());
 	    actuality.setDate(inputs.getDate());
 	}
-	actuality.setNap(entity);
+	if ("sieste".equals(inputs.getType())) {
+
+	    actuality.setNap(entity);
+	} else {
+	    actuality.setPresence(entity);
+	}
 	actualities.save(actuality);
 
     }
