@@ -14,9 +14,9 @@ const router = createRouter({
       component: () => import("../components/Commons/General.vue"),
     },
     {
-      path: "/acceuil/:id",
-      name: "acceuil",
-      component: () => import("../Components/Enfant/Accueil.vue"),
+      path: "/home/:id",
+      name: "home",
+      component: () => import("../Components/Enfant/Home.vue"),
     },
 
     {
@@ -30,7 +30,7 @@ const router = createRouter({
       component: () => import("../components/Users/UpdateUserAccount.vue"),
     },
     {
-      path: "/mes-enfants/:id",
+      path: "/mes-enfants/:id", //ici le probléme
       name: "mes-enfants",
       component: () => import("../components/Parents/MesEnfants.vue"),
     },
@@ -91,7 +91,7 @@ const router = createRouter({
       component: () => import("../Components/Journée/Activités.vue"),
     },
     {
-      path: "/ma-journee/biberons",
+      path: "/ma-journee/biberons/:id",
       name: "biberons",
       component: () => import("../Components/Journée/Biberons.vue"),
     },

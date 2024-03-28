@@ -1,3 +1,18 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      id: this.route.params.id,
+    };
+  },
+};
+</script>
 <template>
   <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
     <ul class="nav flex-column list-unstyled position-sticky">
@@ -15,7 +30,10 @@
         </RouterLink>
       </li>
       <li class="nav-item mb-3">
-        <RouterLink :to="{ name: 'biberons' }" class="dropdown-item">
+        <RouterLink
+          :to="{ name: 'biberons', params: { id: this.id } }"
+          class="dropdown-item"
+        >
           <img
             src="../../assets/biberon.jpg"
             alt="Image 3"

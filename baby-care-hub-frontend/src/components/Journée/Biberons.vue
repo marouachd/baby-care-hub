@@ -1,3 +1,40 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      NouveauBiberon: false,
+      inputs: {
+        time: "",
+        volume: "",
+        childId: this.route.params.id, // regadre ici comment faire ?
+        date: new Date().toISOString().slice(0, 10),
+      },
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  methods: {
+    AjouterBiberon() {
+      this.NouveauBiberon = true;
+    },
+    async submit() {
+      console.log("inputs", this.inputs);
+      const response = await axios.post(
+        "http://localhost:8082/bottels",
+        this.inputs
+      );
+    },
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Biberon</h1>
@@ -11,7 +48,7 @@
         <div class="text-center">
           <h3 class="d-inline mb-4 ms-5">Ajouter un biberon</h3>
         </div>
-        <form class="form mb-2 mt-4">
+        <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row">
             <div class="col mb-2">
               <label for="appt1" class="mr-2 mb-4 ms-3"
@@ -19,21 +56,28 @@
               >
               <input
                 type="time"
-                id="appt1"
-                name="appt1"
+                id="time"
+                name="time"
                 class="form-control mt-4 ms-3"
+                v-model="inputs.time"
               />
             </div>
             <div class="col mb-2 me-3">
               <label class="mr-2 mb-4"
                 >Entrez la quantité de lait en mL :</label
               >
-              <input type="number" class="form-control mt-4" />
+              <input
+                type="number"
+                class="form-control mt-4"
+                id="volume"
+                name="volume"
+                v-model="inputs.volume"
+              />
             </div>
           </div>
 
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn1 mb-4 ms-3">Confirmer</button>
+            <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
             <button class="btn mb-4 mx-3">Annuler</button>
           </div>
         </form>
@@ -76,17 +120,3 @@ h3 {
   white-space: nowrap;
 }
 </style>
-<script>
-export default {
-  data() {
-    return {
-      NouveauBiberon: false,
-    };
-  },
-  methods: {
-    AjouterBiberon() {
-      this.NouveauBiberon = true;
-    },
-  },
-};
-</script>

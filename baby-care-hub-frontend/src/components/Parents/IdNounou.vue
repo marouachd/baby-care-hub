@@ -29,11 +29,6 @@ export default {
       console.log("child-id-nounou", this.data);
     },
     async Submit() {
-      console.log(
-        "datachildminderCode",
-        this.data.childminderCode.personId.pseudoName
-      );
-      console.log("inputsChildminderCode", this.inputs.childminderCode);
       if (
         !this.data.active ||
         this.data.childminderCode.personId.pseudoName !=

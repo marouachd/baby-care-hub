@@ -91,7 +91,7 @@ export default {
               <ul class="navbar-nav d-flex justify-content-center">
                 <li class="nav-item mx-2">
                   <RouterLink
-                    :to="{ name: 'acceuil', params: { id: this.userId } }"
+                    :to="{ name: 'home', params: { id: this.userId } }"
                     class="dropdown-item"
                     v-if="isLoggedIn && this.roleId == 1"
                   >
@@ -150,7 +150,8 @@ export default {
           </div>
         </div>
       </div>
-      <div class="locale-changer">
+
+      <!-- <div class="locale-changer">
         <select v-model="$i18n.locale" class="rounded">
           <option
             v-for="locale in $i18n.availableLocales"
@@ -160,7 +161,7 @@ export default {
             {{ locale }}
           </option>
         </select>
-      </div>
+      </div>-->
 
       <div class="image-container rounded-circle">
         <img src="../../../public/favicon.jpg" class="bebe-image" />

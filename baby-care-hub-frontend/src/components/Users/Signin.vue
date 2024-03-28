@@ -50,7 +50,7 @@ export default {
               console.log("mes enfants", this.userId);
             } else {
               router.push({
-                name: "acceuil",
+                name: "home",
                 params: { id: this.userId },
               });
               console.log("acceuil", this.userId.toString());
