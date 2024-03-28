@@ -42,24 +42,25 @@ public class ChildActivityServiceImpl
 
 	ActualityEntity actuality = actualities
 		.findByChildIdAndDate(childId, date);
-	ChildActivityEntity childActivity = new ChildActivityEntity();
+
 	Long activityId = inputs.getActivityId();
+	System.out.println("activityId" + activityId);
 	ActivityEntity activity = activities
 		.getReferenceById(activityId);
+	System.out.println(
+		activity + "activityyyyyyyyyyyyyyyyyyyyy");
+	ChildActivityEntity childActivity = new ChildActivityEntity();
 	childActivity.setActivityId(activity);
 
 	childActivity.setChildId(inputs.getChildId());
 	childActivity
 		.setCommentaire(inputs.getCommentaire());
-	// childActivity.setTime(LocalTime.now().toString());
-	// LocalTime currentTime = LocalTime.now();
-	// String formattedTime = currentTime.format(
-	// DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-	// childActivity.setTime(formattedTime);
 	LocalTime currentTime = LocalTime.now();
 	Time time = Time.valueOf(currentTime);
 	childActivity.setTime(time);
+	System.out
+		.println(childActivity + "child activity");
 	childs_activities.save(childActivity);
 	if (actuality == null) {
 	    actuality = new ActualityEntity();

@@ -26,7 +26,7 @@ public class ActualityEntity extends AbstractEntity {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "activity_id")
+    @JoinColumn(name = "child_activity_id")
     private ChildActivityEntity childActivity;
 
     @ManyToOne
