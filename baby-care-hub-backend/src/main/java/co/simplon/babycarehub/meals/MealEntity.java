@@ -1,7 +1,11 @@
 package co.simplon.babycarehub.meals;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import co.simplon.babycarehub.entities.AbstractEntity;
@@ -13,8 +17,9 @@ public class MealEntity extends AbstractEntity {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "snack")
-    private String snack;
+    @ManyToOne
+    @JoinColumn(name = "snack_id")
+    private SnackEntity snackId;
 
     @Column(name = "eval")
     private String eval;
@@ -24,6 +29,9 @@ public class MealEntity extends AbstractEntity {
 
     @Column(name = "child_id")
     private Long childId;
+
+    @Column(name = "date")
+    private Date date;
 
     public MealEntity() {
 
@@ -37,12 +45,12 @@ public class MealEntity extends AbstractEntity {
 	this.type = type;
     }
 
-    public String getSnack() {
-	return snack;
+    public SnackEntity getSnackId() {
+	return snackId;
     }
 
-    public void setSnack(String snack) {
-	this.snack = snack;
+    public void setSnackId(SnackEntity snackId) {
+	this.snackId = snackId;
     }
 
     public String getEval() {
@@ -69,9 +77,17 @@ public class MealEntity extends AbstractEntity {
 	this.childId = childId;
     }
 
+    public Date getDate() {
+	return date;
+    }
+
+    public void setDate(Date date) {
+	this.date = date;
+    }
+
     @Override
     public String toString() {
-	return "{type=" + type + ", snack=" + snack
+	return "{type=" + type + ", snackId=" + snackId
 		+ ", eval=" + eval + ", commentaire="
 		+ commentaire + ", childId=" + childId
 		+ "}";

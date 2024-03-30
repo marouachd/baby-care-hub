@@ -1,6 +1,5 @@
 package co.simplon.babycarehub.naps;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -31,7 +30,7 @@ public class NapServiceImpl implements NapService {
 
 	Long childId = inputs.getChildId();
 	Date date = inputs.getDate();
-	Time startTime = inputs.getStartTime();
+	String startTime = inputs.getStartTime();
 	String type = inputs.getType();
 
 	ActualityEntity actuality = actualities

@@ -1,6 +1,5 @@
 package co.simplon.babycarehub.naps;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,10 +16,10 @@ public class NapEntity extends AbstractEntity {
     private String type;
 
     @Column(name = "start_time")
-    private Time startTime;
+    private String startTime;
 
     @Column(name = "end_time")
-    private Time endTime;
+    private String endTime;
 
     @Column(name = "commentaire")
     private String commentaire;
@@ -43,19 +42,19 @@ public class NapEntity extends AbstractEntity {
 	this.type = type;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
 	return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
 	this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public String getEndTime() {
 	return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(String endTime) {
 	this.endTime = endTime;
     }
 

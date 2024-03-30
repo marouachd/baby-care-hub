@@ -6,7 +6,7 @@ public class MealCreateDto {
 
     private String type;
 
-    private String snack;
+    private Long snackId;
 
     private Long childId;
 
@@ -28,12 +28,12 @@ public class MealCreateDto {
 	this.type = type;
     }
 
-    public String getSnack() {
-	return snack;
+    public Long getSnackId() {
+	return snackId;
     }
 
-    public void setSnack(String snack) {
-	this.snack = snack;
+    public void setSnackId(Long snackId) {
+	this.snackId = snackId;
     }
 
     public Long getChildId() {
@@ -70,7 +70,7 @@ public class MealCreateDto {
 
     @Override
     public String toString() {
-	return "{type=" + type + ", snack=" + snack
+	return "{type=" + type + ", snackId=" + snackId
 		+ ", childId=" + childId + ", eval=" + eval
 		+ ", date=" + date + ", commentaire="
 		+ commentaire + "}";

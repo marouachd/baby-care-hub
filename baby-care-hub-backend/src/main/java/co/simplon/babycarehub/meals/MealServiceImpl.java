@@ -1,6 +1,7 @@
 package co.simplon.babycarehub.meals;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -14,17 +15,22 @@ import co.simplon.babycarehub.actualities.ActualityRepository;
 public class MealServiceImpl implements MealService {
     private MealRepository meals;
     private ActualityRepository actualities;
+    private SnackRepository snacks;
 
     public MealServiceImpl(MealRepository meals,
-	    ActualityRepository actualities) {
+	    ActualityRepository actualities,
+	    SnackRepository snacks) {
 	this.meals = meals;
 	this.actualities = actualities;
+	this.snacks = snacks;
     }
 
     @Override
     public void create(MealCreateDto inputs) {
 	Long childId = inputs.getChildId();
 	Date date = inputs.getDate();
+
+	Long snackId = inputs.getSnackId();
 
 	ActualityEntity actuality = actualities
 		.findByChildIdAndDate(childId, date);
@@ -36,8 +42,7 @@ public class MealServiceImpl implements MealService {
 	entity.setCommentaire(inputs.getCommentaire());
 	entity.setEval(inputs.getEval());
 	entity.setType(inputs.getType());
-	entity.setSnack(inputs.getSnack());
-	meals.save(entity);
+	entity.setDate(inputs.getDate());
 
 	if (actuality == null) {
 	    actuality = new ActualityEntity();
@@ -49,8 +54,27 @@ public class MealServiceImpl implements MealService {
 	    actuality.setMeal(entity);
 	} else {
 	    actuality.setSnack(entity);
+	    SnackEntity snack = snacks
+		    .getReferenceById(snackId);
+	    entity.setSnackId(snack);
 	}
+
+	meals.save(entity);
 	actualities.save(actuality);
 
     }
+
+    @Override
+    public List<SnackEntity> getAll() {
+
+	return snacks.findAll();
+    }
+
+    @Override
+    public List<MealEntity> getAllByDateAndChildIdAndType(
+	    Date date, Long childId, String type) {
+	return meals.findByDateAndChildIdAndType(date,
+		childId, type);
+    }
+
 }

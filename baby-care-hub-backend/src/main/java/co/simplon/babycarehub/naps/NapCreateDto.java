@@ -1,7 +1,6 @@
 package co.simplon.babycarehub.naps;
 
 import java.sql.Date;
-import java.sql.Time;
 
 public class NapCreateDto {
 
@@ -11,9 +10,9 @@ public class NapCreateDto {
 
     private String commentaire;
 
-    private Time startTime;
+    private String startTime;
 
-    private Time endTime;
+    private String endTime;
 
     private Date date;
 
@@ -45,19 +44,19 @@ public class NapCreateDto {
 	this.commentaire = commentaire;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
 	return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
 	this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public String getEndTime() {
 	return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(String endTime) {
 	this.endTime = endTime;
     }
 
