@@ -1,3 +1,50 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      NouvelActivité: false,
+      inputs: {
+        activityId: "",
+        childId: this.route.params.id,
+        commentaire: "",
+        date: new Date().toISOString().slice(0, 10),
+      },
+      activities: [],
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  mounted() {
+    this.initActivities();
+  },
+  methods: {
+    async initActivities() {
+      const response = await this.$http.get(
+        `${import.meta.env.VITE_API_BASE_URL}/activities`
+      );
+      this.activities = response.data;
+    },
+    AjouterActivité() {
+      this.NouvelActivité = true;
+    },
+    async submit() {
+      console.log("inputs", this.inputs);
+      const response = await axios.post(
+        "http://localhost:8082/activities",
+        this.inputs
+      );
+    },
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Activités</h1>
@@ -11,7 +58,7 @@
           <h3 class="d-inline mb-4 ms-5">Ajouter une activité</h3>
         </div>
 
-        <form class="form mb-2 mt-4">
+        <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row mx-2">
             <div class="col mb-2">
               <label for="appt1" class="mr-2 mb-4"
@@ -20,13 +67,12 @@
               <select
                 class="form-select mt-2"
                 aria-label="Default select example"
+                v-model.number="inputs.activityId"
               >
                 <option selected>Choisir une activité</option>
-                <option value="1">Lego</option>
-                <option value="2">Dessin</option>
-                <option value="3">Peinture</option>
-                <option value="4">Puzzle</option>
-                <option value="5">Coloriage</option>
+                <option v-for="activity in activities" :value="activity.id">
+                  {{ activity.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -35,15 +81,15 @@
               <div class="form-floating">
                 <textarea
                   class="form-control mt-2"
-                  placeholder="Leave a comment here"
-                  id="floatingTextarea2"
+                  v-model="inputs.commentaire"
+                  id="commentaire"
                 ></textarea>
-                <label for="floatingTextarea2">Commentaires</label>
+                <label for="commentaire">Commentaires</label>
               </div>
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn1 mb-4 ms-3">Confirmer</button>
+            <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
             <button class="btn mb-4 mx-3">Annuler</button>
           </div>
         </form>
@@ -86,17 +132,3 @@ h3 {
   white-space: nowrap;
 }
 </style>
-<script>
-export default {
-  data() {
-    return {
-      NouvelActivité: false,
-    };
-  },
-  methods: {
-    AjouterActivité() {
-      this.NouvelActivité = true;
-    },
-  },
-};
-</script>

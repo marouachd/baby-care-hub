@@ -1,3 +1,39 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      NouvelSieste: false,
+      inputs: {
+        childId: this.route.params.id,
+        date: new Date().toISOString().slice(0, 10),
+        startTime: "",
+        endTime: "",
+        commentaire: "",
+        type: "sieste",
+      },
+    };
+  },
+  methods: {
+    AjouterSieste() {
+      this.NouvelSieste = true;
+    },
+    async submit() {
+      console.log("inputs", this.inputs);
+      const response = await axios.post(
+        "http://localhost:8082/naps",
+        this.inputs
+      );
+    },
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Sieste</h1>
@@ -11,7 +47,7 @@
         <div class="text-center">
           <h3 class="d-inline mb-4">Ajouter une sieste</h3>
         </div>
-        <form class="form mb-2 mt-4">
+        <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row mx-2">
             <div class="col mb-2">
               <label for="appt1" class="mr-2 mb-2">Heure de sommeil:</label>
@@ -20,7 +56,7 @@
                 id="appt1"
                 name="appt1"
                 class="form-control"
-                v-model="heureArrivee"
+                v-model="inputs.startTime"
               />
             </div>
           </div>
@@ -32,7 +68,7 @@
                 id="appt2"
                 name="appt2"
                 class="form-control"
-                v-model="heureSortie"
+                v-model="inputs.endTime"
               />
             </div>
           </div>
@@ -50,7 +86,7 @@
           </div>
 
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn1 mb-4 ms-3">Confirmer</button>
+            <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
             <button class="btn mb-4 mx-3">Annuler</button>
           </div>
         </form>
@@ -94,17 +130,3 @@ h3 {
   font-family: "Pacifico", cursive;
 }
 </style>
-<script>
-export default {
-  data() {
-    return {
-      NouvelSieste: false,
-    };
-  },
-  methods: {
-    AjouterSieste() {
-      this.NouvelSieste = true;
-    },
-  },
-};
-</script>

@@ -1,64 +1,43 @@
-<template>
-  <div id="app" class="container mt-5 mb-5">
-    <h1 class="mb-3 text-center">Horaire</h1>
-    <div class="d-flex justify-content-center">
-      <form
-        class="mt-5 col-6 col-md-6 mb-2"
-        @submit.prevent="calculeHoraireGarde"
-      >
-        <label for="appt1" class="mb-2 text-center">Heure d'arrivée:</label>
-        <input
-          type="time"
-          id="appt1"
-          name="appt1"
-          class="form-control"
-          v-model="heureArrivee"
-        />
-      </form>
-    </div>
-    <div class="d-flex justify-content-center">
-      <form
-        class="mt-3 col-6 col-md-6 mb-2"
-        @submit.prevent="calculeHoraireGarde"
-      >
-        <label for="appt2" class="mr-2 mb-2">Heure de sortie:</label>
-        <input
-          type="time"
-          id="appt2"
-          name="appt2"
-          class="form-control"
-          v-model="heureSortie"
-        />
-        <div class="text-center">
-          <button type="submit" class="mt-3 btn mx-5">Calculer</button>
-        </div>
-      </form>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="mt-3 col-12 col-md-6 col-lg-4 mb-3">
-        <span class="d-inline span">
-          Le temps de garde cumulé pour aujourd'hui est :
-          {{ time }}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
+import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
       heureArrivee: "",
       heureSortie: "",
       time: "",
+      inputs: {
+        childId: this.route.params.id,
+        date: new Date().toISOString().slice(0, 10),
+        startTime: "",
+        endTime: "",
+        commentaire: "",
+        type: "presence",
+      },
     };
+  },
+  created() {
+    this.$http = axios;
   },
 
   methods: {
+    async submit() {
+      console.log("inputs", this.inputs);
+      const response = await axios.post(
+        "http://localhost:8082/naps",
+        this.inputs
+      );
+      this.calculeHoraireGarde();
+    },
     calculeHoraireGarde() {
-      const appt1 = this.heureArrivee;
-      const appt2 = this.heureSortie;
+      const appt1 = this.inputs.startTime;
+      const appt2 = this.inputs.endTime;
 
       if (appt1 && appt2) {
         const [hours1, minutes1] = appt1.split(":").map(Number);
@@ -84,6 +63,43 @@ export default {
   },
 };
 </script>
+<template>
+  <div id="app" class="container mt-5 mb-5">
+    <h1 class="mb-3 text-center">Horaire</h1>
+    <div class="d-flex justify-content-center">
+      <form class="mt-5 col-6 col-md-6 mb-2" @submit.prevent="submit">
+        <label for="appt1" class="mb-2 text-center">Heure d'arrivée:</label>
+        <input
+          type="time"
+          id="appt1"
+          name="appt1"
+          class="form-control"
+          v-model="inputs.startTime"
+        />
+
+        <label for="appt2" class="mr-2 mb-2">Heure de sortie:</label>
+        <input
+          type="time"
+          id="appt2"
+          name="appt2"
+          class="form-control"
+          v-model="inputs.endTime"
+        />
+        <div class="text-center">
+          <button type="submit" class="mt-3 btn mx-5">Calculer</button>
+        </div>
+      </form>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="mt-3 col-12 col-md-6 col-lg-4 mb-3">
+        <span class="d-inline span">
+          Le temps de garde cumulé pour aujourd'hui est :
+          {{ time }}
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");

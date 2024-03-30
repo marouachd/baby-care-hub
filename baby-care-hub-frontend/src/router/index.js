@@ -81,12 +81,12 @@ const router = createRouter({
       component: () => import("../Components/Users/ForgotPassword.vue"),
     },
     {
-      path: "/ma-journee/horaire",
+      path: "/ma-journee/horaire/:id",
       name: "horaire",
       component: () => import("../Components/Journée/Horaire.vue"),
     },
     {
-      path: "/ma-journee/activites",
+      path: "/ma-journee/activites/:id",
       name: "activités",
       component: () => import("../Components/Journée/Activités.vue"),
     },
@@ -101,17 +101,17 @@ const router = createRouter({
       component: () => import("../Components/Journée/Change.vue"),
     },
     {
-      path: "/ma-journee/gouter",
+      path: "/ma-journee/gouter/:id",
       name: "gouter",
       component: () => import("../Components/Journée/Gouter.vue"),
     },
     {
-      path: "/ma-journee/sieste",
+      path: "/ma-journee/sieste/:id",
       name: "sieste",
       component: () => import("../Components/Journée/Sieste.vue"),
     },
     {
-      path: "/ma-journee/repas",
+      path: "/ma-journee/repas/:id",
       name: "repas",
       component: () => import("../Components/Journée/Repas.vue"),
     },
@@ -121,7 +121,7 @@ const router = createRouter({
       component: () => import("../Components/Journée/Température.vue"),
     },
     {
-      path: "/ma-journee/sortie-loisir",
+      path: "/ma-journee/sortie-loisir/:id",
       name: "sortie-loisir",
       component: () => import("../Components/Journée/SortieLoisir.vue"),
     },

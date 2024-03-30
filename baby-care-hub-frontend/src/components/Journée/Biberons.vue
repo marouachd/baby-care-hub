@@ -13,7 +13,7 @@ export default {
       inputs: {
         time: "",
         volume: "",
-        childId: this.route.params.id, // regadre ici comment faire ?
+        childId: this.route.params.id,
         date: new Date().toISOString().slice(0, 10),
       },
     };

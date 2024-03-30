@@ -80,7 +80,7 @@ export default {
           <span class="d-none d-md-inline">Sieste</span>
         </RouterLink>
       </li>
-      <li class="nav-item mb-3">
+      <!--<li class="nav-item mb-3">
         <RouterLink :to="{ name: 'change' }" class="dropdown-item">
           <img
             src="../../assets/change.jpg"
@@ -119,7 +119,7 @@ export default {
             <span class="d-none d-md-inline">Médicaments</span>
           </div>
         </RouterLink>
-      </li>
+      </li>-->
       <li class="nav-item mb-3">
         <RouterLink :to="{ name: 'gouter' }" class="dropdown-item">
           <img

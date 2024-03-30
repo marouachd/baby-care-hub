@@ -32,7 +32,7 @@
           <label for="floatingTextarea2">Comments</label>
         </div>
         <div class="d-flex justify-content-center mt-3">
-          <button class="btn">Confirmer</button>
+          <button class="btn mb-5">Confirmer</button>
         </div>
       </div>
     </div>

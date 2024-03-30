@@ -1,3 +1,60 @@
+<script>
+import { RouterLink, useRoute } from "vue-router";
+import axios from "axios";
+export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
+  data() {
+    return {
+      stayHome: false,
+      NouvelSortie: false,
+      inputs: {
+        childId: this.route.params.id,
+        leisureId: "",
+        commentaire: "",
+        date: new Date().toISOString().slice(0, 10),
+      },
+      leisures: [],
+    };
+  },
+  created() {
+    this.$http = axios;
+  },
+  mounted() {
+    this.initLeisures();
+  },
+  computed: {
+    homeLeisures() {
+      return this.leisures.slice(0, 3);
+    },
+    outSideLeisures() {
+      return this.leisures.slice(3);
+    },
+  },
+  methods: {
+    showSelect() {
+      this.stayHome = true;
+    },
+    AjouterSortie() {
+      this.NouvelSortie = true;
+    },
+    async submit() {
+      console.log("inputs", this.inputs);
+      const response = await axios.post(
+        "http://localhost:8082/leisures",
+        this.inputs
+      );
+    },
+    async initLeisures() {
+      const response = await axios.get("http://localhost:8082/leisures");
+      this.leisures = response.data;
+    },
+  },
+};
+</script>
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Sortie & Loisir</h1>
@@ -14,7 +71,7 @@
           </h3>
         </div>
 
-        <form class="form mb-2 mt-4">
+        <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row mx-3">
             <div class="col mb-2">
               <label for="appt1" class="mr-2 mb-4"
@@ -23,11 +80,12 @@
               <select
                 class="form-select mt-2"
                 aria-label="Default select example"
+                v-model.number="inputs.leisureId"
               >
                 <option selected>Choisir un lieu</option>
-                <option value="1">Parc à coté</option>
-                <option value="2">Bibliothéque</option>
-                <option value="3">Ludothéque</option>
+                <option v-for="leisure in outSideLeisures" :value="leisure.id">
+                  {{ leisure.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -51,11 +109,12 @@
               <select
                 class="form-select mt-2"
                 aria-label="Default select example"
+                v-model.number="inputs.leisureId"
               >
                 <option selected>Choisir une activité</option>
-                <option value="1">Lire un livre</option>
-                <option value="2">Danse</option>
-                <option value="3">Regarder des dessins animées</option>
+                <option v-for="leisure in homeLeisures" :value="leisure.id">
+                  {{ leisure.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -67,6 +126,7 @@
                   class="form-control mt-2"
                   placeholder="Leave a comment here"
                   id="floatingTextarea2"
+                  v-model="inputs.commentaire"
                 ></textarea>
                 <label for="floatingTextarea2">Comments</label>
               </div>
@@ -74,7 +134,7 @@
           </div>
 
           <div class="d-flex justify-content-center mt-3 div-button">
-            <button class="btn btn1 mb-4 ms-3">Confirmer</button>
+            <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
             <button class="btn mb-4 mx-3">Annuler</button>
           </div>
         </form>
@@ -117,21 +177,3 @@ h3 {
   font-family: "Pacifico", cursive;
 }
 </style>
-<script>
-export default {
-  data() {
-    return {
-      stayHome: false,
-      NouvelSortie: false,
-    };
-  },
-  methods: {
-    showSelect() {
-      this.stayHome = true;
-    },
-    AjouterSortie() {
-      this.NouvelSortie = true;
-    },
-  },
-};
-</script>
