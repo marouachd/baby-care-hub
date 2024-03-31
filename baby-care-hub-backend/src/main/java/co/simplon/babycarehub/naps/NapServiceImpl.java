@@ -1,6 +1,7 @@
 package co.simplon.babycarehub.naps;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -69,6 +70,15 @@ public class NapServiceImpl implements NapService {
 	    actuality.setPresence(entity);
 	}
 	actualities.save(actuality);
+
+    }
+
+    @Override
+    public List<NapEntity> getAllByDateAndChildIdAndType(
+	    Date date, Long childId, String type) {
+
+	return naps.findByDateAndChildIdAndType(date,
+		childId, type);
 
     }
 
