@@ -1,7 +1,12 @@
 package co.simplon.babycarehub.babybottels;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +29,14 @@ public class BabyBottelController {
     public void create(
 	    @RequestBody BabyBottelCreateDto inputs) {
 	service.create(inputs);
+    }
+
+    @GetMapping("/{date}/{childId}")
+    public List<BabyBottelEntity> getAllByDateAndChildId(
+	    @PathVariable("date") Date date,
+	    @PathVariable("childId") Long childId) {
+	System.out.println("date" + date);
+	return service.getAllByDateAndChildId(date,
+		childId);
     }
 }

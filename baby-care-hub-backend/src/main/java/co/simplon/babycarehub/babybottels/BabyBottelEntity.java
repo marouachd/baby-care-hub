@@ -1,5 +1,7 @@
 package co.simplon.babycarehub.babybottels;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,6 +20,9 @@ public class BabyBottelEntity extends AbstractEntity {
 
     @Column(name = "child_id")
     private Long childId;
+
+    @Column(name = "date")
+    private Date date;
 
     public BabyBottelEntity() {
 
@@ -47,10 +52,19 @@ public class BabyBottelEntity extends AbstractEntity {
 	this.childId = childId;
     }
 
+    public Date getDate() {
+	return date;
+    }
+
+    public void setDate(Date date) {
+	this.date = date;
+    }
+
     @Override
     public String toString() {
 	return "{volume=" + volume + ", time=" + time
-		+ ", childId=" + childId + "}";
+		+ ", childId=" + childId + ", date=" + date
+		+ "}";
     }
 
 }
