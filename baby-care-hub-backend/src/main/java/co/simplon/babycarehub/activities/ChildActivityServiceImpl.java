@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,11 +45,9 @@ public class ChildActivityServiceImpl
 		.findByChildIdAndDate(childId, date);
 
 	Long activityId = inputs.getActivityId();
-	System.out.println("activityId" + activityId);
 	ActivityEntity activity = activities
 		.getReferenceById(activityId);
-	System.out.println(
-		activity + "activityyyyyyyyyyyyyyyyyyyyy");
+
 	ChildActivityEntity childActivity = new ChildActivityEntity();
 	childActivity.setActivityId(activity);
 
@@ -59,8 +58,7 @@ public class ChildActivityServiceImpl
 	LocalTime currentTime = LocalTime.now();
 	Time time = Time.valueOf(currentTime);
 	childActivity.setTime(time);
-	System.out
-		.println(childActivity + "child activity");
+	childActivity.setDate(inputs.getDate());
 	childs_activities.save(childActivity);
 	if (actuality == null) {
 	    actuality = new ActualityEntity();
@@ -75,4 +73,12 @@ public class ChildActivityServiceImpl
 	    actualities.save(actuality);
 	}
     }
+
+    @Override
+    public List<ChildActivityEntity> getAllByDateAndChildId(
+	    java.sql.Date date, Long childId) {
+	return childs_activities.findByDateAndChildId(date,
+		childId);
+    }
+
 }

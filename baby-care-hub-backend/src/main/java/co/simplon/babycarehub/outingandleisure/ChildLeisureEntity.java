@@ -1,5 +1,7 @@
 package co.simplon.babycarehub.outingandleisure;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,6 +23,9 @@ public class ChildLeisureEntity extends AbstractEntity {
 
     @Column(name = "commentaire")
     private String commentaire;
+
+    @Column(name = "date")
+    private Date date;
 
     public ChildLeisureEntity() {
 
@@ -50,11 +55,19 @@ public class ChildLeisureEntity extends AbstractEntity {
 	this.commentaire = commentaire;
     }
 
+    public Date getDate() {
+	return date;
+    }
+
+    public void setDate(Date date) {
+	this.date = date;
+    }
+
     @Override
     public String toString() {
 	return "{leisureId=" + leisureId + ", childId="
 		+ childId + ", commentaire=" + commentaire
-		+ "}";
+		+ ", date=" + date + "}";
     }
 
 }

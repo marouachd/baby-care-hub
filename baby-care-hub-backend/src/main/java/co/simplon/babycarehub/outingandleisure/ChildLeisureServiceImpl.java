@@ -2,6 +2,7 @@ package co.simplon.babycarehub.outingandleisure;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,7 @@ public class ChildLeisureServiceImpl
 		.getReferenceById(leisureId);
 
 	childLeisure.setLeisureId(leisure);
+	childLeisure.setDate(inputs.getDate());
 	childs_leisures.save(childLeisure);
 
 	if (actuality == null) {
@@ -67,6 +69,13 @@ public class ChildLeisureServiceImpl
 	    actualities.save(actuality);
 	}
 
+    }
+
+    @Override
+    public List<ChildLeisureEntity> getAllByDateAndChildId(
+	    java.sql.Date date, Long childId) {
+	return childs_leisures.findByDateAndChildId(date,
+		childId);
     }
 
 }

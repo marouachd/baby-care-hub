@@ -1,5 +1,6 @@
 package co.simplon.babycarehub.activities;
 
+import java.sql.Date;
 import java.sql.Time;
 
 import javax.persistence.Column;
@@ -26,6 +27,9 @@ public class ChildActivityEntity extends AbstractEntity {
 
     @Column(name = "time")
     private Time time;
+
+    @Column(name = "date")
+    private Date date;
 
     public ChildActivityEntity() {
 
@@ -63,11 +67,19 @@ public class ChildActivityEntity extends AbstractEntity {
 	this.time = time;
     }
 
+    public Date getDate() {
+	return date;
+    }
+
+    public void setDate(Date date) {
+	this.date = date;
+    }
+
     @Override
     public String toString() {
 	return "{activityId=" + activityId + ", childId="
 		+ childId + ", commentaire=" + commentaire
-		+ ", time=" + time + "}";
+		+ ", time=" + time + ", date=" + date + "}";
     }
 
 }
