@@ -1,6 +1,7 @@
 package co.simplon.babycarehub.babybottels;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -38,7 +39,6 @@ public class BabyBottelServiceImpl
 	entity.setTime(inputs.getTime());
 	entity.setVolume(inputs.getVolume());
 	entity.setDate(inputs.getDate());
-	baby_bottels.save(entity);
 
 	System.out.println(actuality + "actuality");
 
@@ -46,19 +46,25 @@ public class BabyBottelServiceImpl
 	    actuality = new ActualityEntity();
 	    actuality.setChildId(inputs.getChildId());
 	    actuality.setDate(inputs.getDate());
-	    actuality.setBabybottel(entity);
+	    List<BabyBottelEntity> babyBottles = new ArrayList<>();
+	    babyBottles.add(entity);
+	    actuality.setBabyBottels(babyBottles);
 	    actualities.save(actuality);
 
 	} else {
-	    actuality.setBabybottel(entity);
+	    List<BabyBottelEntity> babyBottles = new ArrayList<>();
+	    babyBottles.add(entity);
+	    actuality.setBabyBottels(babyBottles);
 	    actualities.save(actuality);
 	}
+	entity.setActuality(actuality);
+	baby_bottels.save(entity);
 
     }
 
     @Override
     public List<BabyBottelEntity> getAllByDateAndChildId(
-	    java.sql.Date date, Long childId) {
+	    Date date, Long childId) {
 
 	return baby_bottels.findByDateAndChildId(date,
 		childId);

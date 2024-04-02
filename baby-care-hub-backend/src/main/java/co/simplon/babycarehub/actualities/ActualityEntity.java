@@ -1,12 +1,16 @@
 package co.simplon.babycarehub.actualities;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import co.simplon.babycarehub.activities.ChildActivityEntity;
 import co.simplon.babycarehub.babybottels.BabyBottelEntity;
@@ -29,9 +33,9 @@ public class ActualityEntity extends AbstractEntity {
     @JoinColumn(name = "child_activity_id")
     private ChildActivityEntity childActivity;
 
-    @ManyToOne
-    @JoinColumn(name = "baby_bottel_id")
-    private BabyBottelEntity babybottel;
+    @OneToMany(mappedBy = "actuality")
+    @JsonManagedReference
+    private List<BabyBottelEntity> babyBottels;
 
     @ManyToOne
     @JoinColumn(name = "meal_id")
@@ -82,12 +86,13 @@ public class ActualityEntity extends AbstractEntity {
 	this.childActivity = childActivity;
     }
 
-    public BabyBottelEntity getBabybottel() {
-	return babybottel;
+    public List<BabyBottelEntity> getBabyBottels() {
+	return babyBottels;
     }
 
-    public void setBabybottel(BabyBottelEntity babybottel) {
-	this.babybottel = babybottel;
+    public void setBabyBottels(
+	    List<BabyBottelEntity> babyBottels) {
+	this.babyBottels = babyBottels;
     }
 
     public MealEntity getMeal() {
@@ -130,14 +135,6 @@ public class ActualityEntity extends AbstractEntity {
 	this.leisure = leisure;
     }
 
-    @Override
-    public String toString() {
-	return "{childId=" + childId + ", date=" + date
-		+ ", childActivity=" + childActivity
-		+ ", babybottel=" + babybottel + ", meal="
-		+ meal + ", snack=" + snack + ", nap=" + nap
-		+ ", presence=" + presence + ", leisure="
-		+ leisure + "}";
-    }
+    // pas de toString
 
 }

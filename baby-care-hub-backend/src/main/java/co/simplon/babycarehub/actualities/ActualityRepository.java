@@ -1,6 +1,6 @@
 package co.simplon.babycarehub.actualities;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
