@@ -25,6 +25,7 @@ export default {
   },
   mounted() {
     this.initLeisures();
+    this.getLeisure();
   },
   computed: {
     homeLeisures() {
@@ -35,6 +36,15 @@ export default {
     },
   },
   methods: {
+    async getLeisure() {
+      {
+        const response = await axios.get(
+          `http://localhost:8082/leisures/${this.inputs.date}/${this.inputs.childId}`
+        );
+        this.data = response.data;
+        console.log(this.data, "leisure");
+      }
+    },
     showSelect() {
       this.stayHome = true;
     },

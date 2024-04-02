@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       NouveauBiberon: false,
+      babyBottels: [],
       inputs: {
         time: "",
         volume: "",
@@ -21,7 +22,22 @@ export default {
   created() {
     this.$http = axios;
   },
+  mounted() {
+    this.getBabyBottel();
+  },
   methods: {
+    close() {
+      this.NouveauBiberon = false;
+      this.inputs.volume = "";
+      this.inputs.time = "";
+    },
+    async getBabyBottel() {
+      const response = await axios.get(
+        `http://localhost:8082/bottels/${this.inputs.date}/${this.inputs.childId}`
+      );
+      this.babyBottels = response.data;
+    },
+
     AjouterBiberon() {
       this.NouveauBiberon = true;
     },
@@ -31,6 +47,10 @@ export default {
         "http://localhost:8082/bottels",
         this.inputs
       );
+      if (response) {
+        this.close();
+        this.getBabyBottel(this.inputs.date, this.inputs.childId);
+      }
     },
   },
 };
@@ -78,13 +98,16 @@ export default {
 
           <div class="d-flex justify-content-center mt-3">
             <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
-            <button class="btn mb-4 mx-3">Annuler</button>
+            <button class="btn mb-4 mx-3" @click="close">Annuler</button>
           </div>
         </form>
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mb-3 mt-5">
+    <div
+      class="d-flex justify-content-center mb-3 mt-5"
+      v-for="babyBottel in babyBottels"
+    >
       <div class="card bg-light col-12 col-md-6 mb-2">
         <div class="row g-0">
           <div class="col-md-4">
@@ -99,8 +122,10 @@ export default {
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title m-0">Biberon</h5>
-              <p class="card-text m-0 mt-2">Noah a pris un biberon de 100 ml</p>
-              <p class="card-text m-0">à 10h:00</p>
+              <p class="card-text m-0 mt-2">
+                Prise de biberon de {{ babyBottel.volume }} ml
+              </p>
+              <p class="card-text m-0">à {{ babyBottel.time }}</p>
             </div>
           </div>
         </div>

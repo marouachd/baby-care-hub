@@ -25,8 +25,20 @@ export default {
   created() {
     this.$http = axios;
   },
+  mounted() {
+    this.getPresenceTime();
+  },
 
   methods: {
+    async getPresenceTime() {
+      {
+        const presence = await axios.get(
+          `http://localhost:8082/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        );
+        this.data = presence.data;
+        console.log(this.data, "resp");
+      }
+    },
     async submit() {
       console.log("inputs", this.inputs);
       const response = await axios.post(

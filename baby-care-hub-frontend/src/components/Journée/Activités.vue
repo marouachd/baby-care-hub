@@ -24,8 +24,18 @@ export default {
   },
   mounted() {
     this.initActivities();
+    this.getActivities();
   },
   methods: {
+    async getActivities() {
+      {
+        const response = await axios.get(
+          `http://localhost:8082/activities/${this.inputs.date}/${this.inputs.childId}`
+        );
+        this.data = response.data;
+        console.log(this.data, "activity");
+      }
+    },
     async initActivities() {
       const response = await this.$http.get(
         `${import.meta.env.VITE_API_BASE_URL}/activities`

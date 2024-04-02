@@ -1,6 +1,6 @@
 <script>
 import { RouterLink, useRoute } from "vue-router";
-
+import axios from "axios";
 export default {
   setup() {
     return {
@@ -9,8 +9,33 @@ export default {
   },
   data() {
     return {
+      rawArray: "",
+      data: null,
       id: this.route.params.id,
+      date: new Date().toISOString().slice(0, 10),
+      //date: "2024-03-32",
     };
+  },
+  created() {
+    this.$http = axios;
+  },
+  mounted() {
+    this.getActuality();
+  },
+
+  methods: {
+    async getActuality() {
+      {
+        const response = await axios.get(
+          `http://localhost:8082/actualities/${this.date}/${this.id}`
+        );
+        this.data = response.data;
+        console.log(this.data, "actualités");
+        console.log(this.data.babyBottels, "bottels");
+        this.rawArray = this.data.__v_raw;
+        console.log(this.rawArray, "raw");
+      }
+    },
   },
 };
 </script>
@@ -21,10 +46,13 @@ export default {
       Fiche Récapitulative de la Journée de l'Enfant
     </h1>
     <div class="card bg-light rounded">
-      <div class="card mx-2 mt-2">
+      <div
+        class="card mx-2 mt-2"
+        v-if="this.data && this.data.presence && this.data.presence.startTime"
+      >
         <div class="card-body">
           <div class="col-md-6">
-            <h4>Horaire</h4>
+            <h4>Arrivée</h4>
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
@@ -33,51 +61,57 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>Horaire d'arrivée : 08:00 | Horaire de sortie : 16:30</div>
-            </div>
-            <div>
-              <p>Le temps cumulé est : 8 heures et 30 minutes</p>
+              <div>Heure d'arrivée : {{ this.data.presence.startTime }}</div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="comment-section mt-2">
+      <div
+        class="comment-section mt-2"
+        v-if="this.data && this.data.presence && this.data.presence.startTime"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
+      <div
+        v-if="this.data && this.data.babyBottels"
+        v-for="bottle in this.data.babyBottels"
+        :key="bottle.id"
+      >
+        <div class="card mx-2">
+          <div class="card-body">
+            <div class="col-md-6">
+              <h4>Biberon</h4>
+              <div class="d-flex align-items-center">
+                <div class="img-container me-5">
+                  <img
+                    src="../../assets/biberon.jpg"
+                    class="img-fluid rounded-circle"
+                    alt="Icône Horaire"
+                  />
+                </div>
+                <div>Biberon de {{ bottle.volume }} mL</div>
 
-      <div class="card mx-2">
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Biberon</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/biberon.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
+                <div class="ms-1">à {{ bottle.time }}</div>
               </div>
-              <div>Biberon de 150 ml</div>
-            </div>
-            <div>
-              <p>à 10:00</p>
             </div>
           </div>
         </div>
+
+        <div
+          class="comment-section mt-2"
+          v-if="this.data && this.data.babyBottels"
+        >
+          <span class="comment">⭐</span>
+          <span class="comment">❤️</span>
+          <span class="comment">👏</span>
+          <span class="comment">😞</span>
+        </div>
       </div>
 
-      <div class="comment-section mt-2">
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
-      </div>
-
-      <div class="card mx-2">
+      <div class="card mx-2" v-if="this.data && this.data.childActivity">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Activités</h4>
@@ -89,23 +123,27 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>Lego</div>
-            </div>
-            <div>
-              <p>Noah a fait un tres jolie construction avec les lego</p>
+              <div>{{ this.data.childActivity.activityId.activityName }} :</div>
+
+              <div class="ms-1">
+                {{ this.data.childActivity.commentaire }}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
+      <div
+        class="comment-section mt-2"
+        v-if="this.data && this.data.childActivity"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
 
-      <div class="card mx-2">
+      <div class="card mx-2" v-if="this.data && this.data.meal">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Repas</h4>
@@ -117,26 +155,24 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>Noah il a bien mangé</div>
-            </div>
-            <div>
-              <p>
-                il a fini sont repas, aujourd'hui il a mangé du poisson et des
-                légumes
-              </p>
+              <div>{{ this.data.meal.eval }} :</div>
+
+              <div class="ms-1">
+                {{ this.data.meal.commentaire }}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
+      <div class="comment-section mt-2" v-if="this.data && this.data.meal">
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
 
-      <div class="card mx-2">
+      <div class="card mx-2" v-if="this.data && this.data.nap">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Sieset</h4>
@@ -148,99 +184,47 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>Horaire de sommeil : 14:00 | Horaire de réveil : 15:30</div>
-            </div>
-            <div>
-              <p>Bien dormi</p>
+              <div>Heure de sommeil : {{ this.data.nap.startTime }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
-      </div>
-
-      <div class="card mx-2">
+      <div
+        class="card mx-2"
+        v-if="this.data && this.data.nap && this.data.nap.endTime"
+      >
         <div class="card-body">
           <div class="col-md-6">
-            <h4>Change</h4>
+            <h4>Sieset</h4>
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
-                  src="../../assets/change.jpg"
+                  src="../../assets/sieste.jpg"
                   class="img-fluid rounded-circle"
                   alt="Icône Horaire"
                 />
               </div>
-              <div>change couche selles normale</div>
+              <div>Heure de réveil : {{ this.data.nap.endTime }}</div>
             </div>
-            <div>change pipi seulement</div>
+            <div class="ms-1">
+              {{ this.data.nap.commentaire }}
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
+      <div
+        class="comment-section mt-2"
+        v-if="this.data && this.data.nap && this.data.nap.endTime"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
 
-      <div class="card mx-2">
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Température</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/Thermometre.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
-              </div>
-              <div>Rien à signaler</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comment-section mt-2">
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
-      </div>
-
-      <div class="card mx-2">
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Médicaments</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/medicament.png"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
-              </div>
-              <div>Pas de prise de médicament</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comment-section mt-2">
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
-      </div>
-
-      <div class="card mx-2">
+      <div class="card mx-2" v-if="this.data && this.data.snack">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Gouter</h4>
@@ -252,22 +236,26 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>Le gouter pour aujourd'hui est un fruit</div>
-            </div>
-            <div>
-              <p>il a bien mangé</p>
+              <div>
+                Le gouter pour aujourd'hui est
+                {{ this.data.snack.snackId.name }}
+              </div>
+
+              <div class="ms-1">
+                {{ this.data.snack.commentaire }}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
+      <div class="comment-section mt-2" v-if="this.data && this.data.snack">
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
-      <div class="card mx-2">
+      <div class="card mx-2" v-if="this.data && this.data.leisure">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Sortie&Loisir</h4>
@@ -279,22 +267,76 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>
+              <div
+                v-if="
+                  this.data &&
+                  this.data.leisure &&
+                  this.data.leisure.leisureId.id < 4
+                "
+              >
                 Il ne fait pas beau aujourd'hui on decidé de rester à la maison
               </div>
             </div>
             <div>
-              <p>On a danser</p>
+              <p>
+                On
+                {{
+                  this.data &&
+                  this.data.leisure &&
+                  this.data.leisure.leisureId.id < 4
+                    ? "a choisi"
+                    : "est allé"
+                }}
+                {{ this.data.leisure.leisureId.name }}
+              </p>
+            </div>
+            <div>
+              <p>{{ this.data.leisure.commentaire }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2">
+      <div class="comment-section mt-2" v-if="this.data && this.data.leisure">
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
+      </div>
+      <div
+        class="card mx-2 mt-2"
+        v-if="this.data && this.data.presence && this.data.presence.endTime"
+      >
+        <div class="card-body">
+          <div class="col-md-6">
+            <h4>Départ</h4>
+            <div class="d-flex align-items-center">
+              <div class="img-container me-5">
+                <img
+                  src="../../assets/horloge.jpg"
+                  class="img-fluid rounded-circle"
+                  alt="Icône Horaire"
+                />
+              </div>
+              <div>Heure de sortie : {{ this.data.presence.endTime }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="comment-section mt-2"
+        v-if="this.data && this.data.presence && this.data.presence.endTime"
+      >
+        <span class="comment">⭐</span>
+        <span class="comment">❤️</span>
+        <span class="comment">👏</span>
+        <span class="comment">😞</span>
+      </div>
+      <div class="card mx-2 mt-2 mb-2" v-if="!data">
+        <div class="card-body">
+          <p>Aucune donnée disponible pour le moment.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -302,6 +344,11 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+h1 {
+  color: rgba(180, 95, 146, 0.674);
+  font-family: "Pacifico", cursive;
+  text-decoration: none;
+}
 h4 {
   color: rgb(166, 161, 161);
   font-family: "Pacifico", cursive;

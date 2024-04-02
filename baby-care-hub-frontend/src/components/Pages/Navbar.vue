@@ -20,9 +20,10 @@ export default {
 
   mounted() {
     this.id = this.route.params.id;
-
     this.afficheDate();
+    localStorage.setItem("date", this.toDayDate);
   },
+
   methods: {
     afficheDate() {
       const today = new Date().toISOString().slice(0, 10);

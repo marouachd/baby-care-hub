@@ -29,8 +29,8 @@ export default {
     this.$http = axios;
   },
   mounted() {
+    this.getSnack();
     this.initSnacks();
-    console.log("bonjour");
     const slider = this.$refs.slider;
     slider.addEventListener("mousedown", (event) => {
       this.updateThumbPosition(event);
@@ -42,6 +42,15 @@ export default {
     });
   },
   methods: {
+    async getSnack() {
+      {
+        const response = await axios.get(
+          `http://localhost:8082/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        );
+        this.data = response.data;
+        console.log(this.data, "snack");
+      }
+    },
     updateThumbPosition(event) {
       const slider = this.$refs.slider;
       const maxPosition =
@@ -59,15 +68,12 @@ export default {
     async initSnacks() {
       const response = await axios.get("http://localhost:8082/meals");
       this.snacks = response.data;
-      console.log(this.snacks);
     },
     async submit() {
-      console.log("inputs", this.inputs);
       const response = await axios.post(
         "http://localhost:8082/meals",
         this.inputs
       );
-      console.log(response);
     },
   },
 };

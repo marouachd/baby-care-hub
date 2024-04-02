@@ -27,6 +27,7 @@ export default {
     this.$http = axios;
   },
   mounted() {
+    this.getMeal();
     const slider = this.$refs.slider;
     slider.addEventListener("mousedown", (event) => {
       this.updateThumbPosition(event);
@@ -38,6 +39,15 @@ export default {
     });
   },
   methods: {
+    async getMeal() {
+      {
+        const response = await axios.get(
+          `http://localhost:8082/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        );
+        this.data = response.data;
+        console.log(this.data, "meal");
+      }
+    },
     updateThumbPosition(event) {
       const slider = this.$refs.slider;
       const maxPosition =

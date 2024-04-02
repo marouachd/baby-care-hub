@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      data: "",
       NouvelSieste: false,
       inputs: {
         childId: this.route.params.id,
@@ -20,6 +21,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.getNap();
+  },
   methods: {
     AjouterSieste() {
       this.NouvelSieste = true;
@@ -30,6 +34,15 @@ export default {
         "http://localhost:8082/naps",
         this.inputs
       );
+    },
+    async getNap() {
+      {
+        const nap = await axios.get(
+          `http://localhost:8082/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        );
+        this.data = nap.data;
+        console.log(this.data, "resp");
+      }
     },
   },
 };
@@ -50,7 +63,9 @@ export default {
         <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row mx-2">
             <div class="col mb-2">
-              <label for="appt1" class="mr-2 mb-2">Heure de sommeil:</label>
+              <label for="appt1" class="mr-2 mb-2"
+                >Heure de sommeil:{{ data[0].startTime }}</label
+              >
               <input
                 type="time"
                 id="appt1"
