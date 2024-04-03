@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      data: null,
       stayHome: false,
       NouvelSortie: false,
       inputs: {
@@ -17,6 +18,7 @@ export default {
         commentaire: "",
         date: new Date().toISOString().slice(0, 10),
       },
+      childLeisures: [],
       leisures: [],
     };
   },
@@ -36,13 +38,17 @@ export default {
     },
   },
   methods: {
+    close() {
+      (this.NouvelSortie = false),
+        (this.inputs.leisureId = ""),
+        (this.inputs.commentaire = "");
+    },
     async getLeisure() {
       {
         const response = await axios.get(
           `http://localhost:8082/leisures/${this.inputs.date}/${this.inputs.childId}`
         );
-        this.data = response.data;
-        console.log(this.data, "leisure");
+        this.childLeisures = response.data;
       }
     },
     showSelect() {
@@ -57,6 +63,10 @@ export default {
         "http://localhost:8082/leisures",
         this.inputs
       );
+      if (response) {
+        this.close();
+        this.getLeisure(this.inputs.date, this.inputs.childId);
+      }
     },
     async initLeisures() {
       const response = await axios.get("http://localhost:8082/leisures");
@@ -65,6 +75,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Sortie & Loisir</h1>
@@ -145,36 +156,56 @@ export default {
 
           <div class="d-flex justify-content-center mt-3 div-button">
             <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
-            <button class="btn mb-4 mx-3">Annuler</button>
+            <button class="btn mb-4 mx-3" @click="close">Annuler</button>
           </div>
         </form>
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mb-3 mt-5">
-      <div class="card bg-light col-12 col-md-6 mb-2">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img
-              src="../../assets/parc.jpg"
-              class="img-fluid rounded-start mt-4 ms-4"
-              alt="..."
-              width="50"
-              height="50"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body w-auto">
-              <h5 class="card-title m-0">On est allé au parc</h5>
-              <p class="card-text m-0 mt-3" style="max-width: 500px">
-                Noah a jouer au balançoire, il etait trés organisé, il fesait la
-                queue et attend son role
-              </p>
+    <template v-if="childLeisures && childLeisures.length > 0">
+      <div
+        class="d-flex justify-content-center mb-3 mt-5"
+        v-for="leisure in childLeisures"
+      >
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="../../assets/parc.jpg"
+                class="img-fluid rounded-start mt-4 ms-4"
+                alt="..."
+                width="50"
+                height="50"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body w-auto">
+                <h5 class="card-title m-0">
+                  {{ leisure.leisureId.name }}
+                </h5>
+                <p class="card-text m-0 mt-3" style="max-width: 500px">
+                  {{ leisure.commentaire }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="d-flex justify-content-center mb-3 mt-5">
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body">
+                Pas encore de sortie ou de loisir prévu pour l'enfant
+                aujourd'hui ! 🏞️💃📚
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 <style scoped>
@@ -185,5 +216,11 @@ h1 {
 }
 h3 {
   font-family: "Pacifico", cursive;
+}
+
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

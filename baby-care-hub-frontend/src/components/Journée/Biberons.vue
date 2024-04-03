@@ -42,7 +42,6 @@ export default {
       this.NouveauBiberon = true;
     },
     async submit() {
-      console.log("inputs", this.inputs);
       const response = await axios.post(
         "http://localhost:8082/bottels",
         this.inputs
@@ -103,34 +102,49 @@ export default {
         </form>
       </div>
     </div>
-
-    <div
-      class="d-flex justify-content-center mb-3 mt-5"
-      v-for="babyBottel in babyBottels"
-    >
-      <div class="card bg-light col-12 col-md-6 mb-2">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img
-              src="../../assets/biberon.jpg"
-              class="img-fluid rounded-start mt-4 ms-4"
-              alt="..."
-              width="50"
-              height="50"
-            />
+    <template v-if="babyBottels && babyBottels.length > 0">
+      <div
+        class="d-flex justify-content-center mb-3 mt-5"
+        v-for="babyBottel in babyBottels"
+      >
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="../../assets/biberon.jpg"
+                class="img-fluid rounded-start mt-4 ms-4"
+                alt="..."
+                width="50"
+                height="50"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title m-0">Biberon</h5>
+                <p class="card-text m-0 mt-2">
+                  Prise de biberon de {{ babyBottel.volume }} ml
+                </p>
+                <p class="card-text m-0">à {{ babyBottel.time }}</p>
+              </div>
+            </div>
           </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title m-0">Biberon</h5>
-              <p class="card-text m-0 mt-2">
-                Prise de biberon de {{ babyBottel.volume }} ml
-              </p>
-              <p class="card-text m-0">à {{ babyBottel.time }}</p>
+        </div>
+      </div></template
+    >
+    <template v-else>
+      <div class="d-flex justify-content-center mb-3 mt-5">
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body">
+                Oups ! Pas de biberon enregistré pour le moment, attendons
+                patiemment 🍼🐻
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <style scoped>
@@ -143,5 +157,10 @@ h1 {
 h3 {
   font-family: "Pacifico", cursive;
   white-space: nowrap;
+}
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

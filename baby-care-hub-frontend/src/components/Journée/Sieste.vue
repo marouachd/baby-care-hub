@@ -9,7 +9,7 @@ export default {
   },
   data() {
     return {
-      data: "",
+      naps: [],
       NouvelSieste: false,
       inputs: {
         childId: this.route.params.id,
@@ -25,6 +25,12 @@ export default {
     this.getNap();
   },
   methods: {
+    close() {
+      this.NouvelSieste = false;
+      this.inputs.commentaire = "";
+      this.inputs.startTime = "";
+      this.inputs.endTime = "";
+    },
     AjouterSieste() {
       this.NouvelSieste = true;
     },
@@ -34,14 +40,18 @@ export default {
         "http://localhost:8082/naps",
         this.inputs
       );
+      if (response) {
+        this.close();
+        this.getNap(this.inputs.date, this.inputs.childId, this.inputs.type);
+      }
     },
     async getNap() {
       {
-        const nap = await axios.get(
+        const response = await axios.get(
           `http://localhost:8082/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
         );
-        this.data = nap.data;
-        console.log(this.data, "resp");
+        this.naps = response.data;
+        console.log(this.naps, "nap");
       }
     },
   },
@@ -63,9 +73,7 @@ export default {
         <form class="form mb-2 mt-4" @submit.prevent="submit">
           <div class="row mx-2">
             <div class="col mb-2">
-              <label for="appt1" class="mr-2 mb-2"
-                >Heure de sommeil:{{ data[0].startTime }}</label
-              >
+              <label for="appt1" class="mr-2 mb-2">Heure de sommeil:</label>
               <input
                 type="time"
                 id="appt1"
@@ -94,6 +102,7 @@ export default {
                   class="form-control mt-2"
                   placeholder="Leave a comment here"
                   id="floatingTextarea2"
+                  v-model="inputs.commentaire"
                 ></textarea>
                 <label for="floatingTextarea2">Commentaires</label>
               </div>
@@ -102,37 +111,51 @@ export default {
 
           <div class="d-flex justify-content-center mt-3">
             <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
-            <button class="btn mb-4 mx-3">Annuler</button>
+            <button class="btn mb-4 mx-3" @click="close">Annuler</button>
           </div>
         </form>
       </div>
     </div>
-
-    <div class="d-flex justify-content-center mb-3 mt-5">
-      <div class="card bg-light col-12 col-md-6 mb-2">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img
-              src="../../assets/sieste.jpg"
-              class="img-fluid rounded-start mt-4 ms-4"
-              alt="..."
-              width="50"
-              height="50"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title m-0">Sieste</h5>
-              <p class="mt-2">Heure de sommeil:</p>
-              <p>Heure de réveil:</p>
-              <p class="card-text m-0 mt-2">
-                Noah a fait une sieste, il a bien dormi
-              </p>
+    <template v-if="naps && naps.length > 0">
+      <div class="d-flex justify-content-center mb-3 mt-5" v-for="nap in naps">
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="../../assets/sieste.jpg"
+                class="img-fluid rounded-start mt-4 ms-4"
+                alt="..."
+                width="50"
+                height="50"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title m-0">Sieste</h5>
+                <p class="mt-2">Heure de sommeil: {{ nap.startTime }}</p>
+                <p>Heure de réveil: {{ nap.endTime }}</p>
+                <p class="card-text m-0 mt-2">
+                  {{ nap.commentaire }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="d-flex justify-content-center mb-3 mt-5">
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body">
+                Aww, l'enfant n'a pas encore fait de sieste aujourd'hui 🐻💤
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 <style scoped>
@@ -143,5 +166,11 @@ h1 {
 }
 h3 {
   font-family: "Pacifico", cursive;
+}
+
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

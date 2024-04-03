@@ -203,4 +203,10 @@ h3 {
 .selected {
   font-weight: bold;
 }
+
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
 </style>

@@ -32,8 +32,7 @@ export default {
         this.data = response.data;
         console.log(this.data, "actualités");
         console.log(this.data.babyBottels, "bottels");
-        this.rawArray = this.data.__v_raw;
-        console.log(this.rawArray, "raw");
+        console.log(this.data.nap, "nap");
       }
     },
   },
@@ -47,7 +46,7 @@ export default {
     </h1>
     <div class="card bg-light rounded">
       <div
-        class="card mx-2 mt-2"
+        class="card mx-2 mt-4"
         v-if="this.data && this.data.presence && this.data.presence.startTime"
       >
         <div class="card-body">
@@ -80,7 +79,7 @@ export default {
         v-for="bottle in this.data.babyBottels"
         :key="bottle.id"
       >
-        <div class="card mx-2">
+        <div class="card mx-2 mt-4">
           <div class="card-body">
             <div class="col-md-6">
               <h4>Biberon</h4>
@@ -111,7 +110,7 @@ export default {
         </div>
       </div>
 
-      <div class="card mx-2" v-if="this.data && this.data.childActivity">
+      <div class="card mx-2 mt-4" v-if="this.data && this.data.childActivity">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Activités</h4>
@@ -172,56 +171,42 @@ export default {
         <span class="comment">😞</span>
       </div>
 
-      <div class="card mx-2" v-if="this.data && this.data.nap">
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Sieset</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/sieste.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
+      <div v-if="this.data && this.data.nap" v-for="nap in this.data.nap">
+        <div class="card mx-2 mt-2">
+          <div class="card-body">
+            <div class="col-md-6">
+              <h4>Sieste</h4>
+
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img
+                    src="../../assets/sieste.jpg"
+                    class="img-fluid rounded-start mt-4 ms-4"
+                    alt="..."
+                    width="50"
+                    height="50"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <p>Heure de sommeil: {{ nap.startTime }}</p>
+                    <p>Heure de réveil: {{ nap.endTime }}</p>
+                    <p class="card-text m-0 mt-2">
+                      {{ nap.commentaire }}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>Heure de sommeil : {{ this.data.nap.startTime }}</div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        class="card mx-2"
-        v-if="this.data && this.data.nap && this.data.nap.endTime"
-      >
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Sieset</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/sieste.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
-              </div>
-              <div>Heure de réveil : {{ this.data.nap.endTime }}</div>
-            </div>
-            <div class="ms-1">
-              {{ this.data.nap.commentaire }}
-            </div>
-          </div>
+        <div class="comment-section mt-2" v-if="this.data && this.data.nap">
+          <span class="comment">⭐</span>
+          <span class="comment">❤️</span>
+          <span class="comment">👏</span>
+          <span class="comment">😞</span>
         </div>
-      </div>
-
-      <div
-        class="comment-section mt-2"
-        v-if="this.data && this.data.nap && this.data.nap.endTime"
-      >
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
       </div>
 
       <div class="card mx-2" v-if="this.data && this.data.snack">
@@ -274,24 +259,25 @@ export default {
                   this.data.leisure.leisureId.id < 4
                 "
               >
-                Il ne fait pas beau aujourd'hui on decidé de rester à la maison
+                <p>
+                  Il ne fait pas beau aujourd'hui on decidé de rester à la
+                  maison
+                </p>
+
+                <p>
+                  On
+                  {{
+                    this.data &&
+                    this.data.leisure &&
+                    this.data.leisure.leisureId.id < 4
+                      ? "a choisi de"
+                      : "est allé"
+                  }}
+                  {{ this.data.leisure.leisureId.name }}
+                </p>
+
+                <p>{{ this.data.leisure.commentaire }}</p>
               </div>
-            </div>
-            <div>
-              <p>
-                On
-                {{
-                  this.data &&
-                  this.data.leisure &&
-                  this.data.leisure.leisureId.id < 4
-                    ? "a choisi"
-                    : "est allé"
-                }}
-                {{ this.data.leisure.leisureId.name }}
-              </p>
-            </div>
-            <div>
-              <p>{{ this.data.leisure.commentaire }}</p>
             </div>
           </div>
         </div>

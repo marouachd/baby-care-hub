@@ -23,8 +23,7 @@ export default {
   methods: {
     async getUser() {
       const resp = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`,
-        console.log("user", resp)
+        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`
       );
     },
     async getChilds() {
@@ -32,12 +31,9 @@ export default {
         `${import.meta.env.VITE_API_BASE_URL}/child/parent/${this.id}`
       );
       this.childs = response.data;
-      console.log("child", this.childs);
     },
     AjouterEnfant() {
-      console.log("Méthode AjouterEnfant appelée");
       if (this.childs.length !== 0) {
-        console.log("childmindercode", this.childminderCode);
         if (this.childminderCode === null) {
           this.$router.push({
             name: "id-nounou",
@@ -72,7 +68,6 @@ export default {
   },
   beforeMount() {
     this.id = localStorage.getItem("userId");
-    console.log("id", this.id);
     this.getChilds();
     this.childminderCode = localStorage.getItem("childminderCode");
   },
@@ -214,7 +209,7 @@ export default {
         class="form-text text-danger row d-flex justify-content-center"
         v-if="!child.active"
       >
-        <span class="col-9">
+        <span class="col-9 ms-5">
           Votre enfant n'est plus gardé par
           {{ child.childminderCode.personId.firstName }}&nbsp;{{
             child.childminderCode.personId.lastName

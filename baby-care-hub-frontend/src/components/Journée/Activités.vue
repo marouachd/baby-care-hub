@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       NouvelActivité: false,
+      data: [],
       inputs: {
         activityId: "",
         childId: this.route.params.id,
@@ -33,6 +34,7 @@ export default {
           `http://localhost:8082/activities/${this.inputs.date}/${this.inputs.childId}`
         );
         this.data = response.data;
+
         console.log(this.data, "activity");
       }
     },
@@ -45,12 +47,21 @@ export default {
     AjouterActivité() {
       this.NouvelActivité = true;
     },
+    close() {
+      this.NouvelActivité = false;
+      this.inputs.commentaire = "";
+      this.inputs.activityId = "";
+    },
     async submit() {
       console.log("inputs", this.inputs);
       const response = await axios.post(
         "http://localhost:8082/activities",
         this.inputs
       );
+      if (response) {
+        this.close();
+        this.getActivities(this.inputs.date, this.inputs.childId);
+      }
     },
   },
 };
@@ -100,35 +111,57 @@ export default {
           </div>
           <div class="d-flex justify-content-center mt-3">
             <button class="btn btn1 mb-4 ms-3" type="submit">Confirmer</button>
-            <button class="btn mb-4 mx-3">Annuler</button>
+            <button class="btn mb-4 mx-3" @click="close">Annuler</button>
           </div>
         </form>
       </div>
     </div>
-
-    <div class="d-flex justify-content-center mb-3 mt-5">
-      <div class="card bg-light col-12 col-md-6 mb-2">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img
-              src="../../assets/activité.jpg"
-              class="img-fluid rounded-start mt-4 ms-4"
-              alt="..."
-              width="50"
-              height="50"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title m-0">Lego</h5>
-              <p class="card-text m-0 mt-2">
-                Noah a fait des construction au lego, il etait trés content
-              </p>
+    <template v-if="data && data.length > 0">
+      <div
+        class="d-flex justify-content-center mb-3 mt-5"
+        v-for="activity in data"
+        :key="activity.id"
+      >
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="../../assets/activité.jpg"
+                class="img-fluid rounded-start mt-4 ms-4"
+                alt="..."
+                width="50"
+                height="50"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title m-0">
+                  {{ activity.activityId.activityName }}
+                </h5>
+                <p class="card-text m-0 mt-2">
+                  On a joué aux {{ activity.activityId.activityName }},
+                  {{ activity.commentaire }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-if="(!data || data.length == 0) && !NouvelActivité">
+      <div class="d-flex justify-content-center mb-3 mt-5">
+        <div class="card bg-light col-12 col-md-6 mb-2">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body">
+                Pas encore d'activités enregistré 🧸 C'est peut-être l'heure de
+                lui proposer quelque chose ! 🎨🧩
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 <style scoped>
@@ -140,5 +173,10 @@ h1 {
 h3 {
   font-family: "Pacifico", cursive;
   white-space: nowrap;
+}
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>
