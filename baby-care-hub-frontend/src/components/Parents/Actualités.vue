@@ -252,14 +252,14 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div
-                v-if="
-                  this.data &&
-                  this.data.leisure &&
-                  this.data.leisure.leisureId.id < 4
-                "
-              >
-                <p>
+              <div>
+                <p
+                  v-if="
+                    this.data &&
+                    this.data.leisure &&
+                    this.data.leisure.leisureId.id < 4
+                  "
+                >
                   Il ne fait pas beau aujourd'hui on decidé de rester à la
                   maison
                 </p>
@@ -271,7 +271,7 @@ export default {
                     this.data.leisure &&
                     this.data.leisure.leisureId.id < 4
                       ? "a choisi de"
-                      : "est allé"
+                      : "est allé : "
                   }}
                   {{ this.data.leisure.leisureId.name }}
                 </p>
