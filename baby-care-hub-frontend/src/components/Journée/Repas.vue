@@ -68,6 +68,9 @@ export default {
         "http://localhost:8082/meals",
         this.inputs
       );
+      if (response) {
+        this.inputs = "";
+      }
       console.log(response);
     },
   },

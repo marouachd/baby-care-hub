@@ -39,7 +39,7 @@ export default {
           if (resp.status === 200) {
             this.userId = resp.body.userId;
             this.roleId = resp.body.roleId;
-            localStorage.setItem("token", resp.body.token);
+            //localStorage.setItem("token", resp.body.token);
             localStorage.setItem("userId", this.userId);
             localStorage.setItem("roleId", this.roleId);
             if (this.roleId == 2) {

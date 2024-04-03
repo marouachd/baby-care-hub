@@ -19,10 +19,8 @@ export default {
   },
   methods: {
     async getChilds() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/childminder/${this.id}`
-      );
-      this.childs = response.data;
+      const response = await this.$axios.get(`/child/childminder/${this.id}`);
+      this.childs = response.body;
       console.log("child", this.childs);
     },
 

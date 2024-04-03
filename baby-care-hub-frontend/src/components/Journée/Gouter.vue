@@ -74,6 +74,12 @@ export default {
         "http://localhost:8082/meals",
         this.inputs
       );
+      if (response && response.status === 204) {
+        this.$toast.success("toast-global", "Gouter enregistré");
+        this.inputs = "";
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
+      }
     },
   },
 };
