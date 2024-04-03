@@ -45,9 +45,9 @@ public class ActualityEntity extends AbstractEntity {
     @JoinColumn(name = "snack_id")
     private MealEntity snack;
 
-    @ManyToOne
-    @JoinColumn(name = "nap_id")
-    private NapEntity nap;
+    @OneToMany(mappedBy = "actuality")
+    @JsonManagedReference
+    private List<NapEntity> nap;
 
     @ManyToOne
     @JoinColumn(name = "presence_id")
@@ -111,11 +111,11 @@ public class ActualityEntity extends AbstractEntity {
 	this.snack = snack;
     }
 
-    public NapEntity getNap() {
+    public List<NapEntity> getNap() {
 	return nap;
     }
 
-    public void setNap(NapEntity nap) {
+    public void setNap(List<NapEntity> nap) {
 	this.nap = nap;
     }
 

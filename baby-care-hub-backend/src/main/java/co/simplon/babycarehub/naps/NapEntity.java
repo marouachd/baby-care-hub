@@ -4,8 +4,13 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import co.simplon.babycarehub.actualities.ActualityEntity;
 import co.simplon.babycarehub.entities.AbstractEntity;
 
 @Entity
@@ -29,6 +34,11 @@ public class NapEntity extends AbstractEntity {
 
     @Column(name = "date")
     private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "actuality_id")
+    @JsonBackReference
+    private ActualityEntity actuality;
 
     public NapEntity() {
 
@@ -82,12 +92,13 @@ public class NapEntity extends AbstractEntity {
 	this.date = date;
     }
 
-    @Override
-    public String toString() {
-	return "{type=" + type + ", startTime=" + startTime
-		+ ", endTime=" + endTime + ", commentaire="
-		+ commentaire + ", childId=" + childId
-		+ ", date=" + date + "}";
+    public ActualityEntity getActuality() {
+	return actuality;
     }
 
+    public void setActuality(ActualityEntity actuality) {
+	this.actuality = actuality;
+    }
+
+    // pas de tString
 }

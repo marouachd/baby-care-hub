@@ -1,6 +1,7 @@
 package co.simplon.babycarehub.naps;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,7 +41,8 @@ public class NapServiceImpl implements NapService {
 	NapEntity entity = naps.findByChildIdAndDateAndType(
 		childId, date, type);
 
-	if (entity == null) {
+	if (entity == null || (entity != null
+		&& entity.getEndTime() != null)) {
 
 	    entity = new NapEntity();
 	    entity.setType(inputs.getType());
@@ -49,12 +51,10 @@ public class NapServiceImpl implements NapService {
 	    entity.setDate(date);
 	    entity.setEndTime(inputs.getEndTime());
 	    entity.setCommentaire(inputs.getCommentaire());
-	    naps.save(entity);
 
 	} else {
 	    entity.setEndTime(inputs.getEndTime());
 	    entity.setCommentaire(inputs.getCommentaire());
-	    naps.save(entity);
 
 	}
 
@@ -65,10 +65,14 @@ public class NapServiceImpl implements NapService {
 	}
 	if ("sieste".equals(inputs.getType())) {
 
-	    actuality.setNap(entity);
+	    List<NapEntity> naps = new ArrayList<>();
+	    naps.add(entity);
+	    actuality.setNap(naps);
 	} else {
 	    actuality.setPresence(entity);
 	}
+	entity.setActuality(actuality);
+	naps.save(entity);
 	actualities.save(actuality);
 
     }
