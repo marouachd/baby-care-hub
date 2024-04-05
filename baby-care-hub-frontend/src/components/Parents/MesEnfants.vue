@@ -110,7 +110,7 @@ export default {
           <div class="col d-flex justify-content-center mx-5">
             <img
               :src="getChildImage(child)"
-              class="img-fluid rounded-circle w-100"
+              class="img-fluid rounded-circle w-100 h-100"
               alt="..."
             />
           </div>

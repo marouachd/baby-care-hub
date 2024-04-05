@@ -13,34 +13,54 @@ export default {
       id: this.route.params.id,
       data: "",
       userId: "",
+      btnName: "",
     };
   },
-  created() {
-    this.$http = axios;
-    console.log("role", this.userRole);
-  },
+
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
     this.userId = localStorage.getItem("userId");
-    console.log(this.userId, "userId");
   },
   methods: {
     async getChildProfile() {
-      const response = await this.$axios.get(`/child/${this.id}/detail`);
-      this.data = response.body;
-      console.log(this.data);
+      try {
+        const response = await this.$axios.get(`/child/${this.id}/detail`);
+        this.data = response.body;
+        console.log(this.data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération du profil de l'enfant :",
+          error
+        );
+      }
     },
 
     async desactive(id) {
-      const resp = await this.$axios.post(`/child/desactive/${id}`);
-      if (resp.status === 200) {
-        this.$toast.success("toast-global", "Le profile a été désactivé.");
-        this.$router.push({
-          name: "home",
-          params: { id: this.userId },
-        });
+      console.log(id, "id enfant");
+      if (this.roleId == 1) {
+        this.btnName = "Je ne garde plus cet enfant";
+        const resp = await this.$axios.post(`/child/desactive/${id}`);
+        if (resp.status === 200) {
+          this.$toast.success("toast-global", "Le profile a été désactivé.");
+          this.$router.push({
+            name: "home",
+            params: { id: this.userId },
+          });
+        } else {
+          this.$toast.error("toast-global", "Un problème est survenu.");
+        }
       } else {
-        this.$toast.error("toast-global", "Un problème est survenu.");
+        this.btnName = " Supprimer ce profile";
+        const resp = await this.$axios.delete(`/child/${id}`);
+        if (resp.status === 200) {
+          this.$toast.success("toast-global", "Le profile a été supprimé.");
+          this.$router.push({
+            name: "home",
+            params: { id: this.userId },
+          });
+        } else {
+          this.$toast.error("toast-global", "Un problème est survenu.");
+        }
       }
     },
     calculateAge(birthdayDate) {
@@ -51,9 +71,9 @@ export default {
     },
   },
 
-  mounted() {
-    this.getChildProfile();
-    //this.id = this.route.params.id;
+  async mounted() {
+    await this.getChildProfile();
+    this.id = this.route.params.id;
   },
 };
 </script>
@@ -100,7 +120,7 @@ export default {
                 >{{ data.personId ? data.parentId.personId.firstName : "" }} et
                 ...
                 <RouterLink
-                  :to="{ name: 'représentant-légal', params: { id: this.id } }"
+                  :to="{ name: 'représentant-légal', params: { id: id } }"
                   class="btn mb-2 me-md-3 ms-1"
                   id="button"
                 >
@@ -146,7 +166,14 @@ export default {
           @click="desactive(id)"
           v-if="this.roleId == 1"
         >
-          Desactiver
+          Je ne garde plus cet enfant
+        </button>
+        <button
+          class="btn btn-danger mb-2 ms-md-3"
+          @click="desactive(id)"
+          v-else
+        >
+          Supprimer ce profile
         </button>
       </div>
     </div>

@@ -74,6 +74,7 @@ public class ChildServiceImpl implements ChildService {
 	    MealRepository meals,
 	    ChildActivityRepository childs_activities,
 	    ChildLeisureRepository childs_leisures) {
+
 	this.childs = childs;
 	this.genders = genders;
 	this.persons = persons;
@@ -163,6 +164,7 @@ public class ChildServiceImpl implements ChildService {
     @Override
     @Transactional
     public void delete(Long id) {
+
 	// Supprimer l'actualité associée à cette enfant
 	ActualityEntity actuality = actualities
 		.findByChildId(id);
@@ -197,6 +199,7 @@ public class ChildServiceImpl implements ChildService {
 	    }
 	    // Supprimer l'entité ChildEntity
 	    childs.delete(child);
+
 	}
     }
 
