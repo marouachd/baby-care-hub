@@ -19,9 +19,7 @@ export default {
       },
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   mounted() {
     this.getBabyBottel();
   },
@@ -32,20 +30,17 @@ export default {
       this.inputs.time = "";
     },
     async getBabyBottel() {
-      const response = await axios.get(
-        `http://localhost:8082/bottels/${this.inputs.date}/${this.inputs.childId}`
+      const response = await this.$axios.get(
+        `/bottels/${this.inputs.date}/${this.inputs.childId}`
       );
-      this.babyBottels = response.data;
+      this.babyBottels = response.body;
     },
 
     AjouterBiberon() {
       this.NouveauBiberon = true;
     },
     async submit() {
-      const response = await axios.post(
-        "http://localhost:8082/bottels",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/bottels`, this.inputs);
       if (response) {
         this.close();
         this.getBabyBottel(this.inputs.date, this.inputs.childId);

@@ -36,10 +36,7 @@ export default {
     },
     async submit() {
       console.log("inputs", this.inputs);
-      const response = await axios.post(
-        "http://localhost:8082/naps",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/naps`, this.inputs);
       if (response) {
         this.close();
         this.getNap(this.inputs.date, this.inputs.childId, this.inputs.type);
@@ -47,10 +44,10 @@ export default {
     },
     async getNap() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        const response = await this.$axios.get(
+          `/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
         );
-        this.naps = response.data;
+        this.naps = response.body;
         console.log(this.naps, "nap");
       }
     },

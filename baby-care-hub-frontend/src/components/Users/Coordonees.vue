@@ -14,20 +14,14 @@ export default {
     };
   },
   created() {
-    this.$http = axios;
     this.id = this.route.params.id;
   },
   methods: {
     async getUserProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`
-      );
+      const response = await this.$axios.get(`/user/${this.id}/detail`);
       console.log("rep", response);
-      this.data = response.data;
-      console.log("data", this.data);
-      const identifier = response.data.id;
-      console.log("id", identifier, this.data.id);
-      console.log("Identity Photo Name:", this.data.personId.identityPhotoName);
+      this.data = response.body;
+      const identifier = response.body.id;
     },
     handleImageError(error) {
       console.error("Image failed to load:", error);
@@ -60,7 +54,7 @@ export default {
                   <div class="col">
                     <h4 class="card-title">{{ $t("contact.nomPrenom") }} :</h4>
                   </div>
-                  <div class="col mt-2" v-if="this.data.personId">
+                  <div class="col mt-2" v-if="this.data && this.data.personId">
                     <h6>
                       {{ this.data.personId.firstName }}&nbsp;{{
                         this.data.personId.lastName

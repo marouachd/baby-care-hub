@@ -41,10 +41,10 @@ export default {
   methods: {
     async getMeal() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        const response = await this.$axios.get(
+          `/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
         );
-        this.data = response.data;
+        this.data = response.body;
         console.log(this.data, "meal");
       }
     },
@@ -64,10 +64,7 @@ export default {
     },
     async submit() {
       console.log("inputs", this.inputs);
-      const response = await axios.post(
-        "http://localhost:8082/meals",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/meals`, this.inputs);
       if (response) {
         this.inputs = "";
       }

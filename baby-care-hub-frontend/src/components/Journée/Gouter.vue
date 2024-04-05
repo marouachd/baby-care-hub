@@ -44,10 +44,10 @@ export default {
   methods: {
     async getSnack() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        const response = await this.$axios.get(
+          `/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
         );
-        this.data = response.data;
+        this.data = response.body;
         console.log(this.data, "snack");
       }
     },
@@ -66,14 +66,11 @@ export default {
       this.inputs.eval = this.satisfactionLevels[this.selectedLevel];
     },
     async initSnacks() {
-      const response = await axios.get("http://localhost:8082/meals");
-      this.snacks = response.data;
+      const response = await this.$axios.get(`/meals`);
+      this.snacks = response.body;
     },
     async submit() {
-      const response = await axios.post(
-        "http://localhost:8082/meals",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/meals`, this.inputs);
       if (response && response.status === 204) {
         this.$toast.success("toast-global", "Gouter enregistré");
         this.inputs = "";

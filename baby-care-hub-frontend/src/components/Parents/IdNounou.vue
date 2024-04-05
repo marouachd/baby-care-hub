@@ -17,15 +17,11 @@ export default {
       },
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   methods: {
     async getChildProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
-      );
-      this.data = response.data;
+      const response = await this.$axios.get(`/child/${this.id}/detail`);
+      this.data = response.body;
       console.log("child-id-nounou", this.data);
     },
     async Submit() {
@@ -34,8 +30,8 @@ export default {
         this.data.childminderCode.personId.pseudoName !=
           this.inputs.childminderCode
       ) {
-        const resp = await this.$http.patch(
-          `${import.meta.env.VITE_API_BASE_URL}/child/active/${this.id}`,
+        const resp = await this.$axios.patch(
+          `/child/active/${this.id}`,
           this.inputs
         );
         console.log(resp, "patch-id-nounou");

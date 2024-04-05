@@ -34,11 +34,11 @@ export default {
             type: "image/jpeg",
           }
         ),
+        parentId: "",
       },
     };
   },
   created() {
-    this.$http = axios;
     this.userId = localStorage.getItem("userId");
   },
   methods: {
@@ -55,12 +55,10 @@ export default {
       formData.append("birthdayDate", this.inputs.birthdayDate);
       formData.append("genderId", this.inputs.genderId);
       formData.append("guardId", this.inputs.guardId);
-      formData.append("token", this.token);
+      formData.append("parentId", this.parentId);
+      //formData.append("token", this.token);
       formData.append("childminderCode", this.childminderCode);
-      const resp = await this.$http.post(
-        `${import.meta.env.VITE_API_BASE_URL}/child`,
-        formData
-      );
+      const resp = await this.$axios.post(`/child`, formData);
       if (resp.status === 204) {
         this.$toast.success(
           "toast-global",
@@ -86,16 +84,12 @@ export default {
       this.$refs.fileInput.click();
     },
     async initGardeModes() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/guard-mode`
-      );
-      this.gardeModes = response.data;
+      const response = await this.$axios.get(`/guard-mode`);
+      this.gardeModes = response.body;
     },
     async initGenders() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/gender`
-      );
-      this.genders = response.data;
+      const response = await this.$axios.get(`/gender`);
+      this.genders = response.body;
     },
     back() {
       console.log("back");
@@ -111,6 +105,7 @@ export default {
     this.initGenders();
   },
   beforeMount() {
+    this.parentId = localStorage.getItem("userId");
     this.token = localStorage.getItem("token");
     this.childminderCode = localStorage.getItem("childminderCode");
     console.log("token", this.token);

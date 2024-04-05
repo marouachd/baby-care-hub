@@ -16,9 +16,7 @@ export default {
       //date: "2024-03-32",
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   mounted() {
     this.getActuality();
   },
@@ -26,10 +24,10 @@ export default {
   methods: {
     async getActuality() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/actualities/${this.date}/${this.id}`
+        const response = await this.$axios.get(
+          `/actualities/${this.date}/${this.id}`
         );
-        this.data = response.data;
+        this.data = response.body;
         console.log(this.data, "actualités");
         console.log(this.data.babyBottels, "bottels");
         console.log(this.data.nap, "nap");

@@ -40,10 +40,8 @@ export default {
   },
   methods: {
     async getProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
-      );
-      const data = response.data;
+      const response = await this.$axios.get(`/child/${this.id}/detail`);
+      const data = response.body;
       console.log("data", data);
       this.inputs.lastName = data.personId.lastName;
       this.inputs.firstName = data.personId.firstName;
@@ -73,10 +71,7 @@ export default {
       formData.append("genderId", this.inputs.genderId);
       formData.append("guardId", this.inputs.guardId);
       formData.append("pseudoName", this.inputs.pseudoName);
-      const resp = await this.$http.patch(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}`,
-        formData
-      );
+      const resp = await this.$axios.patch(`/child/${this.id}`, formData);
       if (resp.status === 204) {
         this.$toast.success(
           "toast-global",
@@ -104,16 +99,12 @@ export default {
       this.$refs.fileInput.click();
     },
     async initGardeModes() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/guard-mode`
-      );
-      this.gardeModes = response.data;
+      const response = await this.$axios.get(`/guard-mode`);
+      this.gardeModes = response.body;
     },
     async initGenders() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/gender`
-      );
-      this.genders = response.data;
+      const response = await this.$axios.get(`/gender`);
+      this.genders = response.body;
     },
     back() {
       this.$router.push({

@@ -22,24 +22,21 @@ export default {
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
     this.userId = localStorage.getItem("userId");
+    console.log(this.userId, "userId");
   },
   methods: {
     async getChildProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
-      );
-      this.data = response.data;
+      const response = await this.$axios.get(`/child/${this.id}/detail`);
+      this.data = response.body;
       console.log(this.data);
     },
 
     async desactive(id) {
-      const resp = await this.$http.post(
-        `${import.meta.env.VITE_API_BASE_URL}/child/desactive/${id}`
-      );
+      const resp = await this.$axios.post(`/child/desactive/${id}`);
       if (resp.status === 200) {
         this.$toast.success("toast-global", "Le profile a été désactivé.");
         this.$router.push({
-          name: "acceuil",
+          name: "home",
           params: { id: this.userId },
         });
       } else {

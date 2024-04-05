@@ -14,9 +14,7 @@ export default {
       childs: [],
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   methods: {
     async getChilds() {
       const response = await this.$axios.get(`/child/childminder/${this.id}`);

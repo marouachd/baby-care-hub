@@ -17,20 +17,15 @@ export default {
     };
   },
   created() {
-    this.$http = axios;
     this.userId = localStorage.getItem("userId");
   },
   methods: {
     async getUser() {
-      const resp = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`
-      );
+      const resp = await this.$axios.get(`/user/${this.id}/detail`);
     },
     async getChilds() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/parent/${this.id}`
-      );
-      this.childs = response.data;
+      const response = await this.$axios.get(`/child/parent/${this.id}`);
+      this.childs = response.body;
     },
     AjouterEnfant() {
       if (this.childs.length !== 0) {
@@ -59,6 +54,7 @@ export default {
       }
     },
     getChildImage(child) {
+      console.log(child, "child");
       if (child.personId.identityPhotoName) {
         return "/personal-pictures/" + child.personId.identityPhotoName;
       } else {

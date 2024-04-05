@@ -14,15 +14,10 @@ export default {
       data: "",
     };
   },
-  created() {
-    this.$http = axios;
-  },
   methods: {
     async getChildProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/child/${this.id}/detail`
-      );
-      this.data = response.data;
+      const response = await this.$axios.get(`/child/${this.id}/detail`);
+      this.data = response.body;
       console.log("child profile", this.data);
     },
   },

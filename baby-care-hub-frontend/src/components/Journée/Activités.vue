@@ -20,9 +20,6 @@ export default {
       activities: [],
     };
   },
-  created() {
-    this.$http = axios;
-  },
   mounted() {
     this.initActivities();
     this.getActivities();
@@ -30,19 +27,17 @@ export default {
   methods: {
     async getActivities() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/activities/${this.inputs.date}/${this.inputs.childId}`
+        const response = await this.$axios.get(
+          `/activities/${this.inputs.date}/${this.inputs.childId}`
         );
-        this.data = response.data;
+        this.data = response.body;
 
         console.log(this.data, "activity");
       }
     },
     async initActivities() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/activities`
-      );
-      this.activities = response.data;
+      const response = await this.$axios.get(`/activities`);
+      this.activities = response.body;
     },
     AjouterActivité() {
       this.NouvelActivité = true;
@@ -54,10 +49,7 @@ export default {
     },
     async submit() {
       console.log("inputs", this.inputs);
-      const response = await axios.post(
-        "http://localhost:8082/activities",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/activities`, this.inputs);
       if (response) {
         this.close();
         this.getActivities(this.inputs.date, this.inputs.childId);

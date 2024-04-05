@@ -35,15 +35,10 @@ export default {
       },
     };
   },
-  created() {
-    this.$http = axios;
-  },
   methods: {
     async getUserProfile() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}/detail`
-      );
-      const data = response.data;
+      const response = await this.$axios.get(`/user/${this.id}/detail`);
+      const data = response.body;
       console.log("data", data);
       this.inputs.lastName = data.personId.lastName;
       this.inputs.firstName = data.personId.firstName;
@@ -94,10 +89,8 @@ export default {
       }
     },
     async initRoles() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/role`
-      );
-      this.roles = response.data;
+      const response = await this.$axios.get(`/role`);
+      this.roles = response.body;
     },
     updateImage(event) {
       const file = event.target.files[0];

@@ -22,9 +22,7 @@ export default {
       leisures: [],
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   mounted() {
     this.initLeisures();
     this.getLeisure();
@@ -45,10 +43,10 @@ export default {
     },
     async getLeisure() {
       {
-        const response = await axios.get(
-          `http://localhost:8082/leisures/${this.inputs.date}/${this.inputs.childId}`
+        const response = await this.$axios.get(
+          `/leisures/${this.inputs.date}/${this.inputs.childId}`
         );
-        this.childLeisures = response.data;
+        this.childLeisures = response.body;
       }
     },
     showSelect() {
@@ -59,18 +57,15 @@ export default {
     },
     async submit() {
       console.log("inputs", this.inputs);
-      const response = await axios.post(
-        "http://localhost:8082/leisures",
-        this.inputs
-      );
+      const response = await this.$axios.post(`/leisures`, this.inputs);
       if (response) {
         this.close();
         this.getLeisure(this.inputs.date, this.inputs.childId);
       }
     },
     async initLeisures() {
-      const response = await axios.get("http://localhost:8082/leisures");
-      this.leisures = response.data;
+      const response = await this.$axios.get(`/leisures`);
+      this.leisures = response.body;
     },
   },
 };
