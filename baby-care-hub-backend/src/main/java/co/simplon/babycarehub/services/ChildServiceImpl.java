@@ -69,9 +69,7 @@ public class ChildServiceImpl implements ChildService {
 	    DesactiveChildDto isActive) {
 
 	ChildEntity child = new ChildEntity();
-	String token = inputs.getToken();
-	System.out.println("Token from context: " + token);
-	System.out.println("token" + token);
+
 	child.setBirthdayDate(inputs.getBirthdayDate());
 	Long genderId = inputs.getGenderId();
 	GenderEntity gender = genders
@@ -83,11 +81,12 @@ public class ChildServiceImpl implements ChildService {
 	child.setGuardId(guard);
 
 	child.setActive(true);
+	// String parentId = inputs.getParentId()
+	// Long userId = extractUserIdFromToken(token);
+	// UserEntity parent = users.findUserById(userId);
 
-	Long userId = extractUserIdFromToken(token);
-	System.out.println("User Id from Token: " + userId);
-
-	UserEntity parent = users.findUserById(userId);
+	Long parentId = inputs.getParentId();
+	UserEntity parent = users.findUserById(parentId);
 	child.setParentId(parent);
 
 	String pseudoName = inputs.getChildminderCode();
