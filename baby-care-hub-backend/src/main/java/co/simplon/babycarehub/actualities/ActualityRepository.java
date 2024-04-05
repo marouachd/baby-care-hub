@@ -10,4 +10,6 @@ public interface ActualityRepository
     ActualityEntity findByChildIdAndDate(Long childId,
 	    Date date);
 
+    ActualityEntity findByChildId(Long id);
+
 }

@@ -18,6 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import co.simplon.babycarehub.activities.ChildActivityEntity;
+import co.simplon.babycarehub.activities.ChildActivityRepository;
+import co.simplon.babycarehub.actualities.ActualityEntity;
+import co.simplon.babycarehub.actualities.ActualityRepository;
 import co.simplon.babycarehub.dtos.ActiveChildDto;
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
@@ -28,6 +32,10 @@ import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
 import co.simplon.babycarehub.entities.PersonEntity;
 import co.simplon.babycarehub.entities.UserEntity;
+import co.simplon.babycarehub.meals.MealEntity;
+import co.simplon.babycarehub.meals.MealRepository;
+import co.simplon.babycarehub.outingandleisure.ChildLeisureEntity;
+import co.simplon.babycarehub.outingandleisure.ChildLeisureRepository;
 import co.simplon.babycarehub.repositories.ChildRepository;
 import co.simplon.babycarehub.repositories.GenderRepository;
 import co.simplon.babycarehub.repositories.GuardModeRepository;
@@ -50,16 +58,31 @@ public class ChildServiceImpl implements ChildService {
 
     private UserRepository users;
 
+    private ActualityRepository actualities;
+
+    private MealRepository meals;
+
+    private ChildActivityRepository childs_activities;
+
+    private ChildLeisureRepository childs_leisures;
+
     public ChildServiceImpl(ChildRepository childs,
 	    GuardModeRepository guardMode,
 	    GenderRepository genders,
-	    PersonRepository persons,
-	    UserRepository users) {
+	    PersonRepository persons, UserRepository users,
+	    ActualityRepository actualities,
+	    MealRepository meals,
+	    ChildActivityRepository childs_activities,
+	    ChildLeisureRepository childs_leisures) {
 	this.childs = childs;
 	this.genders = genders;
 	this.persons = persons;
 	this.guardMode = guardMode;
 	this.users = users;
+	this.actualities = actualities;
+	this.meals = meals;
+	this.childs_activities = childs_activities;
+	this.childs_leisures = childs_leisures;
 
     }
 
@@ -138,14 +161,43 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    @Transactional // read only=false!
+    @Transactional
     public void delete(Long id) {
-	System.out.println("Id: " + id);
+	// Supprimer l'actualité associée à cette enfant
+	ActualityEntity actuality = actualities
+		.findByChildId(id);
+	if (actuality != null) {
+	    actualities.delete(actuality);
+	}
+
+	// Supprimer les repas associés à cette enfant
+	List<MealEntity> mealList = meals.findByChildId(id);
+	System.out.println("mealList" + mealList);
+	mealList.clear();
+
+	// Supprimer les activités associées à cette enfant
+	List<ChildActivityEntity> activities = childs_activities
+		.findByChildId(id);
+	activities.forEach(activity -> childs_activities
+		.delete(activity));
+
+	// Supprimer les loisirs associés à cette enfant
+	List<ChildLeisureEntity> leisures = childs_leisures
+		.findByChildId(id);
+	leisures.forEach(
+		leisure -> childs_leisures.delete(leisure));
+
+	// Supprimer l'entité ChildEntity
 	ChildEntity child = childs.findChildById(id);
-	System.out.println("Person: " + child);
-	childs.delete(child);
-	PersonEntity person = child.getPersonId();
-	persons.delete(person);
+	if (child != null) {
+	    // Supprimer l'entité Person associée
+	    PersonEntity person = child.getPersonId();
+	    if (person != null) {
+		persons.delete(person);
+	    }
+	    // Supprimer l'entité ChildEntity
+	    childs.delete(child);
+	}
     }
 
     @Override

@@ -3,6 +3,7 @@ package co.simplon.babycarehub.actualities;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -33,19 +34,19 @@ public class ActualityEntity extends AbstractEntity {
     @JoinColumn(name = "child_activity_id")
     private ChildActivityEntity childActivity;
 
-    @OneToMany(mappedBy = "actuality")
+    @OneToMany(mappedBy = "actuality", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<BabyBottelEntity> babyBottels;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "meal_id")
     private MealEntity meal;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "snack_id")
     private MealEntity snack;
 
-    @OneToMany(mappedBy = "actuality")
+    @OneToMany(mappedBy = "actuality", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<NapEntity> nap;
 

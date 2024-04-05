@@ -10,4 +10,6 @@ public interface ChildActivityRepository
 
     List<ChildActivityEntity> findByDateAndChildId(
 	    Date date, Long childId);
+
+    List<ChildActivityEntity> findByChildId(Long id);
 }

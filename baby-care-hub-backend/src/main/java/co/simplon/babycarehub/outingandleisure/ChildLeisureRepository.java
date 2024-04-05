@@ -11,4 +11,6 @@ public interface ChildLeisureRepository
     List<ChildLeisureEntity> findByDateAndChildId(Date date,
 	    Long childId);
 
+    List<ChildLeisureEntity> findByChildId(Long id);
+
 }

@@ -11,4 +11,6 @@ public interface MealRepository
     List<MealEntity> findByDateAndChildIdAndType(Date date,
 	    Long childId, String type);
 
+    List<MealEntity> findByChildId(Long id);
+
 }
