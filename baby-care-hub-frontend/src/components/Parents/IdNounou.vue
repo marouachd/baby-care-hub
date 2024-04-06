@@ -15,16 +15,33 @@ export default {
         childminderCode: "",
         active: false,
       },
+      childminderList: [],
+      search: "",
     };
   },
 
   methods: {
+    selectChildminder(childminder) {
+      if (childminder && childminder.id) {
+        this.inputs.childminderCode = childminder.personId.pseudoName;
+      }
+      this.submit();
+    },
+    getImage(childminder) {
+      if (childminder.personId.identityPhotoName) {
+        return "/personal-pictures/" + childminder.personId.identityPhotoName;
+      }
+    },
     async getChildProfile() {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
       this.data = response.body;
-      console.log("child-id-nounou", this.data);
+      console.log(this.data, "daaaaata");
     },
-    async Submit() {
+    async getChildminderList() {
+      const response = await this.$axios.get(`/user/childminder/1`);
+      this.childminderList = response.body;
+    },
+    async submit() {
       if (
         !this.data.active ||
         this.data.childminderCode.personId.pseudoName !=
@@ -34,7 +51,6 @@ export default {
           `/child/active/${this.id}`,
           this.inputs
         );
-        console.log(resp, "patch-id-nounou");
 
         if (resp.status === 204) {
           this.$toast.success(
@@ -57,8 +73,24 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getChildProfile();
+  computed: {
+    // Filtrer les nounous en fonction du terme de recherche
+    filteredChildminders() {
+      return this.childminderList
+        .filter((childminder) => {
+          // Vérifier si le terme de recherche correspond à l'adresse e-mail ou au numéro de téléphone
+          return (
+            childminder.mailAdress.includes(this.search) ||
+            childminder.phoneNumber.includes(this.search)
+          );
+        })
+        .sort((a, b) => a.mailAdress.localeCompare(b.mailAdress));
+    },
+  },
+
+  async mounted() {
+    await this.getChildProfile();
+    await this.getChildminderList();
   },
   beforeUpdate() {
     this.userId = localStorage.getItem("userId");
@@ -68,7 +100,7 @@ export default {
 <template>
   <section class="container-xl text-center mb-5">
     <h1 class="mt-5 mb-5">{{ $t("idNounou.title") }}</h1>
-    <div class="row justify-content-center mb-5">
+    <!--<div class="row justify-content-center mb-5">
       <div class="col-md-6 col-12 mb-5">
         <form class="my-4 mb-5" @submit.prevent="Submit()">
           <div class="input-group mb-3">
@@ -96,7 +128,51 @@ export default {
           <div class="input-group mb-5"></div>
         </form>
       </div>
-    </div>
+    </div>-->
+
+    <section class="container-xl text-center mb-5">
+      <form class="d-flex justify-content-center">
+        <input
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          v-model="search"
+        />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          Search
+        </button>
+      </form>
+    </section>
+    <section class="container-xl text-center mb-5">
+      <div class="row row-cols-2 row-cols-md-3 g-4 mt-4 ms-5">
+        <div
+          class="card me-5"
+          style="width: 18rem"
+          v-for="childminder in filteredChildminders"
+          :key="childminder.id"
+          @click="selectChildminder(childminder)"
+        >
+          <img
+            class="card-img-top"
+            :src="getImage(childminder)"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <p class="card-text">
+              <span>{{ childminder.personId.firstName }}</span
+              >&ensp;
+              <span>{{ childminder.personId.lastName }}</span>
+            </p>
+            <p class="card-text">
+              <span>{{ childminder.mailAdress }}</span
+              >&ensp;
+              <span>{{ childminder.phoneNumber }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </section>
 </template>
 
