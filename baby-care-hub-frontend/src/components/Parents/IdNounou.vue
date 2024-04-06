@@ -17,6 +17,7 @@ export default {
       },
       childminderList: [],
       search: "",
+      child: "",
     };
   },
 
@@ -34,35 +35,37 @@ export default {
     },
     async getChildProfile() {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
-      this.data = response.body;
-      console.log(this.data, "daaaaata");
+      this.child = response.body;
+      console.log(this.child, "daaaaata");
     },
     async getChildminderList() {
       const response = await this.$axios.get(`/user/childminder/1`);
       this.childminderList = response.body;
     },
     async submit() {
-      if (
-        !this.data.active ||
-        this.data.childminderCode.personId.pseudoName !=
-          this.inputs.childminderCode
-      ) {
-        const resp = await this.$axios.patch(
-          `/child/active/${this.id}`,
-          this.inputs
-        );
-
-        if (resp.status === 204) {
-          this.$toast.success(
-            "toast-global",
-            "La nounou de votre enfant est modifié avec succées"
+      if (this.child) {
+        if (
+          !this.child.active ||
+          this.child.childminderCode.personId.pseudoName !=
+            this.inputs.childminderCode
+        ) {
+          const resp = await this.$axios.patch(
+            `/child/active/${this.id}`,
+            this.inputs
           );
-          this.$router.push({
-            name: "mes-enfants",
-            params: { id: this.userId },
-          });
-        } else {
-          this.$toast.error("toast-global", "Un problème est survenu.");
+
+          if (resp.status === 204) {
+            this.$toast.success(
+              "toast-global",
+              "La nounou de votre enfant est modifié avec succées"
+            );
+            this.$router.push({
+              name: "mes-enfants",
+              params: { id: this.userId },
+            });
+          } else {
+            this.$toast.error("toast-global", "Un problème est survenu.");
+          }
         }
       } else {
         localStorage.setItem("childminderCode", this.inputs.childminderCode);
@@ -139,7 +142,7 @@ export default {
           aria-label="Search"
           v-model="search"
         />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <button class="btn btn-outline search my-2 my-sm-0" type="submit">
           Search
         </button>
       </form>
@@ -160,13 +163,13 @@ export default {
           />
           <div class="card-body">
             <p class="card-text">
-              <span>{{ childminder.personId.firstName }}</span
-              >&ensp;
+              <span>{{ childminder.personId.firstName }}</span> &nbsp;
               <span>{{ childminder.personId.lastName }}</span>
             </p>
             <p class="card-text">
-              <span>{{ childminder.mailAdress }}</span
-              >&ensp;
+              <span>{{ childminder.mailAdress }}</span>
+            </p>
+            <p>
               <span>{{ childminder.phoneNumber }}</span>
             </p>
           </div>
@@ -182,6 +185,11 @@ h1 {
   color: rgba(180, 95, 146, 0.674);
 }
 .bouton {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
+.search {
   background-color: rgb(160, 197, 237);
   font-family: "Pacifico", cursive;
   color: white;
