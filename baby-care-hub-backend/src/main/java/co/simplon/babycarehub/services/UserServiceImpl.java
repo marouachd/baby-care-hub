@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -178,6 +179,13 @@ public class UserServiceImpl implements UserService {
 	    Files.copy(in, target,
 		    StandardCopyOption.REPLACE_EXISTING);
 	}
+    }
+
+    @Override
+    public List<UserEntity> getAllChildminder(
+	    RoleEntity role) {
+
+	return users.findAllByRoleId(role);
     }
 
 }

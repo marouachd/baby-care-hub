@@ -1,5 +1,7 @@
 package co.simplon.babycarehub.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import co.simplon.babycarehub.dtos.UserDetail;
 import co.simplon.babycarehub.dtos.UserDto;
 import co.simplon.babycarehub.dtos.UserUpdateDto;
+import co.simplon.babycarehub.entities.RoleEntity;
+import co.simplon.babycarehub.entities.UserEntity;
 import co.simplon.babycarehub.services.UserService;
 
 @RestController
@@ -46,5 +50,11 @@ public class UserController {
 	    @ModelAttribute UserUpdateDto inputs) {
 	service.update(id, inputs);
 
+    }
+
+    @GetMapping("/childminder/{role}")
+    public List<UserEntity> getAllByRole(
+	    @PathVariable("role") RoleEntity role) {
+	return service.getAllChildminder(role);
     }
 }
