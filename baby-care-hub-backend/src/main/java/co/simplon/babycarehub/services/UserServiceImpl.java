@@ -188,4 +188,27 @@ public class UserServiceImpl implements UserService {
 	return users.findAllByRoleId(role);
     }
 
+    @Override
+    public void updatePassword(UserUpdateDto inputs) {
+	if (existsByEmail(inputs.getMailAdress())) { // Vérifie si l'utilisateur existe avec l'adresse e-mail donnée
+	    UserEntity user = users.findByMailAdress(
+		    inputs.getMailAdress()); // Récupère l'utilisateur correspondant à l'adresse e-mail
+	    String hashPassword = authHelper
+		    .encode(inputs.getPassword());
+	    user.setPassword(hashPassword);
+
+	    users.save(user); // Enregistre les modifications du mot de passe dans la base de données
+	}
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+	return users.existsByMailAdress(email); // Vérifie si un utilisateur existe avec l'adresse e-mail donnée
+    }
+
+    // Méthode pour trouver un utilisateur par adresse e-mail
+    @Override
+    public UserEntity findByEmail(String email) {
+	return users.findByMailAdress(email); // Renvoie l'utilisateur correspondant à l'adresse e-mail donnée
+    }
 }

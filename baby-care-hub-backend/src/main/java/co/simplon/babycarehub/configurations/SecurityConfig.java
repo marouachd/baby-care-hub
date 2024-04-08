@@ -47,7 +47,9 @@ public class SecurityConfig {
 	    HttpSecurity http) throws Exception {
 	http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/user", "/sign-in")
+		.antMatchers("/user", "/sign-in",
+			"/forgot-password",
+			"/user/update-password")
 		.permitAll() // Autorise toutes les requêtes pour les URL spécifiées sans nécessiter
 		// d'authentification.
 		.anyRequest().authenticated().and() // l'authentification est nécessaire pour toutes les autres URLs de
