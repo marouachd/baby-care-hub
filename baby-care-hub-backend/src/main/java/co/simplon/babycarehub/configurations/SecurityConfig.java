@@ -49,7 +49,7 @@ public class SecurityConfig {
 		.authorizeRequests()
 		.antMatchers("/user", "/sign-in",
 			"/forgot-password",
-			"/user/update-password")
+			"/user/update-password", "/role")
 		.permitAll() // Autorise toutes les requêtes pour les URL spécifiées sans nécessiter
 		// d'authentification.
 		.anyRequest().authenticated().and() // l'authentification est nécessaire pour toutes les autres URLs de

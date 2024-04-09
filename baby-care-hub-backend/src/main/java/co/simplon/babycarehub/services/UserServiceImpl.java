@@ -198,6 +198,9 @@ public class UserServiceImpl implements UserService {
 	    user.setPassword(hashPassword);
 
 	    users.save(user); // Enregistre les modifications du mot de passe dans la base de données
+	} else {
+	    System.out.println(
+		    "Account not found with adress mail");
 	}
     }
 
