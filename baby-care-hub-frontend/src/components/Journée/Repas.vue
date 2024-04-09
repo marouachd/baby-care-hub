@@ -23,9 +23,9 @@ export default {
       },
     };
   },
-  created() {
-    this.$http = axios;
-  },
+  //created() {
+  //this.$http = axios;
+  //},
   mounted() {
     this.getMeal();
     const slider = this.$refs.slider;
@@ -40,14 +40,13 @@ export default {
   },
   methods: {
     async getMeal() {
-      {
-        const response = await this.$axios.get(
-          `/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
-        );
-        this.data = response.body;
-        console.log(this.data, "meal");
-      }
+      const response = await this.$axios.get(
+        `/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+      );
+      this.data = response.body;
+      console.log(this.data, "meal");
     },
+
     updateThumbPosition(event) {
       const slider = this.$refs.slider;
       const maxPosition =

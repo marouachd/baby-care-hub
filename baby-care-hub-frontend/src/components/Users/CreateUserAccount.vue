@@ -78,9 +78,7 @@ export default {
       },
     };
   },
-  created() {
-    this.$http = axios;
-  },
+
   methods: {
     back() {
       this.$router.push({
@@ -105,10 +103,7 @@ export default {
         formData.append("mailAdress", this.inputs.mailAdress);
 
         console.log("pseudoName:", this.inputs.pseudoName);
-        const resp = await this.$http.post(
-          `${import.meta.env.VITE_API_BASE_URL}/user`,
-          formData
-        );
+        const resp = await this.$axios.post(`/user`, formData);
         console.log("Status de la réponse:", resp.status);
 
         if (resp.status === 200) {
@@ -129,10 +124,8 @@ export default {
       }
     },
     async initRoles() {
-      const response = await this.$http.get(
-        `${import.meta.env.VITE_API_BASE_URL}/role`
-      );
-      this.roles = response.data;
+      const response = await this.$axios.get(`/role`);
+      this.roles = response.body;
     },
     updateImage(event) {
       this.file = event.target.files[0];

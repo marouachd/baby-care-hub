@@ -130,6 +130,11 @@ const router = createRouter({
       name: "médicaments",
       component: () => import("../Components/Journée/Médicaments.vue"),
     },
+    {
+      path: "/new-password",
+      name: "password",
+      component: () => import("../Components/Users/NewPassword.vue"),
+    },
   ],
 });
 
