@@ -17,7 +17,7 @@ export default {
   },
   created() {
     this.$http = axios;
-    console.log("role", this.userRole);
+    console.log("role", this.roleId);
   },
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
@@ -29,6 +29,18 @@ export default {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
       this.data = response.body;
       console.log(this.data);
+    },
+    async suppress(id) {
+      const resp = await this.$axios.delete(`/child/${id}`);
+      if (resp.status === 204) {
+        this.$toast.success("toast-global", "Le profile a été supprimé.");
+        this.$router.push({
+          name: "mes-enfants",
+          params: { id: this.userId },
+        });
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
+      }
     },
 
     async desactive(id) {
@@ -146,7 +158,14 @@ export default {
           @click="desactive(id)"
           v-if="this.roleId == 1"
         >
-          Desactiver
+          Je ne garde plus cet enfant
+        </button>
+        <button
+          class="btn btn-danger mb-2 ms-md-3"
+          @click="suppress(id)"
+          v-if="this.roleId == 2"
+        >
+          Supprimer ce profile
         </button>
       </div>
     </div>
