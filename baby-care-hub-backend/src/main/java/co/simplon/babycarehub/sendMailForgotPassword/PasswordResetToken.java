@@ -13,9 +13,11 @@ import co.simplon.babycarehub.entities.AbstractEntity;
 public class PasswordResetToken extends AbstractEntity {
     @Column(name = "token")
     private String token;
+
     @Column(name = "email")
     private String email;
-    @Column(name = "expiry_date")
+
+    @Column(name = "expiry_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime expiryTime;
 
     public PasswordResetToken() {

@@ -38,6 +38,7 @@ public class PasswordResetTokenService {
 	resetToken.setEmail(email);
 	resetToken.setExpiryTime(calculateExpiryTime());
 	tokenRepository.save(resetToken);
+	System.out.println("token" + token);
 	return token;
     }
 
@@ -55,9 +56,9 @@ public class PasswordResetTokenService {
     public void updatePassword(String password,
 	    String token) {
 	// Récupérer l'e-mail de l'utilisateur à partir du token
-	PasswordResetToken emailOfToken = tokenRepository
+	PasswordResetToken recordToken = tokenRepository
 		.findAdressMailByToken(token);
-	String email = emailOfToken.getEmail();
+	String email = recordToken.getEmail();
 
 	// Vérifier si l'e-mail est valide
 	if (email != null) {
