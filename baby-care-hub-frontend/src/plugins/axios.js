@@ -18,8 +18,6 @@ export default {
         const body = data != "" ? data : null;
         if (response.data.token) {
           const token = data.token;
-          console.log("Le Token !!", token);
-          console.log("1");
           //localStorage.clear();
           localStorage.setItem("token", token);
           localStorage.setItem("isAuthenticated", true);
@@ -36,7 +34,6 @@ export default {
     );
     axiosInstance.interceptors.request.use(
       (config) => {
-        console.log("2");
         const token = localStorage.getItem("token");
         const bearerToken = token ? `Bearer ${token}` : null;
         config.headers["Authorization"] = bearerToken;

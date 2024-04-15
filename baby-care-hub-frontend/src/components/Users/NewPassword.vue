@@ -16,28 +16,27 @@ export default {
       confirmPassword: "",
     };
   },
-  mounted() {
-    console.log("token", this.token);
-  },
 
   methods: {
     async submit() {
-      //this.inputs.mailAdress = localStorage.getItem("mailAdress");
       const response = await this.$axios.get(
         `/password/reset-password/${this.token}`,
         {
           params: { password: this.inputs.password },
         }
       );
-      console.log("inputs", this.inputs);
-      if (response) {
+      if (
+        response.body === "Password reset token is valid. Allow password reset."
+      ) {
         this.inputs = {};
         this.confirmPassword = "";
         this.$router.push({
           name: "signin",
         });
+      } else {
+        console.log("Token expired!");
       }
-      console.log(response, "response");
+      console.log(response);
     },
   },
 };
