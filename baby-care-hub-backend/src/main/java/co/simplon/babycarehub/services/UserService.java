@@ -18,8 +18,6 @@ public interface UserService {
 
     List<UserEntity> getAllChildminder(RoleEntity role);
 
-    void updatePassword(UserUpdateDto inputs);
-
     Boolean existsByEmail(String email);
 
     UserEntity findByEmail(String email);

@@ -23,9 +23,17 @@ public class SendMailForgotPasswordServiceImpl
     }
 
     @Override
-    public void sendForgotPasswordMail(
-	    SendMailForgotPasswordDto inputs) {
-	if (existsByEmail(inputs.getPrimaryRecipient())) {
+    public Boolean existsByEmail(String email) {
+
+	return users.existsByMailAdress(email);
+    }
+
+    @Override
+    public void sendForgotPasswordEmail(String email,
+	    String token) {
+
+	// String email = inputs.getPrimaryRecipient();
+	if (existsByEmail(email)) {
 
 	    try {
 		// Créez un objet SimpleMailMessage
@@ -37,11 +45,15 @@ public class SendMailForgotPasswordServiceImpl
 		// Configurez l'expéditeur, le destinataire et l'objet du message
 		helper.setFrom(
 			"no-reply.dev@readresolve.io");
-		helper.setTo(inputs.getPrimaryRecipient());
+		helper.setTo(email);
 		helper.setSubject(
 			"Réinitialisation de votre mot de passe");
 
 		// Construisez le contenu HTML de l'e-mail
+		String resetPasswordLink = "http://127.0.0.1:5173/new-password/"
+			+ token;
+
+		// Create HTML content with the dynamic reset password link
 		String htmlContent = "<!DOCTYPE html>"
 			+ "<html lang=\"fr\">" + "<head>"
 			+ "<meta charset=\"UTF-8\">"
@@ -53,7 +65,9 @@ public class SendMailForgotPasswordServiceImpl
 			+ "<p>Bonjour,</p>"
 			+ "<p>Vous recevez cet e-mail car vous avez demandé une réinitialisation de votre mot de passe pour votre compte sur notre plateforme.</p>"
 			+ "<p>Pour continuer le processus de réinitialisation, veuillez cliquer sur le lien ci-dessous :</p>"
-			+ "<p><a href=\"http://127.0.0.1:5173/new-password\" style=\"background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;\">Réinitialiser votre mot de passe</a></p>"
+			+ "<p><a href=\""
+			+ resetPasswordLink
+			+ "\" style=\"background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;\">Réinitialiser votre mot de passe</a></p>"
 			+ "<p>Si vous n'avez pas demandé cette réinitialisation ou si vous avez des questions, veuillez contacter notre équipe d'assistance à l'adresse suivante : [Adresse e-mail de l'équipe d'assistance].</p>"
 			+ "<p>Merci,</p>"
 			+ "<p>L'équipe BabyCareHub</p>"
@@ -67,7 +81,7 @@ public class SendMailForgotPasswordServiceImpl
 
 		System.out.println(
 			"E-mail de réinitialisation du mot de passe envoyé avec succès à : "
-				+ inputs.getPrimaryRecipient());
+				+ email);
 
 	    } catch (Exception e) {
 		System.out.println(
@@ -78,12 +92,6 @@ public class SendMailForgotPasswordServiceImpl
 	    System.out.println(
 		    "aucun compte trouvé avec cette adresse mail");
 	}
-    }
-
-    @Override
-    public Boolean existsByEmail(String email) {
-
-	return users.existsByMailAdress(email);
     }
 
 }

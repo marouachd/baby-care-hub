@@ -2,9 +2,11 @@ package co.simplon.babycarehub.sendMailForgotPassword;
 
 public interface SendMailForgotPasswordService {
 
-    void sendForgotPasswordMail(
-	    SendMailForgotPasswordDto inputs);
-
     Boolean existsByEmail(String email);
+
+    // void sendForgotPasswordMail(String email, String token);
+
+    void sendForgotPasswordEmail(String email,
+	    String token);
 
 }
