@@ -17,12 +17,15 @@ export default {
 
   methods: {
     async submit() {
-      localStorage.setItem("mailAdress", this.inputs.mailAdress);
+      console.log(this.inputs.mailAdress);
+      const encodedEmail = encodeURIComponent(this.inputs.mailAdress);
+      console.log(encodedEmail);
+      // Send the encoded email address in the request
       const response = await this.$axios.post(
-        `/forgot-password`,
-        { primaryRecipient: this.inputs.mailAdress },
-        { headers: { "Content-Type": "application/json" } }
+        `/password/reset-password`,
+        encodedEmail
       );
+
       if (response) {
         this.inputs.mailAdress = "";
       }

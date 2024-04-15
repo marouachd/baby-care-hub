@@ -131,7 +131,7 @@ const router = createRouter({
       component: () => import("../Components/Journée/Médicaments.vue"),
     },
     {
-      path: "/new-password",
+      path: "/new-password/:token",
       name: "password",
       component: () => import("../Components/Users/NewPassword.vue"),
     },

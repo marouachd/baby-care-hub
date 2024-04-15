@@ -99,18 +99,18 @@ export default {
     </div>
 
     <div
-      class="row d-flex justify-content-center mb-3 mt-5 mx-5"
+      class="row d-flex justify-content-center mb-3 mt-5 mx-2"
       v-for="child in childs"
     >
       <div
-        class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center"
+        class="col-md-6 col-6 mb-2 mb-2 align-items-center text-center text-nowrap"
         :class="{ childDetail: !child.active, childRow: child.active }"
       >
         <div class="d-flex justify-content-center align-items-center">
           <div class="col d-flex justify-content-center mx-5">
             <img
               :src="getChildImage(child)"
-              class="img-fluid rounded-circle w-100"
+              class="img-fluid rounded-circle w-50"
               alt="..."
             />
           </div>

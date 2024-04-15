@@ -1,7 +1,14 @@
 <script>
+import { RouterLink, useRoute } from "vue-router";
 export default {
+  setup() {
+    return {
+      route: useRoute(),
+    };
+  },
   data() {
     return {
+      token: this.route.params.token,
       inputs: {
         mailAdress: "",
         password: "",
@@ -9,13 +16,18 @@ export default {
       confirmPassword: "",
     };
   },
+  mounted() {
+    console.log("token", this.token);
+  },
 
   methods: {
     async submit() {
-      this.inputs.mailAdress = localStorage.getItem("mailAdress");
-      const response = await this.$axios.patch(
-        `/user/update-password`,
-        this.inputs
+      //this.inputs.mailAdress = localStorage.getItem("mailAdress");
+      const response = await this.$axios.get(
+        `/password/reset-password/${this.token}`,
+        {
+          params: { password: this.inputs.password },
+        }
       );
       console.log("inputs", this.inputs);
       if (response) {

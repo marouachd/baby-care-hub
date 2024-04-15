@@ -44,7 +44,7 @@ const numberFormats = {
 
 const i18n = createI18n({
   locale:
-    "en" /* la langue par defaut c'est anglais ou francais par rapport au choix 'en ou 'fr */,
+    "fr" /* la langue par defaut c'est anglais ou francais par rapport au choix 'en ou 'fr */,
   fallbackLocale: "en",
   messages: {
     en: enMessages,
