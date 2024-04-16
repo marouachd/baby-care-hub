@@ -28,13 +28,11 @@ public class NapServiceImpl implements NapService {
     }
 
     @Override
-    public void create(NapCreateDto inputs) {
+    public void create(NapCreateDto inputs, String type) {
 
 	Long childId = inputs.getChildId();
 	Date date = inputs.getDate();
 	String startTime = inputs.getStartTime();
-	String type = inputs.getType();
-
 	ActualityEntity actuality = actualities
 		.findByChildIdAndDate(childId, date);
 
@@ -42,10 +40,11 @@ public class NapServiceImpl implements NapService {
 		childId, date, type);
 
 	if (entity == null || (entity != null
-		&& entity.getEndTime() != null)) {
+		&& entity.getEndTime() != null)
+		&& entity.getType() == type) {
 
 	    entity = new NapEntity();
-	    entity.setType(inputs.getType());
+	    entity.setType(type);
 	    entity.setChildId(childId);
 	    entity.setStartTime(startTime);
 	    entity.setDate(date);
@@ -63,12 +62,12 @@ public class NapServiceImpl implements NapService {
 	    actuality.setChildId(inputs.getChildId());
 	    actuality.setDate(inputs.getDate());
 	}
-	if ("sieste".equals(inputs.getType())) {
-
+	if ("sieste".equals(type)) {
 	    List<NapEntity> naps = new ArrayList<>();
 	    naps.add(entity);
 	    actuality.setNap(naps);
-	} else {
+
+	} else if ("presence".equals(type)) {
 	    actuality.setPresence(entity);
 	}
 	entity.setActuality(actuality);

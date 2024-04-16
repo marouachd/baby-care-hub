@@ -24,10 +24,11 @@ public class NapController {
 	this.service = service;
     }
 
-    @PostMapping()
+    @PostMapping("/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@RequestBody NapCreateDto inputs) {
-	service.create(inputs);
+    public void create(@RequestBody NapCreateDto inputs,
+	    @PathVariable("type") String type) {
+	service.create(inputs, type);
     }
 
     @GetMapping("/{date}/{childId}/{type}")

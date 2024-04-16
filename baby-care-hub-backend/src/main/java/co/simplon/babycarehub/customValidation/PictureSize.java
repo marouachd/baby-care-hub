@@ -21,5 +21,5 @@ public @interface PictureSize {
 
     Class<? extends Payload>[] payload() default {};
 
-    long maxSizeInKB() default 500;
+    long maxSizeInKB() default 5000000;
 }

@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PictureSizeValidator implements
 	ConstraintValidator<PictureSize, MultipartFile> {
 
-    private static final long KB = 500000;
+    private static final long KB = 50000000;
 
     private long pictureSizeInKB;
 
