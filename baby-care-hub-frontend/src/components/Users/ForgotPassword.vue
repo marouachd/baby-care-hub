@@ -26,8 +26,14 @@ export default {
         encodedEmail
       );
 
-      if (response) {
+      if (response && response.status == 200) {
         this.inputs.mailAdress = "";
+        this.$toast.success(
+          "toast-global",
+          "Un email est envoyé à votre adresse"
+        );
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
       console.log(response, "response");
     },

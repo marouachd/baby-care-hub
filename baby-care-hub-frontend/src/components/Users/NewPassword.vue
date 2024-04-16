@@ -26,14 +26,20 @@ export default {
         }
       );
       if (
+        response.status == 200 &&
         response.body === "Password reset token is valid. Allow password reset."
       ) {
+        this.$toast.success(
+          "toast-global",
+          "Votre mot de passe est bien changé !"
+        );
         this.inputs = {};
         this.confirmPassword = "";
         this.$router.push({
           name: "signin",
         });
       } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
         console.log("Token expired!");
       }
       console.log(response);
