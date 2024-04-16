@@ -38,7 +38,6 @@ public class NapServiceImpl implements NapService {
 
 	NapEntity entity = naps.findByChildIdAndDateAndType(
 		childId, date, type);
-
 	if (entity == null || (entity != null
 		&& entity.getEndTime() != null)
 		&& entity.getType() == type) {
