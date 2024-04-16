@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      newMeal: false,
       selectedLevel: 1,
       thumbPosition: "50%",
       satisfactionLevels: ["Pas mangé", "Peu mangé", "Bien mangé"],
@@ -21,30 +22,33 @@ export default {
         type: "dejeuner",
         date: new Date().toISOString().slice(0, 10),
       },
+      meals: [],
     };
   },
-  //created() {
-  //this.$http = axios;
-  //},
+
   mounted() {
     this.getMeal();
-    const slider = this.$refs.slider;
-    slider.addEventListener("mousedown", (event) => {
-      this.updateThumbPosition(event);
-
-      document.addEventListener("mousemove", this.updateThumbPosition);
-      document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", this.updateThumbPosition);
-      });
-    });
+    this.initSliderEvents();
   },
   methods: {
+    initSliderEvents() {
+      const slider = this.$refs.slider;
+      slider.addEventListener("mousedown", (event) => {
+        this.updateThumbPosition(event);
+
+        document.addEventListener("mousemove", this.updateThumbPosition);
+        document.addEventListener("mouseup", () => {
+          document.removeEventListener("mousemove", this.updateThumbPosition);
+        });
+      });
+    },
+
     async getMeal() {
       const response = await this.$axios.get(
         `/meals/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
       );
-      this.data = response.body;
-      console.log(this.data, "meal");
+      this.meals = response.body;
+      console.log(this.meals, "meal");
     },
 
     updateThumbPosition(event) {
@@ -64,8 +68,13 @@ export default {
     async submit() {
       console.log("inputs", this.inputs);
       const response = await this.$axios.post(`/meals`, this.inputs);
-      if (response) {
-        this.inputs = "";
+
+      if (response && response.status === 200) {
+        this.$toast.success("toast-global", "Repas enregistré");
+        this.getMeal(this.inputs.date, this.inputs.childId, this.type);
+        this.inputs = {};
+      } else {
+        this.$toast.error("toast-global", "Un problème est survenu.");
       }
       console.log(response);
     },
@@ -75,6 +84,32 @@ export default {
 <template>
   <div id="app" class="container mt-5 mb-5">
     <h1 class="mb-3 text-center">Repas</h1>
+    <div class="container mt-5" v-if="this.meals" v-for="meal in meals">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-8">
+          <div class="card bg-light mb-2">
+            <div class="row gx-0">
+              <div class="col-md-4">
+                <img
+                  src="../../assets/repas.png"
+                  class="img-fluid rounded-start mt-3 ms-5"
+                  alt="..."
+                  width="70"
+                  height="70"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body mt-8">
+                  <div>Le {{ meal.type }}</div>
+                  <div>Observation : {{ meal.eval }}</div>
+                  <div>Commentaire : {{ meal.commentaire }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container mt-5">
       <div class="row justify-content-center">

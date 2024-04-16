@@ -20,6 +20,7 @@ export default {
         endTime: "",
         commentaire: "",
       },
+      presences: [],
     };
   },
 
@@ -32,16 +33,31 @@ export default {
       const presence = await this.$axios.get(
         `/naps/${this.inputs.date}/${this.inputs.childId}/${this.type}`
       );
-      this.data = presence.body;
-      console.log(this.data, "resp");
+      this.presences = presence.body;
+      console.log(this.presences, "presenceeee");
     },
+
     async submit() {
-      console.log("inputs", this.inputs);
-      const response = await this.$axios.post(
-        `/naps/${this.type}`,
-        this.inputs
-      );
-      this.calculeHoraireGarde();
+      try {
+        const response = await this.$axios.post(
+          `/naps/${this.type}`,
+          this.inputs
+        );
+        if (response) {
+          this.getPresenceTime(
+            this.inputs.date,
+            this.inputs.childId,
+            this.type
+          );
+          this.startTime = "";
+          this.endTime = "";
+          this.commentaire = "";
+        }
+        //this.calculeHoraireGarde();
+      } catch (error) {
+        console.error("Erreur lors de la soumission :", error);
+      }
+      //this.calculeHoraireGarde();
     },
     calculeHoraireGarde() {
       const appt1 = this.inputs.startTime;
@@ -94,16 +110,44 @@ export default {
           v-model="inputs.endTime"
         />
         <div class="text-center">
-          <button type="submit" class="mt-3 btn mx-5">Calculer</button>
+          <button type="submit" class="mt-3 btn mx-5">Enregistrer</button>
         </div>
       </form>
     </div>
-    <div class="d-flex justify-content-center">
+    <!--<div class="d-flex justify-content-center">
       <div class="mt-3 col-12 col-md-6 col-lg-4 mb-3">
         <span class="d-inline span">
           Le temps de garde cumulé pour aujourd'hui est :
           {{ time }}
         </span>
+      </div>
+    </div>-->
+    <div
+      class="d-flex justify-content-center"
+      v-if="this.presences"
+      v-for="presence in presences"
+    >
+      <div class="mt-5 col-6 col-md-6 mb-2">
+        <div class="d-flex align-items-center">
+          <img
+            src="../../assets/horloge.jpg"
+            class="img-fluid rounded-circle me-5"
+            alt="Icône Horaire"
+            style="width: 100px"
+          />
+          <div class="d-flex flex-column">
+            <div class="col">
+              <div class="row" v-if="presence.startTime">
+                Heure d'arrivée : {{ presence.startTime }}
+              </div>
+            </div>
+            <div class="col">
+              <div class="row mt-2" v-if="presence.endTime">
+                Heure de départ : {{ presence.endTime }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -124,5 +168,10 @@ label {
 h1 {
   font-family: "Pacifico", cursive;
   color: rgba(180, 95, 146, 0.674);
+}
+.btn {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
 }
 </style>

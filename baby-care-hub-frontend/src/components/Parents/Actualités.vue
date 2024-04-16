@@ -174,24 +174,18 @@ export default {
             <div class="col-md-6">
               <h4>Sieste</h4>
 
-              <div class="row g-0">
-                <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <div class="img-container me-5">
                   <img
                     src="../../assets/sieste.jpg"
-                    class="img-fluid rounded-start mt-4 ms-4"
-                    alt="..."
-                    width="50"
-                    height="50"
+                    class="img-fluid rounded-circle"
+                    alt="Icône Horaire"
                   />
                 </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <p>Heure de sommeil: {{ nap.startTime }}</p>
-                    <p>Heure de réveil: {{ nap.endTime }}</p>
-                    <p class="card-text m-0 mt-2">
-                      {{ nap.commentaire }}
-                    </p>
-                  </div>
+                <div class="d-flex flex-column">
+                  <div class="mt-1">Heure de sommeil: {{ nap.startTime }}</div>
+                  <div class="mt-1">Heure de réveil: {{ nap.endTime }}</div>
+                  <div class="mt-1">Commentaire: {{ nap.commentaire }}</div>
                 </div>
               </div>
             </div>

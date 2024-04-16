@@ -40,7 +40,7 @@ export default {
     <div v-if="showSidebar">
       <div class="app">
         <Sidebar></Sidebar>
-
+        <div><Toast id="toast-global" /></div>
         <RouterView />
       </div>
     </div>

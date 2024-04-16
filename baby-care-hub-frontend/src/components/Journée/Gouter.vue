@@ -71,9 +71,9 @@ export default {
     },
     async submit() {
       const response = await this.$axios.post(`/meals`, this.inputs);
-      if (response && response.status === 204) {
+      if (response && response.status === 200) {
         this.$toast.success("toast-global", "Gouter enregistré");
-        this.inputs = "";
+        this.inputs = {};
       } else {
         this.$toast.error("toast-global", "Un problème est survenu.");
       }
