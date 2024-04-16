@@ -12,13 +12,13 @@ export default {
       heureArrivee: "",
       heureSortie: "",
       time: "",
+      type: "presence",
       inputs: {
         childId: this.route.params.id,
         date: new Date().toISOString().slice(0, 10),
         startTime: "",
         endTime: "",
         commentaire: "",
-        type: "presence",
       },
     };
   },
@@ -30,14 +30,17 @@ export default {
   methods: {
     async getPresenceTime() {
       const presence = await this.$axios.get(
-        `/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+        `/naps/${this.inputs.date}/${this.inputs.childId}/${this.type}`
       );
       this.data = presence.body;
       console.log(this.data, "resp");
     },
     async submit() {
       console.log("inputs", this.inputs);
-      const response = await this.$axios.post(`/naps`, this.inputs);
+      const response = await this.$axios.post(
+        `/naps/${this.type}`,
+        this.inputs
+      );
       this.calculeHoraireGarde();
     },
     calculeHoraireGarde() {

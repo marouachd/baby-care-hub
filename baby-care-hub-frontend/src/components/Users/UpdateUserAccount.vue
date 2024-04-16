@@ -68,10 +68,7 @@ export default {
       formData.append("roleId", this.inputs.roleId);
       formData.append("pseudoName", this.inputs.pseudoName);
       formData.append("mailAdress", this.inputs.mailAdress);
-      const resp = await this.$http.patch(
-        `${import.meta.env.VITE_API_BASE_URL}/user/${this.id}`,
-        formData
-      );
+      const resp = await this.$axios.patch(`/user/${this.id}`, formData);
       console.log("Status de la réponse:", resp.status);
 
       if (resp.status === 204) {

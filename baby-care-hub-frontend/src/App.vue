@@ -51,7 +51,8 @@ export default {
       <div><Toast id="toast-global" /></div>
     </div>
 
-    <Footer class="fixed-bottom"></Footer>
+    <Footer></Footer>
+    <!--<Footer class="fixed-bottom"></Footer>-->
   </div>
 </template>
 

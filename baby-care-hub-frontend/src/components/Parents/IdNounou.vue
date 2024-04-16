@@ -36,7 +36,6 @@ export default {
     async getChildProfile() {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
       this.child = response.body;
-      console.log(this.child, "daaaaata");
     },
     async getChildminderList() {
       const response = await this.$axios.get(`/user/childminder/1`);

@@ -11,13 +11,13 @@ export default {
     return {
       naps: [],
       NouvelSieste: false,
+      type: "sieste",
       inputs: {
         childId: this.route.params.id,
         date: new Date().toISOString().slice(0, 10),
         startTime: "",
         endTime: "",
         commentaire: "",
-        type: "sieste",
       },
     };
   },
@@ -35,20 +35,22 @@ export default {
       this.NouvelSieste = true;
     },
     async submit() {
-      console.log("inputs", this.inputs);
-      const response = await this.$axios.post(`/naps`, this.inputs);
+      const response = await this.$axios.post(
+        `/naps/${this.type}`,
+        this.inputs
+      );
       if (response) {
         this.close();
-        this.getNap(this.inputs.date, this.inputs.childId, this.inputs.type);
+        this.getNap(this.inputs.date, this.inputs.childId, this.type);
       }
     },
     async getNap() {
       {
         const response = await this.$axios.get(
-          `/naps/${this.inputs.date}/${this.inputs.childId}/${this.inputs.type}`
+          `/naps/${this.inputs.date}/${this.inputs.childId}/${this.type}`
         );
         this.naps = response.body;
-        console.log(this.naps, "nap");
+        console.log(response, "nap++");
       }
     },
   },

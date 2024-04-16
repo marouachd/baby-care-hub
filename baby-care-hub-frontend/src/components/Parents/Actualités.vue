@@ -23,15 +23,14 @@ export default {
 
   methods: {
     async getActuality() {
-      {
-        const response = await this.$axios.get(
-          `/actualities/${this.date}/${this.id}`
-        );
-        this.data = response.body;
-        console.log(this.data, "actualités");
-        console.log(this.data.babyBottels, "bottels");
-        console.log(this.data.nap, "nap");
-      }
+      const response = await this.$axios.get(
+        `/actualities/${this.date}/${this.id}`
+      );
+      this.data = response.body;
+      console.log(this.data, "actualités");
+      console.log(this.data.babyBottels, "bottels");
+      console.log(this.data.nap, "nap");
+      this.data.nap = this.data.nap.filter((item) => item.type === "sieste");
     },
   },
 };

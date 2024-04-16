@@ -28,7 +28,7 @@ export default {
       this.childs = response.body;
     },
     AjouterEnfant() {
-      if (this.childs.length !== 0) {
+      if (this.childs && this.childs.length !== 0) {
         if (this.childminderCode === null) {
           this.$router.push({
             name: "id-nounou",
