@@ -10,7 +10,7 @@ export default {
     return {
       roleId: "",
       id: this.route.params.id,
-      toDayDate: null,
+      toDayDate: new Date().toISOString().slice(0, 10),
       showDate: false,
       showDatePicker: false,
       isLoggedIn: false,
@@ -21,15 +21,27 @@ export default {
   mounted() {
     this.id = this.route.params.id;
     this.afficheDate();
-    localStorage.setItem("date", this.toDayDate);
+  },
+  watch: {
+    async "$data.selectedDate"(newDate) {
+      if (newDate) {
+        this.toDayDate = newDate;
+      }
+    },
   },
 
   methods: {
     afficheDate() {
-      const today = new Date().toISOString().slice(0, 10);
-      this.toDayDate = today;
+      const storedDate = localStorage.getItem("selectedDate");
+      if (storedDate) {
+        this.toDayDate = storedDate;
+      } else {
+        const today = new Date().toISOString().slice(0, 10);
+        this.toDayDate = today;
+      }
     },
     toggleDatePicker() {
+      localStorage.setItem("selectedDate", this.toDayDate);
       this.showDatePicker = !this.showDatePicker;
     },
     toggleSignedUser() {
@@ -42,7 +54,8 @@ export default {
   },
   watch: {
     $route(to) {
-      this.showDate = to.path.startsWith("/ma-journee");
+      this.showDate =
+        to.path.startsWith("/ma-journee") || to.path.startsWith("/actualitees");
       this.isLoggedIn = Boolean(
         localStorage.getItem("userId") && localStorage.getItem("roleId")
       );
@@ -52,6 +65,7 @@ export default {
   beforeUpdate() {
     this.roleId = localStorage.getItem("roleId");
     this.userId = localStorage.getItem("userId");
+    //localStorage.setItem("date", this.toDayDate);
   },
 };
 </script>

@@ -56,7 +56,7 @@ export default {
           if (resp.status === 204) {
             this.$toast.success(
               "toast-global",
-              "La nounou de votre enfant est modifié avec succées"
+              "Vous avez bien selectionné la nounou de votre enfant"
             );
             this.$router.push({
               name: "mes-enfants",

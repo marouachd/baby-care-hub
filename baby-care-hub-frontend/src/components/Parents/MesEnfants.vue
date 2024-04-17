@@ -103,11 +103,11 @@ export default {
       v-for="child in childs"
     >
       <div
-        class="col-md-6 col-6 mb-2 mb-2 align-items-center text-center text-nowrap"
+        class="col-md-6 col-12 mb-2 mb-2 align-items-center text-center text-nowrap"
         :class="{ childDetail: !child.active, childRow: child.active }"
       >
         <div class="d-flex justify-content-center align-items-center">
-          <div class="col d-flex justify-content-center mx-5">
+          <div class="col-3 d-flex justify-content-center">
             <img
               :src="getChildImage(child)"
               class="img-fluid rounded-circle w-50"
@@ -115,9 +115,7 @@ export default {
             />
           </div>
 
-          <div
-            class="col d-flex flex-column mx-5 text-center align-items-center"
-          >
+          <div class="col-6 d-flex flex-column text-center align-items-center">
             <h5 class="title mt-3">
               <span>{{ child.personId.firstName }}</span
               >&ensp;
@@ -125,7 +123,7 @@ export default {
             </h5>
           </div>
 
-          <div class="col d-flex justify-content-center mx-5">
+          <div class="col-3 d-flex justify-content-center">
             <div
               id="navbar"
               class="col d-flex justify-content-center collapse navbar-collapse"

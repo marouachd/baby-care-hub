@@ -13,12 +13,34 @@ export default {
       data: null,
       id: this.route.params.id,
       date: new Date().toISOString().slice(0, 10),
-      //date: "2024-03-32",
+      selectedDate: "",
+      naps: [],
+      presences: [],
     };
+  },
+  watch: {
+    async "$data.selectedDate"(newDate) {
+      if (newDate) {
+        localStorage.setItem("selectedDate", newDate);
+        const response = await this.$axios.get(
+          `/actualities/${this.selectedDate}/${this.id}`
+        );
+        this.data = response.body;
+        if (this.data) {
+          this.naps = this.data.nap;
+          this.presences = this.naps.filter((item) => item.type === "presence");
+
+          this.naps = this.naps.filter((item) => item.type === "sieste");
+        }
+
+        console.log(this.data, "actualité selected date");
+      }
+    },
   },
 
   mounted() {
     this.getActuality();
+    this.selectedDate = localStorage.getItem("selectedDate");
   },
 
   methods: {
@@ -27,10 +49,11 @@ export default {
         `/actualities/${this.date}/${this.id}`
       );
       this.data = response.body;
-      console.log(this.data, "actualités");
-      console.log(this.data.babyBottels, "bottels");
-      console.log(this.data.nap, "nap");
-      this.data.nap = this.data.nap.filter((item) => item.type === "sieste");
+      if (this.data) {
+        this.naps = this.data.nap;
+        this.presences = this.naps.filter((item) => item.type === "presence");
+        this.naps = this.naps.filter((item) => item.type === "sieste");
+      }
     },
   },
 };
@@ -43,28 +66,32 @@ export default {
     </h1>
     <div class="card bg-light rounded">
       <div
-        class="card mx-2 mt-4"
-        v-if="this.data && this.data.presence && this.data.presence.startTime"
+        class="comment-section mt-2"
+        v-if="this.data && this.presences"
+        v-for="presence in presences"
       >
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Arrivée</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/horloge.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
+        <div class="card mx-2 mt-2">
+          <div class="card-body">
+            <div class="col-md-6">
+              <h4>Arrivée</h4>
+              <div class="d-flex align-items-center">
+                <div class="img-container me-5">
+                  <img
+                    src="../../assets/horloge.jpg"
+                    class="img-fluid rounded-circle"
+                    alt="Icône Horaire"
+                  />
+                </div>
+                <div>Heure d'arrivée : {{ presence.startTime }}</div>
               </div>
-              <div>Heure d'arrivée : {{ this.data.presence.startTime }}</div>
             </div>
           </div>
         </div>
       </div>
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.data.presence && this.data.presence.startTime"
+        v-if="this.data && this.presences"
+        v-for="presence in presences"
       >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
@@ -168,7 +195,7 @@ export default {
         <span class="comment">😞</span>
       </div>
 
-      <div v-if="this.data && this.data.nap" v-for="nap in this.data.nap">
+      <div v-if="this.data && this.data.nap" v-for="nap in naps">
         <div class="card mx-2 mt-2">
           <div class="card-body">
             <div class="col-md-6">
@@ -281,21 +308,24 @@ export default {
         <span class="comment">😞</span>
       </div>
       <div
-        class="card mx-2 mt-2"
-        v-if="this.data && this.data.presence && this.data.presence.endTime"
+        class="comment-section mt-2"
+        v-if="this.data && this.presences"
+        v-for="presence in presences"
       >
-        <div class="card-body">
-          <div class="col-md-6">
-            <h4>Départ</h4>
-            <div class="d-flex align-items-center">
-              <div class="img-container me-5">
-                <img
-                  src="../../assets/horloge.jpg"
-                  class="img-fluid rounded-circle"
-                  alt="Icône Horaire"
-                />
+        <div class="card mx-2 mt-2">
+          <div class="card-body">
+            <div class="col-md-6">
+              <h4>Départ</h4>
+              <div class="d-flex align-items-center">
+                <div class="img-container me-5">
+                  <img
+                    src="../../assets/horloge.jpg"
+                    class="img-fluid rounded-circle"
+                    alt="Icône Horaire"
+                  />
+                </div>
+                <div>Heure de sortie : {{ presence.endTime }}</div>
               </div>
-              <div>Heure de sortie : {{ this.data.presence.endTime }}</div>
             </div>
           </div>
         </div>
@@ -303,7 +333,8 @@ export default {
 
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.data.presence && this.data.presence.endTime"
+        v-if="this.data && this.presences"
+        v-for="presence in presences"
       >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
@@ -312,7 +343,7 @@ export default {
       </div>
       <div class="card mx-2 mt-2 mb-2" v-if="!data">
         <div class="card-body">
-          <p>Aucune donnée disponible pour le moment.</p>
+          <p>Aucune donnée disponible pour cette date.</p>
         </div>
       </div>
     </div>
