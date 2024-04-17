@@ -1,9 +1,11 @@
 <script>
 import { RouterLink, useRoute } from "vue-router";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   setup() {
     return {
       route: useRoute(),
+      v$: useVuelidate(),
     };
   },
   data() {
@@ -19,30 +21,39 @@ export default {
 
   methods: {
     async submit() {
-      const response = await this.$axios.get(
-        `/password/reset-password/${this.token}`,
-        {
-          params: { password: this.inputs.password },
-        }
-      );
-      if (
-        response.status == 200 &&
-        response.body === "Password reset token is valid. Allow password reset."
-      ) {
-        this.$toast.success(
-          "toast-global",
-          "Votre mot de passe est bien changé !"
+      const valid = this.inputs.password === this.confirmPassword;
+      if (valid) {
+        this.$refs.password.classList.remove("is-invalid");
+        this.$refs.confirmPassword.classList.remove("is-invalid");
+        const response = await this.$axios.get(
+          `/password/reset-password/${this.token}`,
+          {
+            params: { password: this.inputs.password },
+          }
         );
-        this.inputs = {};
-        this.confirmPassword = "";
-        this.$router.push({
-          name: "signin",
-        });
+        if (
+          response.status == 200 &&
+          response.body ===
+            "Password reset token is valid. Allow password reset."
+        ) {
+          this.$toast.success(
+            "toast-global",
+            "Votre mot de passe est bien changé !"
+          );
+          this.inputs = {};
+          this.confirmPassword = "";
+          this.$router.push({
+            name: "signin",
+          });
+        } else {
+          this.$toast.error("toast-global", "Un problème est survenu.");
+          console.log("Token expired!");
+        }
+        console.log(response);
       } else {
-        this.$toast.error("toast-global", "Un problème est survenu.");
-        console.log("Token expired!");
+        this.$refs.password.classList.add("is-invalid");
+        this.$refs.confirmPassword.classList.add("is-invalid");
       }
-      console.log(response);
     },
   },
 };
@@ -59,7 +70,8 @@ export default {
               >Mot de passe :</span
             >
             <input
-              type="password"
+              ref="password"
+              type="text"
               class="form-control"
               placeholder="mot de passe"
               id="password"
@@ -72,7 +84,8 @@ export default {
               >Confirmer mot de passe :</span
             >
             <input
-              type="password"
+              ref="confirmPassword"
+              type="text"
               class="form-control"
               placeholder="mot de passe"
               id="confirm-password"

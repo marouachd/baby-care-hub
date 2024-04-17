@@ -99,7 +99,7 @@ export default {
               >
               <input
                 id="password"
-                type="password"
+                type="text"
                 class="form-control"
                 placeholder="*********"
                 v-model="inputs.password"

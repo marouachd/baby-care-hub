@@ -97,71 +97,69 @@ export default {
             v-if="showDatePicker"
           />
         </div>
-        <div class="container">
-          <div class="row">
-            <div
-              class="collapse navbar-collapse justify-content-center"
-              id="navbar"
-            >
-              <ul class="navbar-nav d-flex justify-content-center">
-                <li class="nav-item mx-2">
-                  <RouterLink
-                    :to="{ name: 'home', params: { id: this.userId } }"
-                    class="dropdown-item"
-                    v-if="isLoggedIn && this.roleId == 1"
-                  >
-                    <h5 class="text-decoration-underline">
-                      <i class="fa fa-home" aria-hidden="true">{{
-                        $t("navbar.accueil")
-                      }}</i>
-                    </h5>
-                  </RouterLink>
-                </li>
 
-                <li class="nav-item mx-2">
-                  <RouterLink
-                    :to="{ name: 'coordonees', params: { id: this.userId } }"
-                    class="dropdown-item"
-                    v-if="isLoggedIn"
-                  >
-                    <h5 class="text-decoration-underline">
-                      <i class="fa fa-user ms-3" aria-hidden="true">{{
-                        $t("navbar.profile")
-                      }}</i>
-                    </h5>
-                  </RouterLink>
-                </li>
+        <div class="row">
+          <div
+            class="collapse navbar-collapse justify-content-center"
+            id="navbar"
+          >
+            <ul class="navbar-nav d-flex justify-content-center">
+              <li class="nav-item mx-2" v-if="this.roleId == 1">
+                <RouterLink
+                  :to="{ name: 'home', params: { id: this.userId } }"
+                  class="dropdown-item"
+                  v-if="isLoggedIn"
+                >
+                  <h5 class="text-decoration-underline">
+                    <i class="fa fa-home" aria-hidden="true">{{
+                      $t("navbar.accueil")
+                    }}</i>
+                  </h5>
+                </RouterLink>
+              </li>
+              <li class="nav-item mx-2" v-else>
+                <RouterLink
+                  :to="{ name: 'mes-enfants', params: { id: this.id } }"
+                  class="dropdown-item"
+                  v-if="isLoggedIn && roleId == 2"
+                >
+                  <h5 class="text-decoration-underline">
+                    <i class="fa fa-child" aria-hidden="true">{{
+                      $t("navbar.mesEnfants")
+                    }}</i>
+                  </h5>
+                </RouterLink>
+              </li>
 
-                <li class="nav-item mx-2">
-                  <RouterLink
-                    :to="{ name: 'mes-enfants', params: { id: this.id } }"
-                    class="dropdown-item"
-                    v-if="isLoggedIn && roleId == 2"
-                  >
-                    <h5 class="text-decoration-underline">
-                      <i class="fa fa-child" aria-hidden="true">{{
-                        $t("navbar.mesEnfants")
-                      }}</i>
-                    </h5>
-                  </RouterLink>
-                </li>
+              <li class="nav-item mx-2">
+                <RouterLink
+                  :to="{ name: 'coordonees', params: { id: this.userId } }"
+                  class="dropdown-item"
+                  v-if="isLoggedIn"
+                >
+                  <h5 class="text-decoration-underline">
+                    <i class="fa fa-user ms-3" aria-hidden="true">{{
+                      $t("navbar.profile")
+                    }}</i>
+                  </h5>
+                </RouterLink>
+              </li>
 
-                <li class="nav-item mx-2">
-                  <RouterLink
-                    :to="{ name: 'signin' }"
-                    class="dropdown-item"
-                    @click="cleanLocalStorage"
-                    v-if="isLoggedIn"
-                  >
-                    <h5 class="text-decoration-underline">
-                      <i class="fas fa-sign-out-alt">{{
-                        $t("navbar.signout")
-                      }}</i>
-                    </h5>
-                  </RouterLink>
-                </li>
-              </ul>
-            </div>
+              <li class="nav-item mx-2">
+                <RouterLink
+                  :to="{ name: 'signin' }"
+                  class="dropdown-item"
+                  @click="cleanLocalStorage"
+                  v-if="isLoggedIn"
+                >
+                  <h5 class="text-decoration-underline">
+                    <i class="fas fa-sign-out-alt">{{
+                      $t("navbar.signout")
+                    }}</i>
+                  </h5>
+                </RouterLink>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -178,7 +176,7 @@ export default {
         </select>
       </div>-->
 
-      <div class="image-container rounded-circle">
+      <div class="image-container rounded-circle col-3 col-md-2">
         <img src="../../../public/favicon.jpg" class="bebe-image" />
       </div>
     </div>
