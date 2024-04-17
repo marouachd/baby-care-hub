@@ -24,7 +24,14 @@ export default {
   methods: {
     selectChildminder(childminder) {
       if (childminder && childminder.id) {
+        console.log("childminder.personId:", childminder.personId);
         this.inputs.childminderCode = childminder.personId.pseudoName;
+        if (this.inputs.childminderCode) {
+          this.$toast.success(
+            "toast-global",
+            `Vous avez bien sélectionné la nounou "${childminder.personId.firstName} ${childminder.personId.lastName}" pour votre enfant`
+          );
+        }
       }
       this.submit();
     },
@@ -68,6 +75,7 @@ export default {
         }
       } else {
         localStorage.setItem("childminderCode", this.inputs.childminderCode);
+
         this.$router.push({
           name: "create-profile-enfant",
           params: { id: this.userId },
