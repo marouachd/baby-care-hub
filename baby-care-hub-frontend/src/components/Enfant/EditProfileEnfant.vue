@@ -238,7 +238,11 @@ export default {
           <button class="btn btn-confirmer mb-2 ms-md-3 me-3" type="submit">
             Confirmer
           </button>
-          <button class="btn btn-quitter mb-2 ms-md-3 px-4" @click="back">
+          <button
+            type="button"
+            class="btn btn-quitter mb-2 ms-md-3 px-4"
+            @click="back"
+          >
             Quitter
           </button>
         </div>
