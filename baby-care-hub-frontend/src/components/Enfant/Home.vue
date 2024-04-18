@@ -47,11 +47,18 @@ export default {
   <div class="countainer mx-3 my-3">
     <h1 class="mt-4 mb-4 text-center">Mes bouts de choux</h1>
 
-    <div class="row row-cols-2 row-cols-md-3 g-4 mt-4">
+    <div class="row row-cols-2 row-cols-md-3 g-4 mt-5 mx-5 position-relative">
       <div class="col-12 col-md-2" v-for="child in childs">
         <div
+          v-if="!child.accepted"
+          class="text-danger position-absolute"
+          style="top: 0; left: 10; z-index: 1"
+        >
+          Nouvelle demande
+        </div>
+        <div
           class="card h-100 bg-light"
-          :class="{ disabledCard: !child.active }"
+          :class="{ disabledCard: !child.active || !child.accepted }"
         >
           <img :src="getChildImage(child)" class="card-img-top" alt="..." />
           <div class="card-body d-flex flex-column justify-content-end">
@@ -109,7 +116,7 @@ p {
   font-family: "Satisfy", cursive;
 }
 .disabledCard {
-  pointer-events: none;
   opacity: 0.3;
+  border: 2px solid red;
 }
 </style>

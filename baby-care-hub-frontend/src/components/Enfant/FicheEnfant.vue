@@ -52,6 +52,24 @@ export default {
           params: { id: this.userId },
         });
       } else {
+        this.$toast.error(
+          "toast-global",
+          "Vous avez annuler la garde de cet enfant."
+        );
+      }
+    },
+    async accepte(id) {
+      const resp = await this.$axios.post(`/child/accepte/${id}`);
+      if (resp.status === 200) {
+        this.$toast.success(
+          "toast-global",
+          "Vous avez accepté de garder cet enfant."
+        );
+        this.$router.push({
+          name: "home",
+          params: { id: this.userId },
+        });
+      } else {
         this.$toast.error("toast-global", "Un problème est survenu.");
       }
     },
@@ -158,7 +176,14 @@ export default {
           @click="desactive(id)"
           v-if="this.roleId == 1"
         >
-          Je ne garde plus cet enfant
+          Annuler la garde
+        </button>
+        <button
+          class="btn btn-danger mb-2 ms-md-3"
+          @click="accepte(id)"
+          v-if="this.roleId == 1"
+        >
+          Confirmer la garder
         </button>
         <button
           class="btn btn-danger mb-2 ms-md-3"

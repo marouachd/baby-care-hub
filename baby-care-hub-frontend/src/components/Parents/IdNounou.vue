@@ -16,6 +16,9 @@ export default {
         active: false,
       },
       childminderList: [],
+      childmindersGuardedChilds: [],
+      childminderChildrenCounts: {},
+      children: [],
       search: "",
       child: "",
     };
@@ -24,7 +27,6 @@ export default {
   methods: {
     selectChildminder(childminder) {
       if (childminder && childminder.id) {
-        console.log("childminder.personId:", childminder.personId);
         this.inputs.childminderCode = childminder.personId.pseudoName;
         if (this.inputs.childminderCode) {
           this.$toast.success(
@@ -47,13 +49,37 @@ export default {
     async getChildminderList() {
       const response = await this.$axios.get(`/user/childminder/1`);
       this.childminderList = response.body;
+      console.log("list des nounous", this.childminderList);
+    },
+    async getChildmindersGuardedChilds() {
+      const ids = this.childminderList.map((item) => item.id).join(",");
+      const response = await this.$axios.get(`/child/childminders/${ids}`);
+      this.childmindersGuardedChilds = response.body;
+      console.log(this.childmindersGuardedChilds, "enfants gardé par nounou");
+      for (const childminder of this.childminderList) {
+        this.children = this.childmindersGuardedChilds[childminder.id];
+
+        for (const child of this.children) {
+          console.log("child", child);
+          if (child.active && child.accepted) {
+            console.log("guarded child");
+          } else {
+            console.log("waiting list");
+          }
+        }
+      }
+    },
+    getWaitingListCount(childminderId) {
+      if (!this.childmindersGuardedChilds[childminderId]) return 0;
+      return this.childmindersGuardedChilds[childminderId].filter(
+        (child) => !child.active || !child.accepted
+      ).length;
     },
     async submit() {
       if (this.child) {
         if (
-          !this.child.active ||
           this.child.childminderCode.personId.pseudoName !=
-            this.inputs.childminderCode
+          this.inputs.childminderCode
         ) {
           const resp = await this.$axios.patch(
             `/child/active/${this.id}`,
@@ -74,13 +100,14 @@ export default {
           }
         }
       } else {
-        localStorage.setItem("childminderCode", this.inputs.childminderCode);
+        //localStorage.setItem("childminderCode", this.inputs.childminderCode);
 
         this.$router.push({
           name: "create-profile-enfant",
           params: { id: this.userId },
         });
       }
+      localStorage.removeItem("childminderCode");
     },
   },
   computed: {
@@ -96,11 +123,24 @@ export default {
         })
         .sort((a, b) => a.mailAdress.localeCompare(b.mailAdress));
     },
+    getChildsCount() {
+      return (id) => {
+        const childsWithSameChildminderId = this.childmindersGuardedChilds[id];
+        if (childsWithSameChildminderId) {
+          return childsWithSameChildminderId.filter(
+            (child) => child.active && child.accepted
+          ).length;
+        } else {
+          return 0;
+        }
+      };
+    },
   },
 
   async mounted() {
     await this.getChildProfile();
     await this.getChildminderList();
+    await this.getChildmindersGuardedChilds();
   },
   beforeUpdate() {
     this.userId = localStorage.getItem("userId");
@@ -154,8 +194,10 @@ export default {
         </button>
       </form>
     </section>
-    <section class="container-xl text-center mb-5">
-      <div class="row row-cols-2 row-cols-md-3 g-4 mt-4 ms-5">
+    <section class="container-xl mb-5">
+      <div
+        class="row row-cols-2 row-cols-md-3 g-4 mt-4 ms-5 d-flex justify-content-center"
+      >
         <div
           class="card me-5"
           style="width: 18rem"
@@ -167,6 +209,7 @@ export default {
             class="card-img-top"
             :src="getImage(childminder)"
             alt="Card image cap"
+            style="max-height: 20rem"
           />
           <div class="card-body">
             <p class="card-text">
@@ -178,6 +221,14 @@ export default {
             </p>
             <p>
               <span>{{ childminder.phoneNumber }}</span>
+            </p>
+            <p>
+              Nombre des enfants gardé:
+              <span>{{ getChildsCount(childminder.id) }}</span>
+            </p>
+            <p>
+              Demande en attente :
+              <span>{{ getWaitingListCount(childminder.id) }}</span>
             </p>
           </div>
         </div>

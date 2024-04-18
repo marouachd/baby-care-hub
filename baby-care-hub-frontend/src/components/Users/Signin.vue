@@ -42,6 +42,7 @@ export default {
             //localStorage.setItem("token", resp.body.token);
             localStorage.setItem("userId", this.userId);
             localStorage.setItem("roleId", this.roleId);
+            console.log("token", resp.body.token);
             if (this.roleId == 2) {
               router.push({
                 name: "mes-enfants",

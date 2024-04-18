@@ -54,7 +54,6 @@ export default {
       }
     },
     getChildImage(child) {
-      console.log(child, "child");
       if (child.personId.identityPhotoName) {
         return "/personal-pictures/" + child.personId.identityPhotoName;
       } else {
@@ -201,18 +200,42 @@ export default {
       </div>
       <div
         class="form-text text-danger row d-flex justify-content-center"
-        v-if="!child.active"
+        v-if="!child.active && child.accepted"
       >
         <span class="col-9 ms-5">
-          Votre enfant n'est plus gardé par
-          {{ child.childminderCode.personId.firstName }}&nbsp;{{
-            child.childminderCode.personId.lastName
-          }}
-          &nbsp;son compte est donc désactiver pour le réactiver
+          Votre enfant n'est plus gardé par sa nounou son compte est donc
+          désactiver pour le réactiver
           <RouterLink
             class=""
             :to="{ name: 'id-nounou', params: { id: child.id } }"
             >cliquer ici!</RouterLink
+          >
+        </span>
+      </div>
+      <div
+        class="form-text text-danger row d-flex justify-content-center"
+        :class="{ disabled: !child.accepted }"
+        v-if="!child.accepted && child.active"
+      >
+        <span class="col-9 ms-5">
+          Votre enfant sera bientôt pris en charge par
+          {{ child.childminderCode.personId.firstName }}
+          {{ child.childminderCode.personId.lastName }}. Veuillez patienter
+          pendant que la nounou valide la garde et accepte votre enfant dans sa
+          liste. 🤗
+        </span>
+      </div>
+      <div
+        class="form-text text-danger row d-flex justify-content-center"
+        v-if="!child.accepted && !child.active"
+      >
+        <span class="col-9 ms-5">
+          La nounou n'a pas accepté de garder votre enfant, veuillez contacter
+          une autre nounou disponible ! Chercher dans la liste &nbsp;
+          <RouterLink
+            class=""
+            :to="{ name: 'id-nounou', params: { id: child.id } }"
+            >Liste des nounous!</RouterLink
           >
         </span>
       </div>
@@ -252,5 +275,8 @@ button {
 .childRow {
   border: 0.5px solid rgb(183, 176, 176);
   border-radius: 10px;
+}
+.disabled {
+  pointer-events: none;
 }
 </style>

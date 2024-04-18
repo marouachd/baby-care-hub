@@ -146,10 +146,14 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>{{ this.data.childActivity.activityId.activityName }} :</div>
+              <div class="d-flex flex-column">
+                <div>
+                  {{ this.data.childActivity.activityId.activityName }} :
+                </div>
 
-              <div class="ms-1">
-                {{ this.data.childActivity.commentaire }}
+                <div class="ms-1">
+                  {{ this.data.childActivity.commentaire }}
+                </div>
               </div>
             </div>
           </div>
@@ -178,10 +182,12 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>{{ this.data.meal.eval }} :</div>
+              <div class="d-flex flex-column">
+                <div>{{ this.data.meal.eval }} :</div>
 
-              <div class="ms-1">
-                {{ this.data.meal.commentaire }}
+                <div class="ms-1">
+                  {{ this.data.meal.commentaire }}
+                </div>
               </div>
             </div>
           </div>
@@ -239,13 +245,15 @@ export default {
                   alt="Icône Horaire"
                 />
               </div>
-              <div>
-                Le gouter pour aujourd'hui est
-                {{ this.data.snack.snackId.name }}
-              </div>
+              <div class="d-flex flex-column">
+                <div>
+                  Le gouter pour aujourd'hui est
+                  {{ this.data.snack.snackId.name }}
+                </div>
 
-              <div class="ms-1">
-                {{ this.data.snack.commentaire }}
+                <div class="ms-1">
+                  {{ this.data.snack.commentaire }}
+                </div>
               </div>
             </div>
           </div>
