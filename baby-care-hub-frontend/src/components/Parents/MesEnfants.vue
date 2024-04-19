@@ -203,7 +203,7 @@ export default {
         class="form-text text-danger row d-flex justify-content-center"
         v-if="!child.active && child.accepted"
       >
-        <span class="col-9 ms-5">
+        <span class="ms-3 col-9 text-center align-items-center">
           Votre enfant n'est plus gardé par sa nounou son compte est donc
           désactiver pour le réactiver
           <RouterLink

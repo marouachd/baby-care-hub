@@ -98,23 +98,25 @@ export default {
             `/child/active/${this.id}`,
             this.inputs
           );
+          console.log("rep", resp);
+          console.log(resp.status);
 
           if (resp) {
             this.$router.push({
               name: "mes-enfants",
               params: { id: this.userId },
             });
-          } else {
-            //localStorage.setItem("childminderCode", this.inputs.childminderCode);
-
-            this.$router.push({
-              name: "create-profile-enfant",
-              params: { id: this.userId },
-            });
           }
-          localStorage.removeItem("childminderCode");
         }
+      } else {
+        //localStorage.setItem("childminderCode", this.inputs.childminderCode);
+
+        this.$router.push({
+          name: "create-profile-enfant",
+          params: { id: this.userId },
+        });
       }
+      localStorage.removeItem("childminderCode");
     },
   },
   computed: {
