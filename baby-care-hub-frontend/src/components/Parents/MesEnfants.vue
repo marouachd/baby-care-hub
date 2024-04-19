@@ -26,6 +26,7 @@ export default {
     async getChilds() {
       const response = await this.$axios.get(`/child/parent/${this.id}`);
       this.childs = response.body;
+      console.log(this.childs, "mes enfants");
     },
     AjouterEnfant() {
       if (this.childs && this.childs.length !== 0) {

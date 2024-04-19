@@ -29,6 +29,7 @@ export default {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
       this.data = response.body;
       console.log(this.data);
+      return this.data;
     },
     async suppress(id) {
       const resp = await this.$axios.delete(`/child/${id}`);
@@ -44,23 +45,36 @@ export default {
     },
 
     async desactive(id) {
-      const resp = await this.$axios.post(`/child/desactive/${id}`);
-      if (resp.status === 200) {
-        this.$toast.success("toast-global", "Le profile a été désactivé.");
-        this.$router.push({
-          name: "home",
-          params: { id: this.userId },
-        });
-      } else {
-        this.$toast.error(
-          "toast-global",
-          "Vous avez annuler la garde de cet enfant."
+      const childToGuard = await this.getChildProfile();
+      if (childToGuard.accepted && childToGuard.active) {
+        console.log(childToGuard, "childToGuard");
+        const refuseGuard = await this.$axios.post(`/child/desactive/${id}`);
+        if (refuseGuard) {
+          this.$toast.success(
+            "toast-global",
+            "Vous avez choisi de ne plus garder cet enfant."
+          );
+        }
+      } else if (!childToGuard.accept && childToGuard.active) {
+        const desactivateGuard = await this.$axios.post(
+          `/child/refuse-guard/${this.id}`
         );
+        if (desactivateGuard) {
+          this.$toast.success(
+            "toast-global",
+            "Vous avez refuser la garde de cet enfant."
+          );
+        }
       }
+      this.$router.push({
+        name: "home",
+        params: { id: this.userId },
+      });
     },
+
     async accepte(id) {
-      const resp = await this.$axios.post(`/child/accepte/${id}`);
-      if (resp.status === 200) {
+      const acceptGuard = await this.$axios.patch(`/child/accepte/${id}`);
+      if (acceptGuard.status === 200) {
         this.$toast.success(
           "toast-global",
           "Vous avez accepté de garder cet enfant."
@@ -172,21 +186,22 @@ export default {
           >Retour</RouterLink
         >-->
         <button
-          class="btn btn-danger mb-2 ms-md-3"
+          class="btn btn-quitter mb-2 ms-md-3"
           @click="desactive(id)"
           v-if="this.roleId == 1"
         >
           Annuler la garde
         </button>
         <button
-          class="btn btn-danger mb-2 ms-md-3"
+          class="btn btn-confirmer mb-2 ms-md-3"
           @click="accepte(id)"
           v-if="this.roleId == 1"
+          :class="{ disabled: data.accepted }"
         >
           Confirmer la garder
         </button>
         <button
-          class="btn btn-danger mb-2 ms-md-3"
+          class="btn btn-quitter mb-2 ms-md-3"
           @click="suppress(id)"
           v-if="this.roleId == 2"
         >
@@ -219,5 +234,19 @@ h1 {
 }
 i {
   color: black;
+}
+.btn-quitter {
+  background-color: rgba(180, 95, 146, 0.674);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
+.btn-confirmer {
+  background-color: rgb(160, 197, 237);
+  font-family: "Pacifico", cursive;
+  color: white;
+}
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 </style>

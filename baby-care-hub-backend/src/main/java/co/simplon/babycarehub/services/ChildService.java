@@ -30,4 +30,6 @@ public interface ChildService {
 
     void activeChild(Long id, ActiveChildDto inputs);
 
+    void accepte(Long id);
+
 }

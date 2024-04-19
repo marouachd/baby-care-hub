@@ -81,6 +81,7 @@ public class ChildServiceImpl implements ChildService {
 	child.setGuardId(guard);
 
 	child.setActive(true);
+	child.setAccepted(false);
 	// String parentId = inputs.getParentId()
 	// Long userId = extractUserIdFromToken(token);
 	// UserEntity parent = users.findUserById(userId);
@@ -241,6 +242,8 @@ public class ChildServiceImpl implements ChildService {
 
 	if (child != null) {
 	    child.setActive(false);
+	    child.setChildminderCode(null);
+	    child.setAccepted(false);
 	    childs.save(child);
 	}
 
@@ -251,6 +254,7 @@ public class ChildServiceImpl implements ChildService {
 	    ActiveChildDto inputs) {
 	ChildEntity child = childs.findChildById(id);
 	child.setActive(true);
+	child.setAccepted(false);
 	String childminderPseudoName = inputs
 		.getChildminderCode();
 	System.out.println("childminderPseudoName: "
@@ -263,6 +267,14 @@ public class ChildServiceImpl implements ChildService {
 	if (childminderUser != null) {
 	    child.setChildminderCode(childminderUser);
 	}
+	childs.save(child);
+
+    }
+
+    @Override
+    public void accepte(Long id) {
+	ChildEntity child = childs.findChildById(id);
+	child.setAccepted(true);
 	childs.save(child);
 
     }

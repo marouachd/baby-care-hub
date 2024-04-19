@@ -23,4 +23,6 @@ public interface ChildDetail {
 
     boolean getActive();
 
+    boolean getAccepted();
+
 }

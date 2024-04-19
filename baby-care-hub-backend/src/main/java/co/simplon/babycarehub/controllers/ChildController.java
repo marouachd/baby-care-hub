@@ -1,6 +1,8 @@
 package co.simplon.babycarehub.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -50,6 +52,11 @@ public class ChildController {
 	service.desactive(id, inputs);
     }
 
+    @PostMapping("/accepte/{id}")
+    public void accepte(@PathVariable("id") Long id) {
+	service.accepte(id);
+    }
+
     @GetMapping
     public List<ChildEntity> getAll() {
 	return service.getAll();
@@ -64,7 +71,6 @@ public class ChildController {
     @GetMapping("/childminder/{id}")
     public List<ChildEntity> getAllByChildminderCode(
 	    @PathVariable("id") Long id) {
-
 	return service.getAllByChildminderCode(id);
     }
 
@@ -94,6 +100,20 @@ public class ChildController {
 	    @RequestBody ActiveChildDto inputs) {
 
 	service.activeChild(id, inputs);
+    }
+
+    @GetMapping("/childminders/{ids}")
+    public Map<Long, List<ChildEntity>> getAllByChildminderCodes(
+	    @PathVariable("ids") List<Long> ids) {
+	Map<Long, List<ChildEntity>> childEntitiesMap = new HashMap<>();
+
+	for (Long id : ids) {
+	    List<ChildEntity> childEntities = service
+		    .getAllByChildminderCode(id);
+	    childEntitiesMap.put(id, childEntities);
+	}
+
+	return childEntitiesMap;
     }
 
 }

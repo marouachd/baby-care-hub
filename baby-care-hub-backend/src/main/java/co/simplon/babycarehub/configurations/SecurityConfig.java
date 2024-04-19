@@ -49,7 +49,8 @@ public class SecurityConfig {
 		.authorizeRequests()
 		.antMatchers("/user", "/sign-in", "/role",
 			"/password/reset-password/{token}",
-			"/password/reset-password")
+			"/password/reset-password",
+			"/forgot-password")
 		.permitAll() // Autorise toutes les requêtes pour les URL spécifiées sans nécessiter
 		// d'authentification.
 		.anyRequest().authenticated().and() // l'authentification est nécessaire pour toutes les autres URLs de

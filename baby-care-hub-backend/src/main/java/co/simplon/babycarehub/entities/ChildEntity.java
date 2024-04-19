@@ -39,6 +39,9 @@ public class ChildEntity extends AbstractEntity {
     @Column(name = "is_active")
     boolean active;
 
+    @Column(name = "is_accepted")
+    boolean accepted;
+
     public ChildEntity() {
     }
 
@@ -99,6 +102,14 @@ public class ChildEntity extends AbstractEntity {
 	this.active = active;
     }
 
+    public boolean isAccepted() {
+	return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+	this.accepted = accepted;
+    }
+
     @Override
     public String toString() {
 	return "{birthdayDate=" + birthdayDate
@@ -106,7 +117,7 @@ public class ChildEntity extends AbstractEntity {
 		+ personId + ", guardId=" + guardId
 		+ ", childminderCode=" + childminderCode
 		+ ", parentId=" + parentId + ", active="
-		+ active + "}";
+		+ active + ", accepted=" + accepted + "}";
     }
 
 }
