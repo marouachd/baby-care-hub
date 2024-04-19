@@ -52,7 +52,7 @@ public class ChildController {
 	service.desactive(id, inputs);
     }
 
-    @PostMapping("/accepte/{id}")
+    @PatchMapping("/accepte/{id}")
     public void accepte(@PathVariable("id") Long id) {
 	service.accepte(id);
     }
@@ -100,6 +100,13 @@ public class ChildController {
 	    @RequestBody ActiveChildDto inputs) {
 
 	service.activeChild(id, inputs);
+    }
+
+    @PostMapping("/refuse-guard/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void refuseGuard(@PathVariable("id") Long id) {
+
+	service.refuseGuard(id);
     }
 
     @GetMapping("/childminders/{ids}")

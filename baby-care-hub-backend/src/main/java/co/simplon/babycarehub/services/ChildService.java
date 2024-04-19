@@ -32,4 +32,6 @@ public interface ChildService {
 
     void accepte(Long id);
 
+    void refuseGuard(Long id);
+
 }

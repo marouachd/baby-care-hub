@@ -243,7 +243,7 @@ public class ChildServiceImpl implements ChildService {
 	if (child != null) {
 	    child.setActive(false);
 	    child.setChildminderCode(null);
-	    child.setAccepted(false);
+	    child.setAccepted(true);
 	    childs.save(child);
 	}
 
@@ -275,6 +275,17 @@ public class ChildServiceImpl implements ChildService {
     public void accepte(Long id) {
 	ChildEntity child = childs.findChildById(id);
 	child.setAccepted(true);
+	child.setActive(true);
+	childs.save(child);
+
+    }
+
+    @Override
+    public void refuseGuard(Long id) {
+	ChildEntity child = childs.findChildById(id);
+	child.setAccepted(false);
+	child.setChildminderCode(null);
+	child.setActive(false);
 	childs.save(child);
 
     }
