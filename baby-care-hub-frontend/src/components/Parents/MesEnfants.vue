@@ -176,7 +176,11 @@ export default {
                         >&ensp;Actualités</RouterLink
                       >
                     </li>
-                    <li>
+                    <li
+                      :class="{
+                        disabledChangeChildminder: child.childminderCode,
+                      }"
+                    >
                       <RouterLink
                         :to="{
                           name: 'id-nounou',
@@ -218,7 +222,12 @@ export default {
         :class="{ disabled: !child.accepted }"
         v-if="!child.accepted && child.active"
       >
-        <span class="col-9 ms-5">
+        <span
+          class="col-9 ms-5"
+          v-if="
+            child && child.childminderCode && child.childminderCode.personId
+          "
+        >
           Votre enfant sera bientôt pris en charge par
           {{ child.childminderCode.personId.firstName }}
           {{ child.childminderCode.personId.lastName }}. Veuillez patienter
@@ -278,6 +287,10 @@ button {
   border-radius: 10px;
 }
 .disabled {
+  pointer-events: none;
+}
+.disabledChangeChildminder {
+  opacity: 0.5;
   pointer-events: none;
 }
 </style>

@@ -86,6 +86,7 @@ export default {
       } else {
         this.$toast.error("toast-global", "Un problème est survenu.");
       }
+      console.log("acceptedtyyy", acceptGuard.data);
     },
     calculateAge(birthdayDate) {
       const birthDate = new Date(birthdayDate);

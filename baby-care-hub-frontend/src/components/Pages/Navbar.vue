@@ -104,6 +104,17 @@ export default {
             id="navbar"
           >
             <ul class="navbar-nav d-flex justify-content-center">
+              <li class="nav-item mx-2 me-2" v-if="this.roleId == 1">
+                <RouterLink
+                  :to="{ name: 'historique', params: { id: this.userId } }"
+                  class="dropdown-item"
+                  v-if="isLoggedIn"
+                >
+                  <h5 class="text-decoration-underline">
+                    <i class="fa fa-history" aria-hidden="true"> Historique </i>
+                  </h5>
+                </RouterLink>
+              </li>
               <li class="nav-item mx-2" v-if="this.roleId == 1">
                 <RouterLink
                   :to="{ name: 'home', params: { id: this.userId } }"

@@ -20,6 +20,12 @@ const router = createRouter({
     },
 
     {
+      path: "/historique/:id",
+      name: "historique",
+      component: () => import("../Components/Nourisse/Historique.vue"),
+    },
+
+    {
       path: "/edit-profile-enfant/:id",
       name: "edit-profile-enfant",
       component: () => import("../Components/Enfant/EditProfileEnfant.vue"),
@@ -30,7 +36,7 @@ const router = createRouter({
       component: () => import("../components/Users/UpdateUserAccount.vue"),
     },
     {
-      path: "/mes-enfants", //ici le probléme
+      path: "/mes-enfants/:id", //ici le probléme
       name: "mes-enfants",
       component: () => import("../components/Parents/MesEnfants.vue"),
     },

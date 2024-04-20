@@ -152,6 +152,10 @@ button {
   font-family: "Pacifico", cursive;
   color: white;
 }
+button:hover {
+  background-color: rgb(116, 177, 241);
+  color: white;
+}
 #email:focus,
 #password:focus {
   border-color: rgba(202, 160, 185, 0.674);
