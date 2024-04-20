@@ -1,8 +1,12 @@
 package co.simplon.babycarehub.dtos;
 
+import java.time.LocalDateTime;
+
 public class DesactiveChildDto {
 
     public boolean active;
+
+    private LocalDateTime startDate;
 
     public DesactiveChildDto() {
 
@@ -16,9 +20,18 @@ public class DesactiveChildDto {
 	this.active = active;
     }
 
+    public LocalDateTime getStartDate() {
+	return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+	this.startDate = startDate;
+    }
+
     @Override
     public String toString() {
-	return "{active=" + active + "}";
+	return "{active=" + active + ", startDate="
+		+ startDate + "}";
     }
 
 }

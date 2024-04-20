@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "childs")
 public class ChildEntity extends AbstractEntity {
@@ -35,6 +37,11 @@ public class ChildEntity extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private UserEntity parentId;
+
+    @ManyToOne
+    @JoinColumn(name = "history_id")
+    @JsonBackReference
+    private History history;
 
     @Column(name = "is_active")
     boolean active;
@@ -94,6 +101,14 @@ public class ChildEntity extends AbstractEntity {
 	this.parentId = parentId;
     }
 
+    public History getHistory() {
+	return history;
+    }
+
+    public void setHistory(History history) {
+	this.history = history;
+    }
+
     public boolean isActive() {
 	return active;
     }
@@ -108,16 +123,6 @@ public class ChildEntity extends AbstractEntity {
 
     public void setAccepted(boolean accepted) {
 	this.accepted = accepted;
-    }
-
-    @Override
-    public String toString() {
-	return "{birthdayDate=" + birthdayDate
-		+ ", genderId=" + genderId + ", personId="
-		+ personId + ", guardId=" + guardId
-		+ ", childminderCode=" + childminderCode
-		+ ", parentId=" + parentId + ", active="
-		+ active + ", accepted=" + accepted + "}";
     }
 
 }

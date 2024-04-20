@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,11 +27,13 @@ import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
+import co.simplon.babycarehub.entities.History;
 import co.simplon.babycarehub.entities.PersonEntity;
 import co.simplon.babycarehub.entities.UserEntity;
 import co.simplon.babycarehub.repositories.ChildRepository;
 import co.simplon.babycarehub.repositories.GenderRepository;
 import co.simplon.babycarehub.repositories.GuardModeRepository;
+import co.simplon.babycarehub.repositories.HistoryRepository;
 import co.simplon.babycarehub.repositories.PersonRepository;
 import co.simplon.babycarehub.repositories.UserRepository;
 
@@ -50,16 +53,19 @@ public class ChildServiceImpl implements ChildService {
 
     private UserRepository users;
 
+    private HistoryRepository histories;
+
     public ChildServiceImpl(ChildRepository childs,
 	    GuardModeRepository guardMode,
 	    GenderRepository genders,
-	    PersonRepository persons,
-	    UserRepository users) {
+	    PersonRepository persons, UserRepository users,
+	    HistoryRepository history) {
 	this.childs = childs;
 	this.genders = genders;
 	this.persons = persons;
 	this.guardMode = guardMode;
 	this.users = users;
+	this.histories = history;
 
     }
 
@@ -235,18 +241,36 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void desactive(Long id,
-	    DesactiveChildDto inputs) {
+    @Transactional
+    public void desactive(Long id) {
 
 	ChildEntity child = childs.findChildById(id);
+	Long childminderId = child.getChildminderCode()
+		.getId();
+	System.out.println(childminderId + "childminderId");
+
+	System.out.println(child.getId() + "child ok ");
+	System.out.println(child + "child nok ");
 
 	if (child != null) {
+
+	    LocalDate startDate = child.getHistory()
+		    .getStartDate();
+	    System.out.println(startDate + "start date");
+	    History history = histories
+		    .findByChildIdAndChildminderIdAndStartDate(
+			    child, childminderId,
+			    startDate);
+	    if (history != null) {
+		history.setEndDate(LocalDate.now());
+		histories.save(history);
+	    }
+
 	    child.setActive(false);
 	    child.setChildminderCode(null);
 	    child.setAccepted(true);
 	    childs.save(child);
 	}
-
     }
 
     @Override
@@ -273,7 +297,15 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public void accepte(Long id) {
+	History history = new History();
 	ChildEntity child = childs.findChildById(id);
+	Long childminderId = child.getChildminderCode()
+		.getId();
+	history.setChildminderId(childminderId);
+	history.setStartDate(LocalDate.now());
+	history.setChildId(child);
+	histories.save(history);
+	child.setHistory(history);
 	child.setAccepted(true);
 	child.setActive(true);
 	childs.save(child);

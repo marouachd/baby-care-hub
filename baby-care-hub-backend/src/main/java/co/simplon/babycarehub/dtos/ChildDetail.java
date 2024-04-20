@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
+import co.simplon.babycarehub.entities.History;
 import co.simplon.babycarehub.entities.PersonEntity;
 import co.simplon.babycarehub.entities.UserEntity;
 
@@ -24,5 +25,7 @@ public interface ChildDetail {
     boolean getActive();
 
     boolean getAccepted();
+
+    History getHistory();
 
 }

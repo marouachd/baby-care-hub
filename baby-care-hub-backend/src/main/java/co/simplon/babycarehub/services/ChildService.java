@@ -23,8 +23,6 @@ public interface ChildService {
 
     List<ChildEntity> getAllByChildminderCode(Long id);
 
-    void desactive(Long id, DesactiveChildDto inputs);
-
     void create(ChildDto inputs,
 	    DesactiveChildDto isActive);
 
@@ -33,5 +31,7 @@ public interface ChildService {
     void accepte(Long id);
 
     void refuseGuard(Long id);
+
+    void desactive(Long id);
 
 }

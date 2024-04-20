@@ -47,9 +47,8 @@ public class ChildController {
     }
 
     @PostMapping("/desactive/{id}")
-    public void desactive(@PathVariable("id") Long id,
-	    DesactiveChildDto inputs) {
-	service.desactive(id, inputs);
+    public void desactive(@PathVariable("id") Long id) {
+	service.desactive(id);
     }
 
     @PatchMapping("/accepte/{id}")
@@ -122,5 +121,7 @@ public class ChildController {
 
 	return childEntitiesMap;
     }
+    
+   
 
 }
