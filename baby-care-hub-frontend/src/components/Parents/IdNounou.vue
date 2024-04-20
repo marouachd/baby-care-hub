@@ -117,7 +117,7 @@ export default {
           params: { id: this.userId },
         });
       }
-      localStorage.removeItem("childminderCode");
+      //localStorage.removeItem("childminderCode");
     },
   },
   computed: {

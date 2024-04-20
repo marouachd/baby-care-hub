@@ -29,31 +29,12 @@ export default {
       console.log(this.childs, "mes enfants");
     },
     AjouterEnfant() {
-      if (this.childs && this.childs.length !== 0) {
-        if (this.childminderCode === null) {
-          this.$router.push({
-            name: "id-nounou",
-            params: { id: this.id },
-          });
-        } else {
-          this.$router.push({
-            name: "create-profile-enfant",
-            params: { id: this.userId },
-          });
-        }
-      } else {
-        this.$router.push({
-          name: "id-nounou",
-          params: { id: this.userId },
-        });
-        if (this.childminderCode !== null) {
-          this.$router.push({
-            name: "create-profile-enfant",
-            params: { id: this.id },
-          });
-        }
-      }
+      this.$router.push({
+        name: "id-nounou",
+        params: { id: this.id },
+      });
     },
+
     getChildImage(child) {
       if (child.personId.identityPhotoName) {
         return "/personal-pictures/" + child.personId.identityPhotoName;
