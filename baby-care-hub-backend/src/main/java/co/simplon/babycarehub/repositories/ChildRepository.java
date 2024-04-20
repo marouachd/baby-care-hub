@@ -28,4 +28,12 @@ public interface ChildRepository
     List<ChildEntity> findAllByChildminderCode(
 	    @Param("childminderCode") Long childminderId);
 
+    @Query("SELECT c FROM ChildEntity c JOIN c.parentId u WHERE u.id = :parentId AND c.isDeleted = false")
+    List<ChildEntity> findAllByParentIdAndIsNotDeleted(
+	    @Param("parentId") Long parentId);
+
+    @Query("SELECT c FROM ChildEntity c JOIN c.childminderCode u WHERE u.id = :childminderCode AND c.isDeleted = false")
+    List<ChildEntity> findAllByChildminderCodeAndIsNotDeleted(
+	    @Param("childminderCode") Long childminderId);
+
 }

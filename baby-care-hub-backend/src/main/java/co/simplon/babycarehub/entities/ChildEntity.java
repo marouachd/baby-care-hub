@@ -49,7 +49,18 @@ public class ChildEntity extends AbstractEntity {
     @Column(name = "is_accepted")
     boolean accepted;
 
+    @Column(name = "is_deleted")
+    boolean isDeleted;
+
     public ChildEntity() {
+    }
+
+    public boolean isDeleted() {
+	return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+	this.isDeleted = isDeleted;
     }
 
     public LocalDate getBirthdayDate() {

@@ -145,14 +145,17 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    @Transactional // read only=false!
+    @Transactional
     public void delete(Long id) {
 	System.out.println("Id: " + id);
 	ChildEntity child = childs.findChildById(id);
-	System.out.println("Person: " + child);
-	childs.delete(child);
-	PersonEntity person = child.getPersonId();
-	persons.delete(person);
+	if (child != null) {
+	    child.setDeleted(true);
+	}
+	// childs.delete(child);
+	// PersonEntity person = child.getPersonId();
+	// persons.delete(person);
+	childs.save(child);
     }
 
     @Override
@@ -230,14 +233,16 @@ public class ChildServiceImpl implements ChildService {
     public List<ChildEntity> getAllByParentId(
 	    Long parentId) {
 
-	return childs.findAllByParentId(parentId);
+	return childs
+		.findAllByParentIdAndIsNotDeleted(parentId);
     }
 
     @Override
     public List<ChildEntity> getAllByChildminderCode(
 	    Long childminderId) {
 	return childs
-		.findAllByChildminderCode(childminderId);
+		.findAllByChildminderCodeAndIsNotDeleted(
+			childminderId);
     }
 
     @Override
@@ -247,7 +252,6 @@ public class ChildServiceImpl implements ChildService {
 	ChildEntity child = childs.findChildById(id);
 	Long childminderId = child.getChildminderCode()
 		.getId();
-	System.out.println(childminderId + "childminderId");
 
 	System.out.println(child.getId() + "child ok ");
 	System.out.println(child + "child nok ");
@@ -256,11 +260,11 @@ public class ChildServiceImpl implements ChildService {
 
 	    LocalDate startDate = child.getHistory()
 		    .getStartDate();
-	    System.out.println(startDate + "start date");
 	    History history = histories
 		    .findByChildIdAndChildminderIdAndStartDate(
 			    child, childminderId,
 			    startDate);
+
 	    if (history != null) {
 		history.setEndDate(LocalDate.now());
 		histories.save(history);
