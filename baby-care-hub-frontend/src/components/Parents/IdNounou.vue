@@ -35,6 +35,7 @@ export default {
           );
         }
       }
+      localStorage.setItem("childminderCode", this.inputs.childminderCode);
       this.submit();
     },
     getImage(childminder) {
