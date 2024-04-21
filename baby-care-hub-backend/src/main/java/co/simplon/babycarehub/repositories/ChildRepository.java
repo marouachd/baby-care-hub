@@ -20,13 +20,15 @@ public interface ChildRepository
 
     ChildEntity findChildById(Long id);
 
-    @Query("SELECT c FROM ChildEntity c JOIN c.parentId u WHERE u.id = :parentId")
-    List<ChildEntity> findAllByParentId(
-	    @Param("parentId") Long parentId);
+    // @Query("SELECT c FROM ChildEntity c JOIN c.parentId u WHERE u.id =
+    // :parentId")
+    // List<ChildEntity> findAllByParentId(
+    // @Param("parentId") Long parentId);
 
-    @Query("SELECT c FROM ChildEntity c JOIN c.childminderCode u WHERE u.id = :childminderCode")
-    List<ChildEntity> findAllByChildminderCode(
-	    @Param("childminderCode") Long childminderId);
+    // @Query("SELECT c FROM ChildEntity c JOIN c.childminderCode u WHERE u.id =
+    // :childminderCode")
+    // List<ChildEntity> findAllByChildminderCode(
+    // @Param("childminderCode") Long childminderId);
 
     @Query("SELECT c FROM ChildEntity c JOIN c.parentId u WHERE u.id = :parentId AND c.isDeleted = false")
     List<ChildEntity> findAllByParentIdAndIsNotDeleted(
