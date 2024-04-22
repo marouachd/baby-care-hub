@@ -70,6 +70,7 @@ export default {
       this.snacks = response.body;
     },
     async submit() {
+      this.inputs.eval = this.satisfactionLevels[this.selectedLevel];
       const response = await this.$axios.post(`/meals`, this.inputs);
       if (response && response.status === 200) {
         this.$toast.success("toast-global", "Gouter enregistré");

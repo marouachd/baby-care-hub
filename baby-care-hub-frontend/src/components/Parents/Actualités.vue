@@ -49,6 +49,7 @@ export default {
         `/actualities/${this.date}/${this.id}`
       );
       this.data = response.body;
+      console.log("actualities", this.data);
       if (this.data) {
         this.naps = this.data.nap;
         this.presences = this.naps.filter((item) => item.type === "presence");
@@ -217,8 +218,12 @@ export default {
                 </div>
                 <div class="d-flex flex-column">
                   <div class="mt-1">Heure de sommeil: {{ nap.startTime }}</div>
-                  <div class="mt-1">Heure de réveil: {{ nap.endTime }}</div>
-                  <div class="mt-1">Commentaire: {{ nap.commentaire }}</div>
+                  <div class="mt-1" v-if="nap.endTime">
+                    Heure de réveil: {{ nap.endTime }}
+                  </div>
+                  <div class="mt-1" v-if="nap.endTime">
+                    Commentaire: {{ nap.commentaire }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -246,6 +251,7 @@ export default {
                 />
               </div>
               <div class="d-flex flex-column">
+                <div>{{ this.data.snack.eval }} :</div>
                 <div>
                   Le gouter pour aujourd'hui est
                   {{ this.data.snack.snackId.name }}
@@ -320,7 +326,7 @@ export default {
         v-if="this.data && this.presences"
         v-for="presence in presences"
       >
-        <div class="card mx-2 mt-2">
+        <div class="card mx-2 mt-2" v-if="presence.endTime">
           <div class="card-body">
             <div class="col-md-6">
               <h4>Départ</h4>
@@ -344,10 +350,12 @@ export default {
         v-if="this.data && this.presences"
         v-for="presence in presences"
       >
-        <span class="comment">⭐</span>
-        <span class="comment">❤️</span>
-        <span class="comment">👏</span>
-        <span class="comment">😞</span>
+        <div v-if="presence.endTime">
+          <span class="comment">⭐</span>
+          <span class="comment">❤️</span>
+          <span class="comment">👏</span>
+          <span class="comment">😞</span>
+        </div>
       </div>
       <div class="card mx-2 mt-2 mb-2" v-if="!data">
         <div class="card-body">

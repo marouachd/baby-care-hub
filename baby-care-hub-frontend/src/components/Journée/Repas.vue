@@ -67,6 +67,7 @@ export default {
     },
     async submit() {
       console.log("inputs", this.inputs);
+      this.inputs.eval = this.satisfactionLevels[this.selectedLevel];
       const response = await this.$axios.post(`/meals`, this.inputs);
 
       if (response && response.status === 200) {
