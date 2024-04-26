@@ -205,6 +205,7 @@ export default {
           class="btn btn-quitter mb-2 ms-md-3"
           @click="suppress(id)"
           v-if="this.roleId == 2"
+          :class="{ disabled: data.childminderCode }"
         >
           Supprimer ce profile
         </button>

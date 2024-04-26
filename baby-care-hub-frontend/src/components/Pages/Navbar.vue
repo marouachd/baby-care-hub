@@ -40,9 +40,13 @@ export default {
         this.toDayDate = today;
       }
     },
+
     toggleDatePicker() {
-      localStorage.setItem("selectedDate", this.toDayDate);
       this.showDatePicker = !this.showDatePicker;
+      if (!this.showDatePicker) {
+        localStorage.setItem("selectedDate", this.toDayDate);
+        this.$emit("date-changed", this.toDayDate);
+      }
     },
     toggleSignedUser() {
       this.signedUser = !this.signedUser;
@@ -174,8 +178,7 @@ export default {
           </div>
         </div>
       </div>
-
-      <!-- <div class="locale-changer">
+      <div class="locale-changer">
         <select v-model="$i18n.locale" class="rounded">
           <option
             v-for="locale in $i18n.availableLocales"
@@ -185,7 +188,7 @@ export default {
             {{ locale }}
           </option>
         </select>
-      </div>-->
+      </div>
 
       <div class="image-container rounded-circle col-3 col-md-2">
         <img src="../../../public/favicon.jpg" class="bebe-image" />

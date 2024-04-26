@@ -1,12 +1,18 @@
 <script>
+import { mapWritableState } from "pinia";
+import { mapState } from "pinia";
+import useStore from "../../../store/store.js";
 import { RouterLink, useRoute } from "vue-router";
 import axios from "axios";
+import { inject } from "vue";
 export default {
+  inject: ["actusData"],
   setup() {
     return {
       route: useRoute(),
     };
   },
+
   data() {
     return {
       rawArray: "",
@@ -18,43 +24,38 @@ export default {
       presences: [],
     };
   },
+
   watch: {
-    async "$data.selectedDate"(newDate) {
+    async selectedDate(newDate) {
       if (newDate) {
-        localStorage.setItem("selectedDate", newDate);
-        const response = await this.$axios.get(
-          `/actualities/${this.selectedDate}/${this.id}`
-        );
-        this.data = response.body;
-        if (this.data) {
-          this.naps = this.data.nap;
-          this.presences = this.naps.filter((item) => item.type === "presence");
-
-          this.naps = this.naps.filter((item) => item.type === "sieste");
-        }
-
-        console.log(this.data, "actualité selected date");
+        await this.fetchActualities(newDate);
       }
     },
   },
 
   mounted() {
-    this.getActuality();
+    this.fetchActualities(this.date);
     this.selectedDate = localStorage.getItem("selectedDate");
+    this.childId = this.route.params.id;
+    console.log(this.childId, "id");
+  },
+  computed: {
+    ...mapState(useStore, ["actualities"]),
+    ...mapWritableState(useStore, ["childId"]),
   },
 
   methods: {
-    async getActuality() {
-      const response = await this.$axios.get(
-        `/actualities/${this.date}/${this.id}`
-      );
+    async fetchActualities(date) {
+      const response = await this.$axios.get(`/actualities/${date}/${this.id}`);
       this.data = response.body;
-      console.log("actualities", this.data);
+      console.log(this.data, "yes!");
       if (this.data) {
         this.naps = this.data.nap;
         this.presences = this.naps.filter((item) => item.type === "presence");
         this.naps = this.naps.filter((item) => item.type === "sieste");
       }
+      console.log(this.data, "actualité selected date");
+      console.log(this.actualities, "actualité data");
     },
   },
 };
@@ -68,7 +69,7 @@ export default {
     <div class="card bg-light rounded">
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.presences"
+        v-if="this.actualities && this.presences"
         v-for="presence in presences"
       >
         <div class="card mx-2 mt-2">
@@ -91,7 +92,7 @@ export default {
       </div>
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.presences"
+        v-if="this.actualities && this.presences"
         v-for="presence in presences"
       >
         <span class="comment">⭐</span>
@@ -100,8 +101,8 @@ export default {
         <span class="comment">😞</span>
       </div>
       <div
-        v-if="this.data && this.data.babyBottels"
-        v-for="bottle in this.data.babyBottels"
+        v-if="this.actualities && this.actualities.babyBottels"
+        v-for="bottle in this.actualities.babyBottels"
         :key="bottle.id"
       >
         <div class="card mx-2 mt-4">
@@ -126,7 +127,7 @@ export default {
 
         <div
           class="comment-section mt-2"
-          v-if="this.data && this.data.babyBottels"
+          v-if="this.actualities && this.actualities.babyBottels"
         >
           <span class="comment">⭐</span>
           <span class="comment">❤️</span>
@@ -135,7 +136,10 @@ export default {
         </div>
       </div>
 
-      <div class="card mx-2 mt-4" v-if="this.data && this.data.childActivity">
+      <div
+        class="card mx-2 mt-4"
+        v-if="this.actualities && this.actualities.childActivity"
+      >
         <div class="card-body">
           <div class="col-md-6">
             <h4>Activités</h4>
@@ -149,11 +153,11 @@ export default {
               </div>
               <div class="d-flex flex-column">
                 <div>
-                  {{ this.data.childActivity.activityId.activityName }} :
+                  {{ this.actualities.childActivity.activityId.activityName }} :
                 </div>
 
                 <div class="ms-1">
-                  {{ this.data.childActivity.commentaire }}
+                  {{ this.actualities.childActivity.commentaire }}
                 </div>
               </div>
             </div>
@@ -163,7 +167,7 @@ export default {
 
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.data.childActivity"
+        v-if="this.actualities && this.actualities.childActivity"
       >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
@@ -171,7 +175,7 @@ export default {
         <span class="comment">😞</span>
       </div>
 
-      <div class="card mx-2" v-if="this.data && this.data.meal">
+      <div class="card mx-2" v-if="this.actualities && this.actualities.meal">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Repas</h4>
@@ -184,10 +188,10 @@ export default {
                 />
               </div>
               <div class="d-flex flex-column">
-                <div>{{ this.data.meal.eval }} :</div>
+                <div>{{ this.actualities.meal.eval }} :</div>
 
                 <div class="ms-1">
-                  {{ this.data.meal.commentaire }}
+                  {{ this.actualities.commentaire }}
                 </div>
               </div>
             </div>
@@ -195,14 +199,17 @@ export default {
         </div>
       </div>
 
-      <div class="comment-section mt-2" v-if="this.data && this.data.meal">
+      <div
+        class="comment-section mt-2"
+        v-if="this.actualities && this.actualities.meal"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
 
-      <div v-if="this.data && this.data.nap" v-for="nap in naps">
+      <div v-if="this.actualities && this.actualities.nap" v-for="nap in naps">
         <div class="card mx-2 mt-2">
           <div class="card-body">
             <div class="col-md-6">
@@ -230,7 +237,10 @@ export default {
           </div>
         </div>
 
-        <div class="comment-section mt-2" v-if="this.data && this.data.nap">
+        <div
+          class="comment-section mt-2"
+          v-if="this.actualities && this.actualities.nap"
+        >
           <span class="comment">⭐</span>
           <span class="comment">❤️</span>
           <span class="comment">👏</span>
@@ -238,7 +248,7 @@ export default {
         </div>
       </div>
 
-      <div class="card mx-2" v-if="this.data && this.data.snack">
+      <div class="card mx-2" v-if="this.actualities && this.actualities.snack">
         <div class="card-body">
           <div class="col-md-6">
             <h4>Gouter</h4>
@@ -251,14 +261,14 @@ export default {
                 />
               </div>
               <div class="d-flex flex-column">
-                <div>{{ this.data.snack.eval }} :</div>
+                <div>{{ this.actualities.snack.eval }} :</div>
                 <div>
                   Le gouter pour aujourd'hui est
-                  {{ this.data.snack.snackId.name }}
+                  {{ this.actualities.snack.snackId.name }}
                 </div>
 
                 <div class="ms-1">
-                  {{ this.data.snack.commentaire }}
+                  {{ this.actualities.snack.commentaire }}
                 </div>
               </div>
             </div>
@@ -266,13 +276,19 @@ export default {
         </div>
       </div>
 
-      <div class="comment-section mt-2" v-if="this.data && this.data.snack">
+      <div
+        class="comment-section mt-2"
+        v-if="this.actualities && this.actualities.snack"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
         <span class="comment">😞</span>
       </div>
-      <div class="card mx-2" v-if="this.data && this.data.leisure">
+      <div
+        class="card mx-2"
+        v-if="this.actualities && this.actualities.leisure"
+      >
         <div class="card-body">
           <div class="col-md-6">
             <h4>Sortie&Loisir</h4>
@@ -287,9 +303,9 @@ export default {
               <div>
                 <p
                   v-if="
-                    this.data &&
-                    this.data.leisure &&
-                    this.data.leisure.leisureId.id < 4
+                    this.actualities &&
+                    this.actualities.leisure &&
+                    this.actualities.leisure.leisureId.id < 4
                   "
                 >
                   Il ne fait pas beau aujourd'hui on decidé de rester à la
@@ -299,23 +315,26 @@ export default {
                 <p>
                   On
                   {{
-                    this.data &&
-                    this.data.leisure &&
-                    this.data.leisure.leisureId.id < 4
+                    this.actualities &&
+                    this.actualities.leisure &&
+                    this.actualities.leisure.leisureId.id < 4
                       ? "a choisi de"
                       : "est allé : "
                   }}
-                  {{ this.data.leisure.leisureId.name }}
+                  {{ this.actualities.leisure.leisureId.name }}
                 </p>
 
-                <p>{{ this.data.leisure.commentaire }}</p>
+                <p>{{ this.actualities.leisure.commentaire }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="comment-section mt-2" v-if="this.data && this.data.leisure">
+      <div
+        class="comment-section mt-2"
+        v-if="this.actualities && this.actualities.leisure"
+      >
         <span class="comment">⭐</span>
         <span class="comment">❤️</span>
         <span class="comment">👏</span>
@@ -323,7 +342,7 @@ export default {
       </div>
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.presences"
+        v-if="this.actualities && this.presences"
         v-for="presence in presences"
       >
         <div class="card mx-2 mt-2" v-if="presence.endTime">
@@ -347,7 +366,7 @@ export default {
 
       <div
         class="comment-section mt-2"
-        v-if="this.data && this.presences"
+        v-if="this.actualities && this.presences"
         v-for="presence in presences"
       >
         <div v-if="presence.endTime">
@@ -357,7 +376,7 @@ export default {
           <span class="comment">😞</span>
         </div>
       </div>
-      <div class="card mx-2 mt-2 mb-2" v-if="!data">
+      <div class="card mx-2 mt-2 mb-2" v-if="!this.actualities">
         <div class="card-body">
           <p>Aucune donnée disponible pour cette date.</p>
         </div>
@@ -389,3 +408,4 @@ h4 {
   object-fit: cover;
 }
 </style>
+../../../store/store.js

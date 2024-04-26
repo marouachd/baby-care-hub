@@ -185,7 +185,7 @@ export default {
         </div>
       </div>
       <div
-        class="form-text text-danger row d-flex justify-content-center"
+        class="col-6 d-flex flex-column text-center align-items-center"
         v-if="!child.active && child.accepted"
       >
         <span class="ms-3 col-9 text-center align-items-center">
@@ -199,22 +199,28 @@ export default {
         </span>
       </div>
       <div
-        class="form-text text-danger row d-flex justify-content-center"
+        class="text-danger d-flex row justify-content-center align-items-center"
         :class="{ disabled: !child.accepted }"
         v-if="!child.accepted && child.active"
       >
-        <span
-          class="col-9 ms-5"
-          v-if="
-            child && child.childminderCode && child.childminderCode.personId
-          "
+        <div
+          class="col-md-9 col-12 d-flex flex-column text-center align-items-center"
         >
-          Votre enfant sera bientôt pris en charge par
-          {{ child.childminderCode.personId.firstName }}
-          {{ child.childminderCode.personId.lastName }}. Veuillez patienter
-          pendant que la nounou valide la garde et accepte votre enfant dans sa
-          liste. 🤗
-        </span>
+          <span
+            class="col-md-6 col-12 text-center align-items-center"
+            v-if="
+              child && child.childminderCode && child.childminderCode.personId
+            "
+          >
+            Votre enfant sera bientôt pris en charge par
+            {{ child.childminderCode.personId.firstName }}
+            {{ child.childminderCode.personId.lastName }}.</span
+          >
+          <span class="col-md-6 col-12 text-center align-items-center">
+            Veuillez patienter pendant que la nounou valide la garde et accepte
+            votre enfant dans sa liste. 🤗
+          </span>
+        </div>
       </div>
       <div
         class="form-text text-danger row d-flex justify-content-center"

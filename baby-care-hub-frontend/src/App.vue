@@ -4,9 +4,19 @@ import Footer from "../src/Components/Pages/Footer.vue";
 import Sidebar from "../src/Components/Commons/Sidebar.vue";
 import Toast from "./Components/Commons/Toast.vue";
 import i18n from "./plugins/i18n";
+import { RouterLink, useRoute } from "vue-router";
+import { mapWritableState } from "pinia";
+import { mapState } from "pinia";
+import useStore from "../store/store.js";
 
 export default {
   name: "App",
+  setup() {
+    return {
+      route: useRoute(),
+      actualitiesData: null,
+    };
+  },
 
   components: {
     Navbar,
@@ -17,8 +27,26 @@ export default {
   },
   data() {
     return {
+      id: this.route.params.id,
       showSidebar: false,
+      actualitiesData: null,
     };
+  },
+
+  methods: {
+    async fetchActualities(date) {
+      const response = await this.$axios.get(
+        `/actualities/${date}/${this.childId}`
+      );
+      this.actualitiesData = response.body;
+      console.log(this.actualitiesData, "actualities");
+      this.actualities = this.actualitiesData;
+      console.log("this app", this.actualities);
+    },
+  },
+  computed: {
+    ...mapWritableState(useStore, ["actualities"]),
+    ...mapState(useStore, ["childId"]),
   },
 
   watch: {
@@ -33,7 +61,7 @@ export default {
   <div class="global">
     <header>
       <div class="wrapper">
-        <Navbar></Navbar>
+        <Navbar @date-changed="fetchActualities"></Navbar>
       </div>
     </header>
 
