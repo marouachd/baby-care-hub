@@ -39,7 +39,7 @@ public class PasswordResetController {
 	    }
 
 	} catch (UnsupportedEncodingException e) {
-	    // TODO Auto-generated catch block
+
 	    e.printStackTrace();
 	}
 	String token = tokenService.generateToken(email);

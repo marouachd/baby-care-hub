@@ -5,6 +5,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,19 +46,18 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(
 	    HttpSecurity http) throws Exception {
-	http.cors().and().csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/user", "/sign-in", "/role",
-			"/password/reset-password/{token}",
-			"/password/reset-password",
-			"/forgot-password")
-		.permitAll() // Autorise toutes les requêtes pour les URL spécifiées sans nécessiter
-		// d'authentification.
-		.anyRequest().authenticated().and() // l'authentification est nécessaire pour toutes les autres URLs de
-		// l'application et
-		.oauth2ResourceServer().jwt();
-	// L'application utilise le protocole OAuth2 pour protéger ses ressources,
-	// Ces ressources sont validées à l'aide de jetons JWT.
+	http.cors(Customizer.withDefaults())
+		.csrf(csrf -> csrf.disable())
+		.authorizeHttpRequests((authz) -> {
+		    authz.requestMatchers("/user",
+			    "/sign-in", "/role",
+			    "/password/reset-password/{token}",
+			    "/password/reset-password",
+			    "/forgot-password").permitAll()
+			    .anyRequest().authenticated();
+		}).oauth2ResourceServer((oauth2) -> oauth2
+			.jwt(Customizer.withDefaults()));
+	;
 	return http.build();
     }
 

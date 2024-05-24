@@ -1,10 +1,9 @@
 package co.simplon.babycarehub.outingandleisure;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import co.simplon.babycarehub.entities.AbstractEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "leisures")

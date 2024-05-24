@@ -38,12 +38,7 @@ public class PasswordResetTokenService {
 	resetToken.setEmail(email);
 	resetToken.setExpiryTime(calculateExpiryTime());
 	tokenRepository.save(resetToken);
-	System.out.println("token" + token);
 	return token;
-    }
-
-    public PasswordResetToken getToken(String token) {
-	return tokenRepository.findByToken(token);
     }
 
     private LocalDateTime calculateExpiryTime() {
@@ -51,6 +46,10 @@ public class PasswordResetTokenService {
 	LocalDateTime expiryDate = now.plus(60,
 		ChronoUnit.SECONDS);
 	return expiryDate;
+    }
+
+    public PasswordResetToken getToken(String token) {
+	return tokenRepository.findByToken(token);
     }
 
     public void updatePassword(String password,

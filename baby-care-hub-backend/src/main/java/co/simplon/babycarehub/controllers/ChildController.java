@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +24,7 @@ import co.simplon.babycarehub.dtos.ChildUpdateDto;
 import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.services.ChildService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/child")
@@ -121,7 +120,5 @@ public class ChildController {
 
 	return childEntitiesMap;
     }
-    
-   
 
 }

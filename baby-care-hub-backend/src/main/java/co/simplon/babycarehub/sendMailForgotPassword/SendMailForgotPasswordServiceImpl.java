@@ -1,12 +1,11 @@
 package co.simplon.babycarehub.sendMailForgotPassword;
 
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import co.simplon.babycarehub.repositories.UserRepository;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class SendMailForgotPasswordServiceImpl
@@ -50,7 +49,7 @@ public class SendMailForgotPasswordServiceImpl
 			"Réinitialisation de votre mot de passe");
 
 		// Construisez le contenu HTML de l'e-mail
-		String resetPasswordLink = "http://127.0.0.1:5173/new-password/"
+		String resetPasswordLink = "http://localhost:5173/new-password/"
 			+ token;
 
 		// Create HTML content with the dynamic reset password link
@@ -68,7 +67,7 @@ public class SendMailForgotPasswordServiceImpl
 			+ "<p><a href=\""
 			+ resetPasswordLink
 			+ "\" style=\"background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;\">Réinitialiser votre mot de passe</a></p>"
-			+ "<p>Si vous n'avez pas demandé cette réinitialisation ou si vous avez des questions, veuillez contacter notre équipe d'assistance à l'adresse suivante : [Adresse e-mail de l'équipe d'assistance].</p>"
+			+ "<p>Si vous n'avez pas demandé cette réinitialisation ou si vous avez des questions, veuillez ignorer ce mail.</p>"
 			+ "<p>Merci,</p>"
 			+ "<p>L'équipe BabyCareHub</p>"
 			+ "</body>" + "</html>";

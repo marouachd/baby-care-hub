@@ -4,13 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import co.simplon.babycarehub.actualities.ActualityEntity;
 import co.simplon.babycarehub.actualities.ActualityRepository;
 import co.simplon.babycarehub.repositories.ChildRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
