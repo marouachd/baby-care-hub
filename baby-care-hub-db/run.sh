@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./run.sh telperion_admin admin_DF46u9* telperion 
+# ./run.sh juniper_admin admin_DF46u9* localhost:5432 juniper 
 
 exit_code=0
 

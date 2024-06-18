@@ -34,7 +34,7 @@ INSERT INTO persons (pseudo_name, first_name, last_name, identity_photo_name) VA
     ('bestmom', 'lamia', 'hajj', 'lamia.jpeg'),
     ('baby17', 'Eyad', 'chroud', '');
 
-INSERT INTO users (mail_adress, phone_number, password, role_id, person_id) VALUES
+INSERT INTO users (mail_address, phone_number, password, role_id, person_id) VALUES
     ('nounou@gmail.com', '04785321', '251145hh', 1, 1),
     ('parent@gmail.com', '04785321', '251145hh', 2, 2);
 
@@ -73,10 +73,10 @@ INSERT INTO baby_bottles (child_id, volume, time, date) VALUES
     (1, 250.0, '12:00:00', '2024-03-28');
 
 INSERT INTO meals (child_id, snack_id, eval, commentaire, date, type)
-VALUES (3, 2, 'très bien mangé', 'plat poisson + riz + fruit', '2024-03-28', 'gouter');
+VALUES (1, 2, 'très bien mangé', 'plat poisson + riz + fruit', '2024-03-28', 'gouter');
 
 INSERT INTO childs_leisures (leisure_id, child_id, commentaire, date) 
 VALUES (1, 1, 'il a bien joué', '2024-03-28');
 
-INSERT INTO actualities (child_id, date, child_activity_id, baby_bottel_id, meal_id, nap_id, leisure_id)
+INSERT INTO actualities (child_id, date, child_activity_id,baby_bottle_id, meal_id, nap_id, leisure_id)
 VALUES (1, '2024-03-28', 1, 1, 1, 1, 1);
