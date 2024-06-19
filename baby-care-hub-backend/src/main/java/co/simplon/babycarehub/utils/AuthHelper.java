@@ -42,7 +42,7 @@ public class AuthHelper {
 	// = (String[]) roles.toArray()
 	return JWT.create().withIssuer(issuer)
 		.withClaim("User Id", user.getId())
-		.withSubject(user.getMailAdress())
+		.withSubject(user.getMailAddress())
 		.withIssuedAt(now)
 		.withExpiresAt(expirationTime)
 		.withArrayClaim("roles", rolesAsArray)

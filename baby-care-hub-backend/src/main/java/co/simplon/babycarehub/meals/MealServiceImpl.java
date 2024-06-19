@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import co.simplon.babycarehub.actualities.ActualityEntity;
-import co.simplon.babycarehub.actualities.ActualityRepository;
+import co.simplon.babycarehub.entities.ActualityEntity;
+import co.simplon.babycarehub.repositories.ActualityRepository;
 import jakarta.transaction.Transactional;
 
 @Service

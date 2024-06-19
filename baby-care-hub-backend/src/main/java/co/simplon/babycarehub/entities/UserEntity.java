@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class UserEntity extends AbstractEntity {
 
-    @Column(name = "mail_adress")
-    private String mailAdress;
+    @Column(name = "mail_address")
+    private String mailAddress;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -32,12 +32,12 @@ public class UserEntity extends AbstractEntity {
 
     }
 
-    public String getMailAdress() {
-	return mailAdress;
+    public String getMailAddress() {
+	return mailAddress;
     }
 
-    public void setMailAdress(String mailAdress) {
-	this.mailAdress = mailAdress;
+    public void setMailAddress(String mailAddress) {
+	this.mailAddress = mailAddress;
     }
 
     public String getPhoneNumber() {
@@ -74,7 +74,7 @@ public class UserEntity extends AbstractEntity {
 
     @Override
     public String toString() {
-	return "{mailAdress=" + mailAdress
+	return "{mailAddress=" + mailAddress
 		+ ", phoneNumber=" + phoneNumber
 		+ ", password=" + password + ", personId="
 		+ personId + ", roleId=" + roleId + "}";

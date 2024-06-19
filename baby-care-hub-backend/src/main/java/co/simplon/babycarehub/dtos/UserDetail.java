@@ -8,7 +8,7 @@ public interface UserDetail {
 
     PersonEntity getPersonId();
 
-    String getMailAdress();
+    String getMailAddress();
 
     String getPhoneNumber();
 

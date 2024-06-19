@@ -2,11 +2,9 @@ package co.simplon.babycarehub.services;
 
 import java.util.List;
 
-import co.simplon.babycarehub.dtos.ActiveChildDto;
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
-import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 
 public interface ChildService {
@@ -23,10 +21,9 @@ public interface ChildService {
 
     List<ChildEntity> getAllByChildminderCode(Long id);
 
-    void create(ChildDto inputs,
-	    DesactiveChildDto isActive);
+    void create(ChildDto inputs);
 
-    void activeChild(Long id, ActiveChildDto inputs);
+    void activeChild(Long id, ChildDto inputs);
 
     void accepte(Long id);
 

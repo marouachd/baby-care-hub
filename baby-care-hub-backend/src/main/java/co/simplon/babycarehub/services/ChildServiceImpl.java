@@ -17,11 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import co.simplon.babycarehub.dtos.ActiveChildDto;
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
-import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.entities.GenderEntity;
 import co.simplon.babycarehub.entities.GuardModeEntity;
@@ -70,8 +68,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     @Transactional
-    public void create(ChildDto inputs,
-	    DesactiveChildDto isActive) {
+    public void create(ChildDto inputs) {
 
 	ChildEntity child = new ChildEntity();
 
@@ -277,8 +274,7 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void activeChild(Long id,
-	    ActiveChildDto inputs) {
+    public void activeChild(Long id, ChildDto inputs) {
 	ChildEntity child = childs.findChildById(id);
 	child.setActive(true);
 	child.setAccepted(false);

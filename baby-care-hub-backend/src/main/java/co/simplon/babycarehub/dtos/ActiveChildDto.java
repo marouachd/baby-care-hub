@@ -4,7 +4,7 @@ public class ActiveChildDto {
 
     public String childminderCode;
 
-    public boolean active;
+    public boolean active = false;
 
     public ActiveChildDto() {
 

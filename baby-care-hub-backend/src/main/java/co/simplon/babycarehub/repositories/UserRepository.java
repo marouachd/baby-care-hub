@@ -28,8 +28,8 @@ public interface UserRepository
 
     List<UserEntity> findAllByRoleId(RoleEntity role);
 
-    Boolean existsByMailAdress(String mailAdress);
+    Boolean existsByMailAddress(String mailAddress);
 
-    UserEntity findByMailAdress(String mailAdress);
+    UserEntity findByMailAddress(String mailAddress);
 
 }

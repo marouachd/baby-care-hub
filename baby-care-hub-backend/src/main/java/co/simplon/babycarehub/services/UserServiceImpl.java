@@ -24,6 +24,7 @@ import co.simplon.babycarehub.repositories.PersonRepository;
 import co.simplon.babycarehub.repositories.RoleRepository;
 import co.simplon.babycarehub.repositories.UserRepository;
 import co.simplon.babycarehub.utils.AuthHelper;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -53,11 +54,12 @@ public class UserServiceImpl implements UserService {
 	this.authRepository = authRepository;
     }
 
-    @Override
+    @Transactional
     public void create(UserDto inputs) {
+	System.out.println(inputs + "this inputs");
 
 	UserEntity user = new UserEntity();
-	user.setMailAdress(inputs.getMailAdress());
+	user.setMailAddress(inputs.getMailAddress());
 	user.setPhoneNumber(inputs.getPhoneNumber());
 	String hashPassword = authHelper
 		.encode(inputs.getPassword());
@@ -91,6 +93,7 @@ public class UserServiceImpl implements UserService {
 	PersonEntity savedPerson = persons.save(person);
 	user.setPersonId(savedPerson);
 	users.save(user);
+	System.out.println(user + "ceci est user");
 	authRepository.save(user);
     }
 
@@ -120,7 +123,7 @@ public class UserServiceImpl implements UserService {
 
 	if (user != null) {
 
-	    user.setMailAdress(inputs.getMailAdress());
+	    user.setMailAddress(inputs.getMailAdress());
 	    user.setPhoneNumber(inputs.getPhoneNumber());
 
 	    Long roleId = inputs.getRoleId();
@@ -190,12 +193,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean existsByEmail(String email) {
-	return users.existsByMailAdress(email); // Vérifie si un utilisateur existe avec l'adresse e-mail donnée
+	return users.existsByMailAddress(email); // Vérifie si un utilisateur existe avec l'adresse e-mail donnée
     }
 
     // Méthode pour trouver un utilisateur par adresse e-mail
     @Override
     public UserEntity findByEmail(String email) {
-	return users.findByMailAdress(email); // Renvoie l'utilisateur correspondant à l'adresse e-mail donnée
+	return users.findByMailAddress(email); // Renvoie l'utilisateur correspondant à l'adresse e-mail donnée
     }
 }

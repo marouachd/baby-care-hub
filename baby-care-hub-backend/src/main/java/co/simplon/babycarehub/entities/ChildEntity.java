@@ -44,10 +44,10 @@ public class ChildEntity extends AbstractEntity {
     private History history;
 
     @Column(name = "is_active")
-    boolean active;
+    private boolean active = false;
 
     @Column(name = "is_accepted")
-    boolean accepted;
+    private boolean accepted;
 
     @Column(name = "is_deleted")
     boolean isDeleted;

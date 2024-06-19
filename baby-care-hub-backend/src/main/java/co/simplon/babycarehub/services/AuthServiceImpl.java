@@ -31,9 +31,9 @@ public class AuthServiceImpl implements AuthService {
 	String candidate = inputs.getPassword();
 
 	UserEntity user = authRepository
-		.getByMailAdress(identifier);
+		.getByMailAddress(identifier);
 	System.out.println("Credentials " + identifier
-		+ " mp " + candidate + user);
+		+ " mp " + candidate);
 
 	if (user != null) {
 	    List<String> roles = new ArrayList<String>();

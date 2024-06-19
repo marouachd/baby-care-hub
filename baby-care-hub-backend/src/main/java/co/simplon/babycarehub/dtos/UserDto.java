@@ -7,7 +7,7 @@ import co.simplon.babycarehub.customValidation.PictureType;
 
 public class UserDto {
 
-    private String mailAdress;
+    private String mailAddress;
 
     private String phoneNumber;
 
@@ -29,12 +29,12 @@ public class UserDto {
 
     }
 
-    public String getMailAdress() {
-	return mailAdress;
+    public String getMailAddress() {
+	return mailAddress;
     }
 
-    public void setMailAdress(String mailAdress) {
-	this.mailAdress = mailAdress;
+    public void setMailAddress(String mailAddress) {
+	this.mailAddress = mailAddress;
     }
 
     public String getPhoneNumber() {
@@ -96,7 +96,7 @@ public class UserDto {
 
     @Override
     public String toString() {
-	return "{mailAdress=" + mailAdress
+	return "{mailAddress=" + mailAddress
 		+ ", phoneNumber=" + phoneNumber
 		+ ", password=" + password + ", firstName="
 		+ firstName + ", lastName=" + lastName

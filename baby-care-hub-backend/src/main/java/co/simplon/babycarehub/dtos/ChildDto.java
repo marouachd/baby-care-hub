@@ -43,6 +43,8 @@ public class ChildDto {
 
     public String childminderCode;
 
+    public boolean active = false;
+
     public ChildDto() {
 
     }
@@ -120,6 +122,14 @@ public class ChildDto {
 	this.childminderCode = childminderCode;
     }
 
+    public boolean isActive() {
+	return active;
+    }
+
+    public void setActive(boolean active) {
+	this.active = active;
+    }
+
     @Override
     public String toString() {
 	return "{parentId=" + parentId + ", firstName="
@@ -129,7 +139,8 @@ public class ChildDto {
 		+ ", personalPicture=" + personalPicture
 		+ ", genderId=" + genderId + ", guardId="
 		+ guardId + ", childminderCode="
-		+ childminderCode + "}";
+		+ childminderCode + ", active=" + active
+		+ "}";
     }
 
 }

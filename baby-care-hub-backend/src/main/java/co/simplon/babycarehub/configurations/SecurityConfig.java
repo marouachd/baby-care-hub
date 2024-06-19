@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -31,6 +32,8 @@ public class SecurityConfig {
     private String secret;
     @Value("${babycarehub.auth.tokenExpiration}")
     private long tokenExpiration;
+    @Value("${babycarehub.cors.enabled}")
+    private boolean corsEnabled;
 
     @Bean
     public AuthHelper authHelper() {
@@ -46,11 +49,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(
 	    HttpSecurity http) throws Exception {
-	http.cors(Customizer.withDefaults())
+	http.cors(corsCustomizer())// au lieu de Customizer.withDefaults()
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests((authz) -> {
 		    authz.requestMatchers("/user",
-			    "/sign-in", "/role",
+			    "/sign-in", "/role", "/gender",
 			    "/password/reset-password/{token}",
 			    "/password/reset-password",
 			    "/forgot-password").permitAll()
@@ -66,6 +69,11 @@ public class SecurityConfig {
 	SecretKeySpec key = new SecretKeySpec(
 		secret.getBytes(), "HmacSHA256");
 	return NimbusJwtDecoder.withSecretKey(key).build();
+    }
+
+    private Customizer<CorsConfigurer<HttpSecurity>> corsCustomizer() {
+	return corsEnabled ? Customizer.withDefaults()
+		: cors -> cors.disable();
     }
 
 }

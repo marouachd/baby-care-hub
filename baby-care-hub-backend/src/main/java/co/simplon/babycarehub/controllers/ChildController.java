@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.babycarehub.dtos.ActiveChildDto;
 import co.simplon.babycarehub.dtos.ChildDetail;
 import co.simplon.babycarehub.dtos.ChildDto;
 import co.simplon.babycarehub.dtos.ChildUpdateDto;
-import co.simplon.babycarehub.dtos.DesactiveChildDto;
 import co.simplon.babycarehub.entities.ChildEntity;
 import co.simplon.babycarehub.services.ChildService;
 import jakarta.validation.Valid;
@@ -40,9 +38,8 @@ public class ChildController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(
-	    @Valid @ModelAttribute ChildDto inputs,
-	    DesactiveChildDto isActive) {
-	service.create(inputs, isActive);
+	    @Valid @ModelAttribute ChildDto inputs) {
+	service.create(inputs);
     }
 
     @PostMapping("/desactive/{id}")
@@ -95,7 +92,7 @@ public class ChildController {
     @PatchMapping("/active/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void activeChild(@PathVariable("id") Long id,
-	    @RequestBody ActiveChildDto inputs) {
+	    @RequestBody ChildDto inputs) {
 
 	service.activeChild(id, inputs);
     }

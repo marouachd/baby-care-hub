@@ -7,6 +7,6 @@ import co.simplon.babycarehub.entities.UserEntity;
 public interface AuthRepository
 	extends JpaRepository<UserEntity, Long> {
 
-    UserEntity getByMailAdress(String mailAdress);
+    UserEntity getByMailAddress(String mailAddress);
 
 }

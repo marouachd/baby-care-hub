@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.simplon.babycarehub.actualities.ActualityEntity;
-import co.simplon.babycarehub.actualities.ActualityRepository;
 import co.simplon.babycarehub.dtos.LabelValue;
+import co.simplon.babycarehub.entities.ActualityEntity;
+import co.simplon.babycarehub.repositories.ActualityRepository;
 
 @Service
 @Transactional
