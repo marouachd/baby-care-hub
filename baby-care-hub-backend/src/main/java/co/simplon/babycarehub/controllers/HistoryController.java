@@ -2,7 +2,6 @@ package co.simplon.babycarehub.controllers;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import co.simplon.babycarehub.services.HistoryService;
 
 @RestController
 @RequestMapping("/history")
-@CrossOrigin
 public class HistoryController {
 
     private final HistoryService service;

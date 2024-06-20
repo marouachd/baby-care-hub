@@ -12,7 +12,6 @@ import co.simplon.babycarehub.services.ActualityService;
 
 @RestController
 @RequestMapping("/actualities")
-
 public class ActualityController {
 
     private final ActualityService service;
