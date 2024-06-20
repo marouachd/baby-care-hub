@@ -38,8 +38,11 @@ INSERT INTO users (mail_address, phone_number, password, role_id, person_id) VAL
     ('nounou@gmail.com', '04785321', '251145hh', 1, 1),
     ('parent@gmail.com', '04785321', '251145hh', 2, 2);
 
-INSERT INTO childs (birthday_date, gender_id, guard_id, person_id, childminder_code, parent_id) VALUES 
-    ('2019-01-17', 1, 3, 3, 1, 2);
+INSERT INTO childs (
+    birthday_date, gender_id, guard_id, person_id, childminder_code, parent_id, is_active, is_accepted, is_deleted
+) VALUES (
+    '2019-01-17', 1, 3, 3, 1, 2, true, true, false
+);
 
 INSERT INTO activities (activity_name) VALUES
     ('Lego'), 
