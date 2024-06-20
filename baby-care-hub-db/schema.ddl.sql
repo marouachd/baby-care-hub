@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS persons CASCADE;
 DROP TABLE IF EXISTS activities CASCADE;
 DROP TABLE IF EXISTS childs_activities CASCADE;
 DROP TABLE IF EXISTS naps CASCADE;
-DROP TABLE IF EXISTS baby_bottles CASCADE;
+DROP TABLE IF EXISTS baby_bottels CASCADE;
 DROP TABLE IF EXISTS meals CASCADE ;
 DROP TABLE IF EXISTS childs_leisures CASCADE;
 DROP TABLE IF EXISTS actualities CASCADE;
@@ -128,7 +128,7 @@ CREATE TABLE meals (
     FOREIGN KEY (snack_id) REFERENCES snacks(id)
 );
 
-CREATE TABLE baby_bottles (
+CREATE TABLE  baby_bottels (
     id SERIAL PRIMARY KEY,
     child_id INT,
     time VARCHAR(100),
@@ -162,7 +162,7 @@ CREATE TABLE actualities (
     presence_id INT,
     FOREIGN KEY (child_id) REFERENCES childs(id),
     FOREIGN KEY (child_activity_id) REFERENCES childs_activities(id),
-    FOREIGN KEY (baby_bottle_id) REFERENCES baby_bottles(id),
+    FOREIGN KEY (baby_bottle_id) REFERENCES baby_bottels(id),
     FOREIGN KEY (meal_id) REFERENCES meals(id),
     FOREIGN KEY (snack_id) REFERENCES snacks(id),
     FOREIGN KEY (nap_id) REFERENCES naps(id),

@@ -69,7 +69,7 @@ VALUES (1, 1, 'il a bien joué au puzzle', '12:20:00', '2024-03-28');
 INSERT INTO naps (child_id, commentaire, start_time, end_time, type, date) VALUES
     (1, 'il a bien dormis', '12:00:00', '14:00:00', 'sieste', '2024-03-28');
 
-INSERT INTO baby_bottles (child_id, volume, time, date) VALUES
+INSERT INTO  baby_bottels (child_id, volume, time, date) VALUES
     (1, 250.0, '12:00:00', '2024-03-28');
 
 INSERT INTO meals (child_id, snack_id, eval, commentaire, date, type)
