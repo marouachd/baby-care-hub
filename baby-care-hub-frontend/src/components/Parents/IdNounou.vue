@@ -46,6 +46,7 @@ export default {
     async getChildProfile() {
       const response = await this.$axios.get(`/child/${this.id}/detail`);
       this.child = response.body;
+      console.log(this.child, "here child");
     },
     async getChildminderList() {
       const response = await this.$axios.get(`/user/childminder/1`);
@@ -70,7 +71,7 @@ export default {
         }
       }
     },
-    getWaitingListCount(childminderId) {
+    waitingListCount(childminderId) {
       if (!this.childmindersGuardedChilds[childminderId]) return 0;
       return this.childmindersGuardedChilds[childminderId].filter(
         (child) => !child.active || !child.accepted
@@ -135,9 +136,10 @@ export default {
         })
         .sort((a, b) => (a.mailAdress || "").localeCompare(b.mailAdress || ""));
     },
-    getChildsCount() {
+    childsCount() {
       return (id) => {
         const childsWithSameChildminderId = this.childmindersGuardedChilds[id];
+        console.log(childsWithSameChildminderId, "nombre enfants gardés");
         if (childsWithSameChildminderId) {
           return childsWithSameChildminderId.filter(
             (child) => child.active && child.accepted
@@ -236,11 +238,11 @@ export default {
             </p>
             <p>
               Nombre des enfants gardé:
-              <span>{{ getChildsCount(childminder.id) }}</span>
+              <span>{{ childsCount(childminder.id) }}</span>
             </p>
             <p>
               Demande en attente :
-              <span>{{ getWaitingListCount(childminder.id) }}</span>
+              <span>{{ waitingListCount(childminder.id) }}</span>
             </p>
           </div>
         </div>

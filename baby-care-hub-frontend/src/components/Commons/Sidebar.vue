@@ -19,7 +19,7 @@ export default {
       <li class="nav-item mb-3 mt-3">
         <RouterLink :to="{ name: 'horaire' }" class="dropdown-item">
           <img
-            src="../../assets/horloge.jpg"
+            src="../../../public/images/horloge.jpg"
             alt="Image 1"
             class="img-fluid"
             width="50"
@@ -35,7 +35,7 @@ export default {
           class="dropdown-item"
         >
           <img
-            src="../../assets/biberon.jpg"
+            src="../../../public/images/biberon.jpg"
             alt="Image 3"
             class="img-fluid"
             width="50"
@@ -47,7 +47,7 @@ export default {
       <li class="nav-item mb-3">
         <RouterLink :to="{ name: 'activités' }" class="dropdown-item">
           <img
-            src="../../assets/activité.jpg"
+            src="../../../public/images/activité.jpg"
             alt="Image 2"
             class="img-fluid"
             width="50"
@@ -59,7 +59,7 @@ export default {
       <li class="nav-item mb-3">
         <RouterLink :to="{ name: 'repas' }" class="dropdown-item">
           <img
-            src="../../assets/repas.png"
+            src="../../../public/images/repas.png"
             alt="Image 3"
             class="img-fluid"
             width="50"
@@ -71,7 +71,7 @@ export default {
       <li class="nav-item mb-3">
         <RouterLink :to="{ name: 'sieste' }" class="dropdown-item">
           <img
-            src="../../assets/sieste.jpg"
+            src="../../../public/images/sieste.jpg"
             alt="Image 3"
             class="img-fluid"
             width="50"
@@ -123,7 +123,7 @@ export default {
       <li class="nav-item mb-3">
         <RouterLink :to="{ name: 'gouter' }" class="dropdown-item">
           <img
-            src="../../assets/gouter.jpg"
+            src="../../../public/images/gouter.jpg"
             alt="Image 3"
             class="img-fluid"
             width="50"
@@ -135,7 +135,7 @@ export default {
       <li class="nav-item mb-0 d-flex flex-fill">
         <RouterLink :to="{ name: 'sortie-loisir' }" class="dropdown-item">
           <img
-            src="../../assets/parc.jpg"
+            src="../../../public/images/parc.jpg"
             alt="Image 3"
             class="img-fluid"
             width="50"
