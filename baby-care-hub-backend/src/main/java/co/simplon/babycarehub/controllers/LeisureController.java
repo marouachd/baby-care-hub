@@ -1,4 +1,4 @@
-package co.simplon.babycarehub.outingandleisure;
+package co.simplon.babycarehub.controllers;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.babycarehub.dtos.ChildLeisureCreateDto;
 import co.simplon.babycarehub.dtos.LabelValue;
+import co.simplon.babycarehub.entities.ChildLeisureEntity;
+import co.simplon.babycarehub.services.LeisureService;
 
 @RestController
 @RequestMapping("/leisures")

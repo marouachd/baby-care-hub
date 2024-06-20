@@ -55,14 +55,6 @@ public class ChildEntity extends AbstractEntity {
     public ChildEntity() {
     }
 
-    public boolean isDeleted() {
-	return isDeleted;
-    }
-
-    public void setDeleted(boolean isDeleted) {
-	this.isDeleted = isDeleted;
-    }
-
     public LocalDate getBirthdayDate() {
 	return birthdayDate;
     }
@@ -134,6 +126,14 @@ public class ChildEntity extends AbstractEntity {
 
     public void setAccepted(boolean accepted) {
 	this.accepted = accepted;
+    }
+
+    public boolean isDeleted() {
+	return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+	this.isDeleted = isDeleted;
     }
 
 }

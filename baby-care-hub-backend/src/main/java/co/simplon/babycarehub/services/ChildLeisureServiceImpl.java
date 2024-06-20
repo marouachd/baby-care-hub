@@ -1,4 +1,4 @@
-package co.simplon.babycarehub.outingandleisure;
+package co.simplon.babycarehub.services;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -7,9 +7,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.simplon.babycarehub.dtos.ChildLeisureCreateDto;
 import co.simplon.babycarehub.dtos.LabelValue;
 import co.simplon.babycarehub.entities.ActualityEntity;
+import co.simplon.babycarehub.entities.ChildLeisureEntity;
+import co.simplon.babycarehub.entities.LeisureEntity;
 import co.simplon.babycarehub.repositories.ActualityRepository;
+import co.simplon.babycarehub.repositories.ChildLeisureRepository;
+import co.simplon.babycarehub.repositories.LeisureRepository;
 
 @Service
 @Transactional

@@ -41,6 +41,7 @@ public class ChildDto {
 
     public Long guardId;
 
+    @NotNull(message = "Childminder code cannot be null")
     public String childminderCode;
 
     public boolean active = false;

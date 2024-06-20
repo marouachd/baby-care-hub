@@ -1,6 +1,5 @@
-package co.simplon.babycarehub.outingandleisure;
+package co.simplon.babycarehub.entities;
 
-import co.simplon.babycarehub.entities.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

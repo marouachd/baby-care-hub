@@ -1,10 +1,12 @@
-package co.simplon.babycarehub.outingandleisure;
+package co.simplon.babycarehub.services;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+import co.simplon.babycarehub.dtos.ChildLeisureCreateDto;
 import co.simplon.babycarehub.dtos.LabelValue;
+import co.simplon.babycarehub.entities.ChildLeisureEntity;
 
 public interface LeisureService {
 
