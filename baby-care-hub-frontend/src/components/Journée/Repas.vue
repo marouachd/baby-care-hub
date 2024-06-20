@@ -92,7 +92,7 @@ export default {
             <div class="row gx-0">
               <div class="col-md-4">
                 <img
-                  src="../../assets/repas.png"
+                  src="../../../public/images/repas.png"
                   class="img-fluid rounded-start mt-3 ms-5"
                   alt="..."
                   width="70"
@@ -119,7 +119,7 @@ export default {
             <div class="row gx-0">
               <div class="col-md-4">
                 <img
-                  src="../../assets/repas.png"
+                  src="../../../public/images/repas.png"
                   class="img-fluid rounded-start mt-5 ms-5"
                   alt="..."
                   width="70"

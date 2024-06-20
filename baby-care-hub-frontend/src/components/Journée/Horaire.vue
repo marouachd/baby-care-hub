@@ -130,7 +130,7 @@ export default {
       <div class="mt-5 col-6 col-md-6 mb-2">
         <div class="d-flex align-items-center">
           <img
-            src="../../assets/horloge.jpg"
+            src="../../../public/images/horloge.jpg"
             class="img-fluid rounded-circle me-5"
             alt="Icône Horaire"
             style="width: 100px"

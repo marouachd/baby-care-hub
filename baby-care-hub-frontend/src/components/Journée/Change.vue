@@ -63,7 +63,7 @@
         <div class="row g-0">
           <div class="col-md-4">
             <img
-              src="../../assets/change.jpg"
+              src="../../../public/images/change.jpg"
               class="img-fluid rounded-start mt-4 ms-4"
               alt="..."
               width="50"

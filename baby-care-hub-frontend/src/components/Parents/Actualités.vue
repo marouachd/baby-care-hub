@@ -128,7 +128,7 @@ export default {
               <div class="d-flex align-items-center">
                 <div class="img-container me-5">
                   <img
-                    src="../../assets/horloge.jpg"
+                    src="../../../public/images/horloge.jpg"
                     class="img-fluid rounded-circle"
                     alt="Icône Horaire"
                   />
@@ -161,7 +161,7 @@ export default {
               <div class="d-flex align-items-center">
                 <div class="img-container me-5">
                   <img
-                    src="../../assets/biberon.jpg"
+                    src="../../../public/images/biberon.jpg"
                     class="img-fluid rounded-circle"
                     alt="Icône Horaire"
                   />
@@ -195,7 +195,7 @@ export default {
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
-                  src="../../assets/activité.jpg"
+                  src="../../../public/images/activité.jpg"
                   class="img-fluid rounded-circle"
                   alt="Icône Horaire"
                 />
@@ -231,7 +231,7 @@ export default {
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
-                  src="../../assets/repas.png"
+                  src="../../../public/images/repas.png"
                   class="img-fluid rounded-circle"
                   alt="Icône Horaire"
                 />
@@ -267,7 +267,7 @@ export default {
               <div class="d-flex align-items-center">
                 <div class="img-container me-5">
                   <img
-                    src="../../assets/sieste.jpg"
+                    src="../../../public/images/sieste.jpg"
                     class="img-fluid rounded-circle"
                     alt="Icône Horaire"
                   />
@@ -304,7 +304,7 @@ export default {
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
-                  src="../../assets/gouter.jpg"
+                  src="../../../public/images/gouter.jpg"
                   class="img-fluid rounded-circle"
                   alt="Icône Horaire"
                 />
@@ -344,7 +344,7 @@ export default {
             <div class="d-flex align-items-center">
               <div class="img-container me-5">
                 <img
-                  src="../../assets/parc.jpg"
+                  src="../../../public/images/parc.jpg"
                   class="img-fluid rounded-circle"
                   alt="Icône Horaire"
                 />
@@ -401,7 +401,7 @@ export default {
               <div class="d-flex align-items-center">
                 <div class="img-container me-5">
                   <img
-                    src="../../assets/horloge.jpg"
+                    src="../../../public/images/horloge.jpg"
                     class="img-fluid rounded-circle"
                     alt="Icône Horaire"
                   />

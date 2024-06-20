@@ -106,7 +106,7 @@ export default {
           <div class="row g-0">
             <div class="col-md-4">
               <img
-                src="../../assets/biberon.jpg"
+                src="../../../public/images/biberon.jpg"
                 class="img-fluid rounded-start mt-4 ms-4"
                 alt="..."
                 width="50"
