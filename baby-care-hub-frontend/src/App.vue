@@ -39,9 +39,8 @@ export default {
         `/actualities/${date}/${this.childId}`
       );
       this.actualitiesData = response.body;
-      console.log(this.actualitiesData, "actualities");
       this.actualities = this.actualitiesData;
-      console.log("this app", this.actualities);
+      console.log(date, "app date");
     },
   },
   computed: {
@@ -61,7 +60,7 @@ export default {
   <div class="global">
     <header>
       <div class="wrapper">
-        <Navbar @date-changed="fetchActualities"></Navbar>
+        <Navbar></Navbar>
       </div>
     </header>
 
@@ -74,7 +73,7 @@ export default {
     </div>
     <div v-else>
       <div class="main-content pb-5">
-        <RouterView />
+        <RouterView @date-changed="fetchActualities" />
       </div>
       <div><Toast id="toast-global" /></div>
     </div>

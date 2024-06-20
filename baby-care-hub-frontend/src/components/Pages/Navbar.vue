@@ -74,123 +74,104 @@ export default {
 };
 </script>
 <template>
-  <nav class="navbar navbar-expand-md bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <h1 class="col-4 col-md-2">
-        <div :class="['d-flex flex-column', { 'flex-md-row': !isSmallScreen }]">
-          <span class="baby">Baby</span>
-          <span class="care">Care</span>
-          <span class="hub">Hub</span>
-        </div>
-      </h1>
-
-      <div class="col-5 col-md-2">
-        <div class="row" v-if="showDate">
-          <h4
-            @click="toggleDatePicker"
-            class="clickable text-nowrap text-center"
-          >
-            {{ showDatePicker ? "" : toDayDate }}
-          </h4>
-          <input
-            type="date"
-            class="form-control"
-            id="datepicker"
-            v-model="toDayDate"
-            @change="toggleDatePicker"
-            v-if="showDatePicker"
-          />
-        </div>
-
-        <div class="row">
-          <div
-            class="collapse navbar-collapse justify-content-center"
-            id="navbar"
-          >
-            <ul class="navbar-nav d-flex justify-content-center">
-              <li class="nav-item mx-2 me-2" v-if="this.roleId == 1">
-                <RouterLink
-                  :to="{ name: 'historique', params: { id: this.userId } }"
-                  class="dropdown-item"
-                  v-if="isLoggedIn"
-                >
-                  <h5 class="text-decoration-underline">
-                    <i class="fa fa-history" aria-hidden="true"> Historique </i>
-                  </h5>
-                </RouterLink>
-              </li>
-              <li class="nav-item mx-2" v-if="this.roleId == 1">
-                <RouterLink
-                  :to="{ name: 'home', params: { id: this.userId } }"
-                  class="dropdown-item"
-                  v-if="isLoggedIn"
-                >
-                  <h5 class="text-decoration-underline">
-                    <i class="fa fa-home" aria-hidden="true">{{
-                      $t("navbar.accueil")
-                    }}</i>
-                  </h5>
-                </RouterLink>
-              </li>
-              <li class="nav-item mx-2" v-else>
-                <RouterLink
-                  :to="{ name: 'mes-enfants', params: { id: this.id } }"
-                  class="dropdown-item"
-                  v-if="isLoggedIn && roleId == 2"
-                >
-                  <h5 class="text-decoration-underline">
-                    <i class="fa fa-child" aria-hidden="true">{{
-                      $t("navbar.mesEnfants")
-                    }}</i>
-                  </h5>
-                </RouterLink>
-              </li>
-
-              <li class="nav-item mx-2">
-                <RouterLink
-                  :to="{ name: 'coordonees', params: { id: this.userId } }"
-                  class="dropdown-item"
-                  v-if="isLoggedIn"
-                >
-                  <h5 class="text-decoration-underline">
-                    <i class="fa fa-user ms-3" aria-hidden="true">{{
-                      $t("navbar.profile")
-                    }}</i>
-                  </h5>
-                </RouterLink>
-              </li>
-
-              <li class="nav-item mx-2">
-                <RouterLink
-                  :to="{ name: 'signin' }"
-                  class="dropdown-item"
-                  @click="cleanLocalStorage"
-                  v-if="isLoggedIn"
-                >
-                  <h5 class="text-decoration-underline">
-                    <i class="fas fa-sign-out-alt">{{
-                      $t("navbar.signout")
-                    }}</i>
-                  </h5>
-                </RouterLink>
-              </li>
-            </ul>
+      <a class="navbar-brand" href="#">
+        <h1 class="col-4 col-md-2 d-none d-lg-block">
+          <div class="d-flex flex-column flex-md-row">
+            <span class="baby">Baby</span>
+            <span class="care">Care</span>
+            <span class="hub">Hub</span>
           </div>
+        </h1>
+        <div
+          class="d-block d-lg-none image-container rounded-circle col-3 col-md-2 me-4"
+        >
+          <img src="../../../public/favicon.jpg" class="bebe-image" />
         </div>
-      </div>
-      <div class="locale-changer">
-        <select v-model="$i18n.locale" class="rounded">
-          <option
-            v-for="locale in $i18n.availableLocales"
-            :key="`locale-${locale}`"
-            :value="locale"
-          >
-            {{ locale }}
-          </option>
-        </select>
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        v-if="isLoggedIn"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav d-flex justify-content-center">
+          <li class="nav-item mx-2 me-2" v-if="roleId == 1">
+            <RouterLink
+              :to="{ name: 'historique', params: { id: userId } }"
+              class="nav-link active"
+              v-if="isLoggedIn"
+            >
+              <h5>
+                <i class="fa fa-history" aria-hidden="true"></i> Historique
+              </h5>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-2" v-if="roleId == 1">
+            <RouterLink
+              :to="{ name: 'home', params: { id: userId } }"
+              class="nav-link"
+              v-if="isLoggedIn"
+            >
+              <h5>
+                <i class="fa fa-home" aria-hidden="true"></i>
+                {{ $t("navbar.accueil") }}
+              </h5>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-2" v-if="roleId == 2">
+            <RouterLink
+              :to="{ name: 'mes-enfants', params: { id: userId } }"
+              class="nav-link"
+              v-if="isLoggedIn"
+            >
+              <h5>
+                <i class="fa fa-child" aria-hidden="true"></i>
+                {{ $t("navbar.mesEnfants") }}
+              </h5>
+            </RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink
+              :to="{ name: 'coordonees', params: { id: userId } }"
+              class="nav-link"
+              v-if="isLoggedIn"
+            >
+              <h5>
+                <i class="fa fa-user ms-3" aria-hidden="true"></i>
+                {{ $t("navbar.profile") }}
+              </h5>
+            </RouterLink>
+          </li>
+          <li class="nav-item mx-2">
+            <RouterLink
+              :to="{ name: 'signin' }"
+              class="nav-link"
+              @click="cleanLocalStorage"
+              v-if="isLoggedIn"
+            >
+              <h5>
+                <i class="fas fa-sign-out-alt"></i>
+                {{ $t("navbar.signout") }}
+              </h5>
+            </RouterLink>
+          </li>
+        </ul>
       </div>
 
-      <div class="image-container rounded-circle col-3 col-md-2">
+      <div
+        class="d-none d-lg-block image-container rounded-circle col-3 col-md-2 me-4"
+      >
         <img src="../../../public/favicon.jpg" class="bebe-image" />
       </div>
     </div>
@@ -249,5 +230,6 @@ h4 {
 h5 {
   font-family: "Satisfy", cursive;
   color: rgb(160, 197, 237);
+  white-space: nowrap;
 }
 </style>

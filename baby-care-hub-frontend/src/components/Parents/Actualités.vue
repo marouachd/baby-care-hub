@@ -15,17 +15,25 @@ export default {
 
   data() {
     return {
+      toDayDate: new Date().toISOString().slice(0, 10),
       rawArray: "",
       data: null,
+      showDate: false,
       id: this.route.params.id,
-      date: new Date().toISOString().slice(0, 10),
+      //date: new Date().toISOString().slice(0, 10),
       selectedDate: "",
       naps: [],
       presences: [],
+      showDatePicker: false,
     };
   },
 
   watch: {
+    async "$data.selectedDate"(newDate) {
+      if (newDate) {
+        this.toDayDate = newDate;
+      }
+    },
     async selectedDate(newDate) {
       if (newDate) {
         await this.fetchActualities(newDate);
@@ -34,7 +42,8 @@ export default {
   },
 
   mounted() {
-    this.fetchActualities(this.date);
+    this.afficheDate();
+    this.fetchActualities(this.toDayDate);
     this.selectedDate = localStorage.getItem("selectedDate");
     this.childId = this.route.params.id;
     console.log(this.childId, "id");
@@ -45,6 +54,27 @@ export default {
   },
 
   methods: {
+    handleChangeDate() {
+      this.fetchActualities(this.selectedDate); //à refacto !!! n'est pas necessaire ici
+      this.toggleDatePicker();
+    },
+    afficheDate() {
+      const storedDate = localStorage.getItem("selectedDate");
+      if (storedDate) {
+        this.toDayDate = storedDate;
+      } else {
+        const today = new Date().toISOString().slice(0, 10);
+        this.toDayDate = today;
+      }
+    },
+
+    toggleDatePicker() {
+      this.showDatePicker = !this.showDatePicker;
+      if (!this.showDatePicker) {
+        localStorage.setItem("selectedDate", this.toDayDate);
+        this.$emit("date-changed", localStorage.getItem("selectedDate"));
+      }
+    },
     async fetchActualities(date) {
       const response = await this.$axios.get(`/actualities/${date}/${this.id}`);
       this.data = response.body;
@@ -55,7 +85,6 @@ export default {
         this.naps = this.naps.filter((item) => item.type === "sieste");
       }
       console.log(this.data, "actualité selected date");
-      console.log(this.actualities, "actualité data");
     },
   },
 };
@@ -63,6 +92,26 @@ export default {
 
 <template>
   <div class="container mt-4 mb-4">
+    <div class="row justify-content-center mb-4">
+      <div class="col-auto">
+        <div class="d-flex align-items-center">
+          <h4
+            @click="toggleDatePicker"
+            class="clickable text-nowrap text-center"
+          >
+            {{ showDatePicker ? "" : toDayDate }}
+          </h4>
+          <input
+            type="date"
+            class="form-control"
+            id="datepicker"
+            v-model="toDayDate"
+            @change="handleChangeDate"
+            v-if="showDatePicker"
+          />
+        </div>
+      </div>
+    </div>
     <h1 class="mt-4 mb-4 text-center">
       Fiche Récapitulative de la Journée de l'Enfant
     </h1>
@@ -407,5 +456,8 @@ h4 {
   max-height: 100%;
   object-fit: cover;
 }
+
+#datepicker {
+  margin-left: 10px;
+}
 </style>
-../../../store/store.js

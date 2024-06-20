@@ -79,9 +79,9 @@ export default {
                   <div class="col">
                     <h4 class="card-title">{{ $t("contact.email") }} :</h4>
                   </div>
-                  <div class="col mt-2" v-if="this.data.mailAdress">
+                  <div class="col mt-2" v-if="this.data.mailAddress">
                     <h6>
-                      {{ this.data.mailAdress }}
+                      {{ this.data.mailAddress }}
                     </h6>
                   </div>
                 </div>

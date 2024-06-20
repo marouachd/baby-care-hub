@@ -185,10 +185,10 @@ export default {
         </div>
       </div>
       <div
-        class="col-6 d-flex flex-column text-center align-items-center"
+        class="col-9 d-flex flex-column text-center align-items-center"
         v-if="!child.active && child.accepted"
       >
-        <span class="ms-3 col-9 text-center align-items-center">
+        <span class="ms-3 col-12 text-center align-items-center">
           Votre enfant n'est plus gardé par sa nounou son compte est donc
           désactiver pour le réactiver
           <RouterLink

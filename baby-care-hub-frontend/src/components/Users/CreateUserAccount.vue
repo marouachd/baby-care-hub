@@ -24,7 +24,7 @@ export default {
       userType: "",
       roles: [],
       inputs: {
-        mailAdress: "",
+        mailAddress: "",
         phoneNumber: "",
         password: "",
         firstName: "",
@@ -46,7 +46,7 @@ export default {
   validations() {
     return {
       inputs: {
-        mailAdress: { required, email },
+        mailAddress: { required, email },
         phoneNumber: {
           required,
           numeric,
@@ -100,7 +100,7 @@ export default {
         formData.append("phoneNumber", this.inputs.phoneNumber);
         formData.append("roleId", this.inputs.roleId);
         formData.append("pseudoName", this.inputs.pseudoName);
-        formData.append("mailAdress", this.inputs.mailAdress);
+        formData.append("mailAddress", this.inputs.mailAddress);
 
         console.log("pseudoName:", this.inputs.pseudoName);
         const resp = await this.$axios.post(`/user`, formData);
@@ -244,10 +244,10 @@ export default {
                   type="email"
                   class="form-control"
                   placeholder="Adresse email"
-                  id="mailAdress"
-                  name="mailAdress"
-                  v-model="inputs.mailAdress"
-                  :class="{ 'is-invalid': v$.inputs.mailAdress.$error }"
+                  id="mailAddress"
+                  name="mailAddress"
+                  v-model="inputs.mailAddress"
+                  :class="{ 'is-invalid': v$.inputs.mailAddress.$error }"
                 />
               </div>
 

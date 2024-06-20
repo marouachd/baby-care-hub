@@ -127,11 +127,13 @@ export default {
         .filter((childminder) => {
           // Vérifier si le terme de recherche correspond à l'adresse e-mail ou au numéro de téléphone
           return (
-            childminder.mailAdress.includes(this.search) ||
-            childminder.phoneNumber.includes(this.search)
+            childminder.mailAdress?.includes(this.search) ||
+            "" ||
+            childminder.phoneNumber?.includes(this.search) ||
+            ""
           );
         })
-        .sort((a, b) => a.mailAdress.localeCompare(b.mailAdress));
+        .sort((a, b) => (a.mailAdress || "").localeCompare(b.mailAdress || ""));
     },
     getChildsCount() {
       return (id) => {
