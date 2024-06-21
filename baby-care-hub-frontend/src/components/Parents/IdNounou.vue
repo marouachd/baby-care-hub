@@ -78,47 +78,49 @@ export default {
       ).length;
     },
     async submit() {
-      if (this.child) {
-        if (
-          this.child.childminderCode &&
-          this.child.childminderCode.personId.pseudoName ==
-            this.inputs.childminderCode
-        ) {
-          if (this.child.accepted) {
-            this.$toast.error(
-              "toast-global",
-              "Votre enfant est deja gardé par cette nounou !"
-            );
-          } else {
-            this.$toast.error(
-              "toast-global",
-              "Une demande est en attente d'acceptation pour cette nounou !"
-            );
-          }
-        } else {
-          const resp = await this.$axios.patch(
-            `/child/active/${this.id}`,
-            this.inputs
-          );
-          console.log("rep", resp);
-          console.log(resp.status);
+      // if (this.child) {
+      //  if (
+      //    this.child.childminderCode &&
+      //   this.child.childminderCode.personId.pseudoName ==
+      //     this.inputs.childminderCode
+      //  ) {
+      //    if (this.child.accepted) {
+      //      this.$toast.error(
+      //       "toast-global",
+      //       "Votre enfant est deja gardé par cette nounou !"
+      //     );
+      //  } else {
+      //    this.$toast.error(
+      //      "toast-global",
+      //     "Une demande est en attente d'acceptation pour cette nounou !"
+      //    );
+      // }
+      //} else {
+      //  const resp = await this.$axios.patch(
+      //    `/child/active/${this.id}`,
+      //    this.inputs
+      //  );
+      // console.log("rep", resp);
+      // console.log(resp.status);
 
-          if (resp) {
-            this.$router.push({
-              name: "mes-enfants",
-              params: { id: this.userId },
-            });
-          }
-        }
-      } else {
-        //localStorage.setItem("childminderCode", this.inputs.childminderCode);
+      //  if (resp) {
+      //    this.$router.push({
+      //     name: "mes-enfants",
+      //     params: { id: this.userId },
+      //   });
+      //   console.log("mes enfants-id-nounou", this.userId);
+      // }
+      // }
+      //} else {
+      //localStorage.setItem("childminderCode", this.inputs.childminderCode);
 
-        this.$router.push({
-          name: "create-profile-enfant",
-          params: { id: this.userId },
-        });
-      }
+      this.$router.push({
+        name: "create-profile-enfant",
+        params: { id: this.userId },
+      });
+      //}
       //localStorage.removeItem("childminderCode");
+      //},
     },
   },
   computed: {

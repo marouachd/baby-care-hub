@@ -48,7 +48,7 @@ export default {
                 name: "mes-enfants",
                 params: { id: this.userId },
               });
-              console.log("mes enfants", this.userId);
+              console.log("mes enfants-signin", this.userId);
             } else {
               router.push({
                 name: "home",

@@ -71,6 +71,7 @@ export default {
         name: "mes-enfants",
         params: { id: this.userId },
       });
+      console.log("mes enfants-create-profile-enfant1", this.userId);
     },
     updateImage(event) {
       const file = event.target.files[0];
@@ -97,6 +98,7 @@ export default {
         name: "mes-enfants",
         params: { id: this.userId },
       });
+      console.log("mes enfants-create-profile-enfant2", this.userId);
     },
   },
 
