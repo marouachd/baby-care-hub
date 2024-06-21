@@ -2,7 +2,7 @@
 import Navbar from "../src/components/Pages/Navbar.vue";
 import Footer from "../src/components/Pages/Footer.vue";
 import Sidebar from "../src/components/Commons/Sidebar.vue";
-import Toast from "./Components/Commons/Toast.vue";
+import Toast from "./components/Commons/Toast.vue";
 import i18n from "./plugins/i18n";
 import { RouterLink, useRoute } from "vue-router";
 import { mapWritableState } from "pinia";
