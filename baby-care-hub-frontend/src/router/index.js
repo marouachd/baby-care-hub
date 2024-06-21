@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: "/",
       name: "ma-journée",
-      component: () => import("../Components/Commons/Sidebar.vue"),
+      component: () => import("../components/Commons/Sidebar.vue"),
     },
     {
       path: "/ma-journee/general/:id",
