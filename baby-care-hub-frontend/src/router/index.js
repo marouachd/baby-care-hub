@@ -37,7 +37,7 @@ const router = createRouter({
       component: () => import("../components/Users/UpdateUserAccount.vue"),
     },
     {
-      path: "/mes-enfants", //ici le probléme
+      path: "/mes-enfants/:id", //ici le probléme
       name: "mes-enfants",
       component: () => import("../components/Parents/MesEnfants.vue"),
     },
