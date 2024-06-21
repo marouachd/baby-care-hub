@@ -1,6 +1,6 @@
 <script>
 import Navbar from "../src/components/Pages/Navbar.vue";
-import Footer from "../src/Components/Pages/Footer.vue";
+import Footer from "../src/components/Pages/Footer.vue";
 import Sidebar from "../src/components/Commons/Sidebar.vue";
 import Toast from "./Components/Commons/Toast.vue";
 import i18n from "./plugins/i18n";
