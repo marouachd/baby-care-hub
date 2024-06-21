@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Sidebar from "../components/Commons/Sidebar.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,7 +7,7 @@ const router = createRouter({
     {
       path: "/",
       name: "ma-journée",
-      component: () => import("../components/Commons/Sidebar.vue"),
+      component: Sidebar,
     },
     {
       path: "/ma-journee/general/:id",
