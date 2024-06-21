@@ -3,11 +3,10 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import axios from "./plugins/axios";
-import Toast from "./plugins/toast";
+import Toast from "./plugins/Toast";
 import i18n from "./plugins/i18n";
 
 const app = createApp(App);
-
 const pinia = createPinia();
 console.log("pinia", pinia);
 app.use(pinia);
