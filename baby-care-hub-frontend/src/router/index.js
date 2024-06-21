@@ -6,8 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "ma-journée",
-      component: Sidebar,
+      redirect: "/signin",
     },
     {
       path: "/ma-journee/general/:id",
