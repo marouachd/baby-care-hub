@@ -45,8 +45,10 @@ export default {
     this.afficheDate();
     this.fetchActualities(this.toDayDate);
     this.selectedDate = localStorage.getItem("selectedDate");
+
     this.childId = this.route.params.id;
     console.log(this.childId, "id");
+    this.$emit("date-changed", this.toDayDate);
   },
   computed: {
     ...mapState(useStore, ["actualities"]),

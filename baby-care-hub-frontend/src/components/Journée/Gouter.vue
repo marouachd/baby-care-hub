@@ -68,6 +68,7 @@ export default {
     async initSnacks() {
       const response = await this.$axios.get(`/meals`);
       this.snacks = response.body;
+      console.log(this.snacks, "gouter");
     },
     async submit() {
       this.inputs.eval = this.satisfactionLevels[this.selectedLevel];

@@ -8,6 +8,7 @@ import { RouterLink, useRoute } from "vue-router";
 import { mapWritableState } from "pinia";
 import { mapState } from "pinia";
 import useStore from "../store/store.js";
+import store from "../store/store.js";
 
 export default {
   name: "App",
