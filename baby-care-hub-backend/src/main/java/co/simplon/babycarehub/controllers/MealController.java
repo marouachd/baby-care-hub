@@ -1,4 +1,4 @@
-package co.simplon.babycarehub.meals;
+package co.simplon.babycarehub.controllers;
 
 import java.sql.Date;
 import java.util.List;
@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import co.simplon.babycarehub.dtos.MealCreateDto;
+import co.simplon.babycarehub.entities.MealEntity;
+import co.simplon.babycarehub.entities.SnackEntity;
+import co.simplon.babycarehub.services.MealService;
 
 @RestController
 @RequestMapping("/meals")

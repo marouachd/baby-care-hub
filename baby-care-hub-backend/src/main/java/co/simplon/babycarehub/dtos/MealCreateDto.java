@@ -1,4 +1,4 @@
-package co.simplon.babycarehub.meals;
+package co.simplon.babycarehub.dtos;
 
 import java.sql.Date;
 

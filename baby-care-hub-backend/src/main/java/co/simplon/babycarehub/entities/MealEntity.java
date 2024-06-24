@@ -1,8 +1,7 @@
-package co.simplon.babycarehub.meals;
+package co.simplon.babycarehub.entities;
 
 import java.sql.Date;
 
-import co.simplon.babycarehub.entities.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

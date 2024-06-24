@@ -1,12 +1,17 @@
-package co.simplon.babycarehub.meals;
+package co.simplon.babycarehub.services;
 
 import java.sql.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import co.simplon.babycarehub.dtos.MealCreateDto;
 import co.simplon.babycarehub.entities.ActualityEntity;
+import co.simplon.babycarehub.entities.MealEntity;
+import co.simplon.babycarehub.entities.SnackEntity;
 import co.simplon.babycarehub.repositories.ActualityRepository;
+import co.simplon.babycarehub.repositories.MealRepository;
+import co.simplon.babycarehub.repositories.SnackRepository;
 import jakarta.transaction.Transactional;
 
 @Service
