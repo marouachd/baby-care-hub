@@ -59,14 +59,16 @@ export default {
         class="col-md-6 col-6 border rounded pt-1 pb-1 clickable"
         v-on:click="AjouterEnfant()"
       >
-        <div class="d-flex justify-content-center">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-            class="img-fluid rounded-circle"
-            alt="..."
-            width="50"
-            height="50"
-          />
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="col-3 d-flex justify-content-center">
+            <img
+              src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
+              class="img-fluid rounded-circle"
+              alt="..."
+              width="50"
+              height="50"
+            />
+          </div>
 
           <h5 class="title mt-3 ms-2 me-5 text-nowrap">
             {{ $t("myChildren.buttons") }}
@@ -104,7 +106,7 @@ export default {
             </h5>
           </div>
 
-          <div class="col-3 d-flex justify-content-center">
+          <div class="col-2 d-flex justify-content-center">
             <div
               id="navbar"
               class="col d-flex justify-content-center collapse navbar-collapse"
@@ -182,9 +184,43 @@ export default {
               </ul>
             </div>
           </div>
+          <div class="col-1 d-flex justify-content-center">
+            <div class="mt-2">
+              <i
+                v-if="child.accepted && child.active"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="La nounou a accepté de garder votre enfant"
+                class="fa fa-check-circle"
+                style="color: green"
+              ></i>
+              <i
+                v-else-if="!child.accepted && child.active"
+                class="fa fa-exclamation-circle"
+                style="color: orange"
+                :title="`Veuillez patienter pendant que la nounou valide la garde.
+                `"
+              ></i>
+              <RouterLink
+                v-else-if="!child.active"
+                class=""
+                :to="{ name: 'id-nounou', params: { id: child.id } }"
+              >
+                <i
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  class="fa fa-times-circle"
+                  style="color: red"
+                  :title="`Votre enfant n'est plus gardé par sa nounou.
+                `"
+                >
+                </i
+              ></RouterLink>
+            </div>
+          </div>
         </div>
       </div>
-      <div
+      <!--<div
         class="col-9 d-flex flex-column text-center align-items-center"
         v-if="!child.active && child.accepted"
       >
@@ -235,7 +271,7 @@ export default {
             >Liste des nounous!</RouterLink
           >
         </span>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
