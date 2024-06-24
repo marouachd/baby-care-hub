@@ -1,5 +1,6 @@
 package co.simplon.babycarehub.services;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class SendMailForgotPasswordServiceImpl
 
     private final JavaMailSender javaMailSender;
     private UserRepository users;
+    @Value("${reset.password.url.base}")
+    private String resetPasswordUrlBase;
 
     public SendMailForgotPasswordServiceImpl(
 	    JavaMailSender javaMailSender,
@@ -49,8 +52,8 @@ public class SendMailForgotPasswordServiceImpl
 			"Réinitialisation de votre mot de passe");
 
 		// Construisez le contenu HTML de l'e-mail
-		String resetPasswordLink = "http://localhost:5173/new-password/"
-			+ token;
+		String resetPasswordLink = resetPasswordUrlBase
+			+ "/new-password/" + token;
 
 		// Create HTML content with the dynamic reset password link
 		String htmlContent = "<!DOCTYPE html>"
