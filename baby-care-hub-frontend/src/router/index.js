@@ -103,7 +103,6 @@ const router = createRouter({
       path: "/forgot-password",
       name: "forgot-password",
       component: () => import("../components/Users/ForgotPassword.vue"),
-      meta: { requiresAuth: true },
     },
     {
       path: "/ma-journee/horaire/:id",
@@ -169,7 +168,6 @@ const router = createRouter({
       path: "/new-password/:token",
       name: "password",
       component: () => import("../components/Users/NewPassword.vue"),
-      meta: { requiresAuth: true },
     },
   ],
 });
