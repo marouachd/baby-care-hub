@@ -210,7 +210,7 @@ export default {
                   data-bs-placement="top"
                   class="fa fa-times-circle"
                   style="color: red"
-                  :title="`Votre enfant n'est plus gardé par sa nounou.
+                  :title="`Votre enfant n'a pas été accepté par la nounou.
                 `"
                 >
                 </i
