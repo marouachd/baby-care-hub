@@ -159,11 +159,7 @@ export default {
                         >&ensp;Actualités</RouterLink
                       >
                     </li>
-                    <li
-                      :class="{
-                        disabledChangeChildminder: child.childminderCode,
-                      }"
-                    >
+                    <li>
                       <RouterLink
                         :to="{
                           name: 'id-nounou',

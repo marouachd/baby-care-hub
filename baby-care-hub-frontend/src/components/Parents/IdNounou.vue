@@ -113,11 +113,29 @@ export default {
       // }
       //} else {
       //localStorage.setItem("childminderCode", this.inputs.childminderCode);
+      if (this.child && this.child.childminderCode) {
+        if (
+          this.child.childminderCode.personId.pseudoName !=
+          this.inputs.childminderCode
+        ) {
+          const resp = await this.$axios.patch(
+            `/child/active/${this.id}`,
+            this.inputs
+          );
 
-      this.$router.push({
-        name: "create-profile-enfant",
-        params: { id: this.userId },
-      });
+          if (resp) {
+            this.$router.push({
+              name: "mes-enfants",
+              params: { id: this.userId },
+            });
+          }
+        }
+      } else {
+        this.$router.push({
+          name: "create-profile-enfant",
+          params: { id: this.userId },
+        });
+      }
       //}
       //localStorage.removeItem("childminderCode");
       //},
