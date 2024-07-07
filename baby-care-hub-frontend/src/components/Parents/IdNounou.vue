@@ -122,23 +122,17 @@ export default {
         });
       } else {
         console.log("il est entré là ");
-        if (this.child && this.child.childminderCode) {
-          if (
-            this.child.childminderCode.personId.pseudoName !=
-            this.inputs.childminderCode
-          ) {
-            const resp = await this.$axios.patch(
-              `/child/active/${this.id}`,
-              this.inputs
-            );
 
-            if (resp) {
-              this.$router.push({
-                name: "mes-enfants",
-                params: { id: this.userId },
-              });
-            }
-          }
+        const resp = await this.$axios.patch(
+          `/child/active/${this.id}`,
+          this.inputs
+        );
+
+        if (resp) {
+          this.$router.push({
+            name: "mes-enfants",
+            params: { id: this.userId },
+          });
         }
       }
       console.log(this.userId, "userId before redirecting");
