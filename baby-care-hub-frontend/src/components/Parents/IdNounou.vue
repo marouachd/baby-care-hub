@@ -11,6 +11,7 @@ export default {
     return {
       userId: "",
       id: this.route.params.id,
+      isUpdate: this.route.params.update || false,
       inputs: {
         childminderCode: "",
         active: false,
@@ -172,7 +173,10 @@ export default {
   },
 
   async mounted() {
-    await this.getChildProfile();
+    if (this.isUpdate) {
+      await this.getChildProfile();
+    }
+
     await this.getChildminderList();
     await this.getChildmindersGuardedChilds();
   },

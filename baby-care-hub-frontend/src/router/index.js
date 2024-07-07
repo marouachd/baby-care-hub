@@ -65,7 +65,7 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 2 },
     },
     {
-      path: "/id-nounou/:id",
+      path: "/id-nounou/:id/:update",
       name: "id-nounou",
       component: () => import("../components/Parents/IdNounou.vue"),
       meta: { requiresAuth: true, role: 2 },
