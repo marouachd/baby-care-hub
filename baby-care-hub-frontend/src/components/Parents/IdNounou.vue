@@ -131,7 +131,8 @@ export default {
             });
           }
         }
-      } else {
+      }
+      if (this.route.params.update == false) {
         this.$router.push({
           name: "create-profile-enfant",
           params: { id: this.userId },
