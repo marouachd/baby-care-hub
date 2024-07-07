@@ -11,7 +11,7 @@ export default {
     return {
       userId: "",
       id: this.route.params.id,
-      isUpdate: this.route.params.update || false,
+      isUpdate: this.route.params.update,
       inputs: {
         childminderCode: "",
         active: false,
@@ -52,18 +52,15 @@ export default {
     async getChildminderList() {
       const response = await this.$axios.get(`/user/childminder/1`);
       this.childminderList = response.body;
-      console.log("list des nounous", this.childminderList);
     },
     async getChildmindersGuardedChilds() {
       const ids = this.childminderList.map((item) => item.id).join(",");
       const response = await this.$axios.get(`/child/childminders/${ids}`);
       this.childmindersGuardedChilds = response.body;
-      console.log(this.childmindersGuardedChilds, "enfants gardé par nounou");
+
       for (const childminder of this.childminderList) {
         this.children = this.childmindersGuardedChilds[childminder.id];
-
         for (const child of this.children) {
-          console.log("child", child);
           if (child.active && child.accepted) {
             console.log("guarded child");
           } else {
@@ -79,6 +76,9 @@ export default {
       ).length;
     },
     async submit() {
+      console.log(this.isUpdate, "update in submit");
+      console.log("subùmit called");
+
       // if (this.child) {
       //  if (
       //    this.child.childminderCode &&
@@ -114,30 +114,35 @@ export default {
       // }
       //} else {
       //localStorage.setItem("childminderCode", this.inputs.childminderCode);
-      if (this.child && this.child.childminderCode) {
-        if (
-          this.child.childminderCode.personId.pseudoName !=
-          this.inputs.childminderCode
-        ) {
-          const resp = await this.$axios.patch(
-            `/child/active/${this.id}`,
-            this.inputs
-          );
-
-          if (resp) {
-            this.$router.push({
-              name: "mes-enfants",
-              params: { id: this.userId },
-            });
-          }
-        }
-      }
-      if (this.route.params.update == false) {
+      if (this.isUpdate === "false") {
+        console.log(this.userId, "userId yess");
         this.$router.push({
           name: "create-profile-enfant",
           params: { id: this.userId },
         });
+      } else {
+        console.log("il est entré là ");
+        if (this.child && this.child.childminderCode) {
+          if (
+            this.child.childminderCode.personId.pseudoName !=
+            this.inputs.childminderCode
+          ) {
+            const resp = await this.$axios.patch(
+              `/child/active/${this.id}`,
+              this.inputs
+            );
+
+            if (resp) {
+              this.$router.push({
+                name: "mes-enfants",
+                params: { id: this.userId },
+              });
+            }
+          }
+        }
       }
+      console.log(this.userId, "userId before redirecting");
+
       //}
       //localStorage.removeItem("childminderCode");
       //},
@@ -161,7 +166,7 @@ export default {
     childsCount() {
       return (id) => {
         const childsWithSameChildminderId = this.childmindersGuardedChilds[id];
-        console.log(childsWithSameChildminderId, "nombre enfants gardés");
+
         if (childsWithSameChildminderId) {
           return childsWithSameChildminderId.filter(
             (child) => child.active && child.accepted
@@ -174,7 +179,9 @@ export default {
   },
 
   async mounted() {
+    console.log(this.route.params.update, "update");
     if (this.isUpdate) {
+      console.log("isUpdate mounted", this.isUpdate);
       await this.getChildProfile();
     }
 

@@ -31,7 +31,7 @@ export default {
     AjouterEnfant() {
       this.$router.push({
         name: "id-nounou",
-        params: { id: this.id, update: false },
+        params: { id: this.id, update: "false" },
       });
     },
 
@@ -163,7 +163,7 @@ export default {
                       <RouterLink
                         :to="{
                           name: 'id-nounou',
-                          params: { id: child.id, update: true },
+                          params: { id: child.id, update: 'true' },
                         }"
                         class="dropdown-item"
                       >
@@ -202,7 +202,7 @@ export default {
                 class=""
                 :to="{
                   name: 'id-nounou',
-                  params: { id: child.id, update: true },
+                  params: { id: child.id, update: 'true' },
                 }"
               >
                 <i
