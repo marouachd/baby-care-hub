@@ -1,22 +1,27 @@
--- Suppression des tables si elles existent déjà
-DROP TABLE IF EXISTS childs;
-DROP TABLE IF EXISTS guard_mode;
-DROP TABLE IF EXISTS genders;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS persons;
-DROP TABLE IF EXISTS activities;
-DROP TABLE IF EXISTS childs_activities;
-DROP TABLE IF EXISTS naps;
-DROP TABLE IF EXISTS baby_bottels;
-DROP TABLE IF EXISTS meals;
-DROP TABLE IF EXISTS childs_leisures;
-DROP TABLE IF EXISTS actualities;
-DROP TABLE IF EXISTS snacks;
-DROP TABLE IF EXISTS password_reset_token;
-DROP TABLE IF EXISTS histories;
+-- Définition du schéma public si nécessaire
+SET search_path TO public;
 
--- Création des tables
+-- Suppression des tables avec CASCADE
+DROP TABLE IF EXISTS actualities CASCADE;
+DROP TABLE IF EXISTS baby_bottels CASCADE;
+DROP TABLE IF EXISTS childs_activities CASCADE;
+DROP TABLE IF EXISTS childs_leisures CASCADE;
+DROP TABLE IF EXISTS histories CASCADE;
+DROP TABLE IF EXISTS meals CASCADE;
+DROP TABLE IF EXISTS naps CASCADE;
+DROP TABLE IF EXISTS snacks CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS persons CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS genders CASCADE;
+DROP TABLE IF EXISTS guard_mode CASCADE;
+DROP TABLE IF EXISTS leisures CASCADE;
+DROP TABLE IF EXISTS password_reset_token CASCADE;
+DROP TABLE IF EXISTS childs;
+DROP TABLE IF EXISTS activities;
+
+
+-- Création des tables de base
 CREATE TABLE genders (
     id SERIAL PRIMARY KEY,
     gender_name VARCHAR(100)
@@ -65,16 +70,23 @@ CREATE TABLE childs (
     gender_id INT,
     guard_id INT,
     person_id INT,
-    child_id VARCHAR(50),
     childminder_code INT,
     parent_id INT,
     is_active BOOLEAN,
     is_accepted BOOLEAN DEFAULT false,
     history_id INT,
-    FOREIGN KEY (gender_id) REFERENCES genders(id),
-    FOREIGN KEY (guard_id) REFERENCES guard_mode(id),
-    FOREIGN KEY (person_id) REFERENCES persons(id),
+    is_deleted BOOLEAN DEFAULT false,
     FOREIGN KEY (history_id) REFERENCES histories(id)
+);
+
+-- Création des autres tables
+CREATE TABLE baby_bottels (
+    id SERIAL PRIMARY KEY,
+    child_id INT,
+    time VARCHAR(100),
+    date DATE,
+    volume DOUBLE PRECISION,
+    actuality_id INT
 );
 
 CREATE TABLE activities (
@@ -105,8 +117,8 @@ CREATE TABLE meals (
     snack_id INT,
     eval VARCHAR(100),
     commentaire VARCHAR(300),
-    Date DATE,
-    "TYPE" VARCHAR(100),
+    date DATE,
+    TYPE VARCHAR(100),
     FOREIGN KEY (child_id) REFERENCES childs(id),
     FOREIGN KEY (snack_id) REFERENCES snacks(id)
 );
@@ -139,15 +151,6 @@ CREATE TABLE actualities (
     presence_id INT
 );
 
-CREATE TABLE baby_bottels (
-    id SERIAL PRIMARY KEY,
-    child_id INT,
-    time VARCHAR(100),
-    date DATE,
-    volume DOUBLE PRECISION,
-    actuality_id INT
-);
-
 CREATE TABLE naps (
     id SERIAL PRIMARY KEY,
     child_id INT,
@@ -157,19 +160,9 @@ CREATE TABLE naps (
     TYPE VARCHAR(100),
     commentaire VARCHAR(300),
     actuality_id INT,
-    FOREIGN KEY (child_id) REFERENCES childs(id)
+    FOREIGN KEY (child_id) REFERENCES childs(id),
+    FOREIGN KEY (actuality_id) REFERENCES actualities(id)
 );
-
--- Ajout des contraintes de clé étrangère après la création de toutes les tables
-ALTER TABLE actualities
-ADD FOREIGN KEY (leisure_id) REFERENCES childs_leisures(id),
-ADD FOREIGN KEY (child_id) REFERENCES childs(id),
-ADD FOREIGN KEY (nap_id) REFERENCES naps(id),
-ADD FOREIGN KEY (presence_id) REFERENCES naps(id),
-ADD FOREIGN KEY (child_activity_id) REFERENCES childs_activities(id),
-ADD FOREIGN KEY (baby_bottel_id) REFERENCES baby_bottels(id),
-ADD FOREIGN KEY (meal_id) REFERENCES meals(id),
-ADD FOREIGN KEY (snack_id) REFERENCES snacks(id);
 
 CREATE TABLE password_reset_token (
     id SERIAL PRIMARY KEY,
@@ -178,5 +171,29 @@ CREATE TABLE password_reset_token (
     expiry_date TIMESTAMP
 );
 
+-- Ajout des contraintes de clés étrangères
+ALTER TABLE baby_bottels
+ADD CONSTRAINT fk_baby_bottel_child_id FOREIGN KEY (child_id) REFERENCES childs(id),
+ADD CONSTRAINT fk_baby_bottel_actuality_id FOREIGN KEY (actuality_id) REFERENCES actualities(id);
 
+ALTER TABLE childs_activities
+ADD CONSTRAINT fk_childs_activities_activity_id FOREIGN KEY (activity_id) REFERENCES activities(id),
+ADD CONSTRAINT fk_childs_activities_child_id FOREIGN KEY (child_id) REFERENCES childs(id);
 
+ALTER TABLE meals
+ADD CONSTRAINT fk_meals_child_id FOREIGN KEY (child_id) REFERENCES childs(id),
+ADD CONSTRAINT fk_meals_snack_id FOREIGN KEY (snack_id) REFERENCES snacks(id);
+
+ALTER TABLE childs_leisures
+ADD CONSTRAINT fk_childs_leisures_leisure_id FOREIGN KEY (leisure_id) REFERENCES leisures(id),
+ADD CONSTRAINT fk_childs_leisures_child_id FOREIGN KEY (child_id) REFERENCES childs(id);
+
+ALTER TABLE actualities
+ADD CONSTRAINT fk_actualities_child_id FOREIGN KEY (child_id) REFERENCES childs(id),
+ADD CONSTRAINT fk_actualities_child_activity_id FOREIGN KEY (child_activity_id) REFERENCES childs_activities(id),
+ADD CONSTRAINT fk_actualities_baby_bottel_id FOREIGN KEY (baby_bottel_id) REFERENCES baby_bottels(id),
+ADD CONSTRAINT fk_actualities_meal_id FOREIGN KEY (meal_id) REFERENCES meals(id),
+ADD CONSTRAINT fk_actualities_snack_id FOREIGN KEY (snack_id) REFERENCES snacks(id),
+ADD CONSTRAINT fk_actualities_nap_id FOREIGN KEY (nap_id) REFERENCES naps(id),
+ADD CONSTRAINT fk_actualities_leisure_id FOREIGN KEY (leisure_id) REFERENCES childs_leisures(id),
+ADD CONSTRAINT fk_actualities_presence_id FOREIGN KEY (presence_id) REFERENCES naps(id);

@@ -1,1 +1,2 @@
-method
+method§path§tokenName§expectedStatus
+GET§/role§anonymous§200

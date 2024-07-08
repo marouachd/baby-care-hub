@@ -1,0 +1,24 @@
+package co.simplon.babycarehub;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
+@DisplayName("Tests inputs against validations")
+public class InputsValidationTests extends BaseMvcTests {
+
+    @DisplayName("Should inputs be not valid")
+    @ParameterizedTest
+    @CsvFileSource(resources = {
+	    "/csv/validation/create-child-not-valid.csv",
+	    "/csv/validation/sign-up-not-valid.csv",
+	    "/csv/validation/sign-in-not-valid.csv" }, numLinesToSkip = 1, delimiter = DELIMITER)
+    void shouldBeNotValid(String method, String path,
+	    String tokenName, String json)
+	    throws Exception {
+	perform(method, path, tokenName, json)
+		.andExpect(status().is(400));
+    }
+}
